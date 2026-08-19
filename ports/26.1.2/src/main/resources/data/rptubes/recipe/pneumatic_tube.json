@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BGB"
+  ],
+  "key": {
+    "B": "#c:ingots/brass",
+    "G": "minecraft:glass"
+  },
+  "result": {
+    "id": "rptubes:pneumatic_tube",
+    "count": 8
+  }
+}

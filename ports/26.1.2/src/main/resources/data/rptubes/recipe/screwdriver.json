@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I ",
+    " W"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "W": "minecraft:stick"
+  },
+  "result": { "id": "rptubes:screwdriver" }
+}

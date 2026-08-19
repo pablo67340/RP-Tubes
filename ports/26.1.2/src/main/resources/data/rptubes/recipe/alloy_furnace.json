@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "B B",
+    "BBB"
+  ],
+  "key": {
+    "B": "minecraft:bricks"
+  },
+  "result": {
+    "id": "rptubes:alloy_furnace"
+  }
+}

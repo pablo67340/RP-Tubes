@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    { "type": "forge:mod_loaded", "modid": "projectred-core" }
+  ],
+  "pattern": ["IFI", "IRI", "III"],
+  "key": {
+    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
+    "F": { "item": "rptubes:filter" },
+    "R": { "type": "forge:ore_dict", "ore": "ingotRedAlloy" }
+  },
+  "result": { "item": "rptubes:sorting_machine" }
+}

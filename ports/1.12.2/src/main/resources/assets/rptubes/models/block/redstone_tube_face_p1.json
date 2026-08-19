@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "end": "rptubes:blocks/redstone_tube_end_p1", "particle": "rptubes:blocks/redstone_tube_side_p1" },
+  "elements": [
+    { "from": [4,4,4], "to": [12,12,4], "faces": {
+      "north": { "uv": [4,4,12,12], "texture": "#end" },
+      "south": { "uv": [4,4,12,12], "texture": "#end" } } }
+  ]
+}

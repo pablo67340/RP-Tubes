@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BGB"
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict", "ore": "ingotBrass"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "rptubes:pneumatic_tube",
+    "count": 8
+  }
+}

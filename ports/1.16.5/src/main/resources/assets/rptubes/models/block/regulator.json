@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "rptubes:block/item_detector_front",
+    "front": "rptubes:block/item_detector_front",
+    "back": "rptubes:block/machine_bottom2",
+    "ud": "rptubes:block/regulator_we",
+    "we": "rptubes:block/regulator_ns"
+  },
+  "elements": [{
+    "from": [0, 0, 0], "to": [16, 16, 16],
+    "faces": {
+      "north": { "uv": [0,0,16,16], "texture": "#front", "cullface": "north" },
+      "south": { "uv": [0,0,16,16], "texture": "#back", "cullface": "south" },
+      "up":    { "uv": [0,0,16,16], "texture": "#ud", "cullface": "up" },
+      "down":  { "uv": [0,0,16,16], "texture": "#ud", "cullface": "down", "rotation": 180 },
+      "west":  { "uv": [0,0,16,16], "texture": "#we", "cullface": "west", "rotation": 90 },
+      "east":  { "uv": [0,0,16,16], "texture": "#we", "cullface": "east", "rotation": 270 }
+    }
+  }]
+}

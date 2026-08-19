@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "rptubes:blocks/act_mk2_top",
+    "bottom": "rptubes:blocks/act_mk2_bottom",
+    "side": "rptubes:blocks/act_mk2_side"
+  }
+}

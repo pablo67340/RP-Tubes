@@ -37,7 +37,7 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
     protected boolean active;
     protected int tickCooldown;
     private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
 
     public EjectorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.EJECTOR.get(), pos, state);
@@ -86,6 +86,14 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
     }
 
     protected boolean handleExtract() {
+        if (this.extractInternal()) {
+            return true;
+        }
+        return this.extractFromBehind();
+    }
+
+    /** Eject one item from the internal 9-slot buffer. */
+    protected boolean extractInternal() {
         for (int i = 0; i < 9; i++) {
             ItemStack stack = this.items.get(i);
             if (stack.isEmpty()) {
@@ -101,6 +109,25 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
             return true;
         }
         return false;
+    }
+
+    /** When the internal buffer is empty, pull one item from the inventory behind (input side). */
+    protected boolean extractFromBehind() {
+        if (this.level == null) {
+            return false;
+        }
+        BlockPos src = this.worldPosition.relative(this.getFacing().getOpposite());
+        if (this.level.getBlockEntity(src) instanceof ITubeConnectable) {
+            return false;
+        }
+        ItemStack extracted = MachineLib.extractOne(this.level, src, this.getFacing());
+        if (extracted.isEmpty()) {
+            return false;
+        }
+        this.buffer.addNew(extracted);
+        this.drainBuffer();
+        this.setChanged();
+        return true;
     }
 
     protected void drainBuffer() {
@@ -134,7 +161,10 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
 
     @Override
     public int getTubeConnectableSides() {
-        return 1 << this.getFacing().ordinal();
+        // Front ejects; back is the input side (tube deliveries route into the
+        // 9-slot buffer through the item handler exposed there).
+        Direction facing = this.getFacing();
+        return (1 << facing.ordinal()) | (1 << facing.getOpposite().ordinal());
     }
 
     @Override
@@ -270,7 +300,7 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -286,7 +316,7 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     @Override

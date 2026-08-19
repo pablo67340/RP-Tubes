@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north,active=false": { "model": "rptubes:igniter" },
+    "facing=south,active=false": { "model": "rptubes:igniter", "y": 180 },
+    "facing=west,active=false":  { "model": "rptubes:igniter", "y": 270 },
+    "facing=east,active=false":  { "model": "rptubes:igniter", "y": 90 },
+    "facing=up,active=false":    { "model": "rptubes:igniter", "x": 270 },
+    "facing=down,active=false":  { "model": "rptubes:igniter", "x": 90 },
+    "facing=north,active=true":  { "model": "rptubes:igniter_active" },
+    "facing=south,active=true":  { "model": "rptubes:igniter_active", "y": 180 },
+    "facing=west,active=true":   { "model": "rptubes:igniter_active", "y": 270 },
+    "facing=east,active=true":   { "model": "rptubes:igniter_active", "y": 90 },
+    "facing=up,active=true":     { "model": "rptubes:igniter_active", "x": 270 },
+    "facing=down,active=true":   { "model": "rptubes:igniter_active", "x": 90 }
+  }
+}

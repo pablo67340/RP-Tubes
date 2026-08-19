@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "forge:condition": { "type": "forge:mod_loaded", "modid": "projectred_core" },
+  "pattern": ["BEB", "IFI", "IRI"],
+  "key": {
+    "B": "#c:ingots/brass",
+    "E": "minecraft:ender_pearl",
+    "I": "#c:ingots/iron",
+    "F": "rptubes:filter",
+    "R": "#c:ingots/red_alloy"
+  },
+  "result": { "id": "rptubes:retriever" }
+}

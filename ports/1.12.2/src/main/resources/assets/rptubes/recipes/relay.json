@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    { "type": "forge:mod_loaded", "modid": "projectred-core" }
+  ],
+  "pattern": ["WBW", "WTW", "SRS"],
+  "key": {
+    "W": { "type": "forge:ore_dict", "ore": "plankWood" },
+    "B": { "item": "minecraft:chest" },
+    "T": { "item": "rptubes:transposer" },
+    "S": { "item": "minecraft:stone" },
+    "R": { "type": "forge:ore_dict", "ore": "ingotRedAlloy" }
+  },
+  "result": { "item": "rptubes:relay" }
+}

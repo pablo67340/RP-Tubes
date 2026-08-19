@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "type": "forge:ore_dict", "ore": "ingotIron" },
+    { "item": "rptubes:pneumatic_tube" }
+  ],
+  "result": { "item": "rptubes:restriction_tube" }
+}

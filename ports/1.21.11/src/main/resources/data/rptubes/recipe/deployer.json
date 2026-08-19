@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["SCS", "SPS", "SRS"],
+  "key": {
+    "S": "minecraft:stone",
+    "C": "minecraft:chest",
+    "P": "minecraft:piston",
+    "R": "minecraft:redstone"
+  },
+  "result": { "id": "rptubes:deployer" }
+}

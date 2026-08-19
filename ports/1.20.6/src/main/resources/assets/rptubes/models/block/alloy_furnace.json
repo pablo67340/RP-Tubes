@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "rptubes:block/alloy_furnace_top",
+    "front": "rptubes:block/alloy_furnace_front",
+    "side": "rptubes:block/alloy_furnace_side"
+  }
+}

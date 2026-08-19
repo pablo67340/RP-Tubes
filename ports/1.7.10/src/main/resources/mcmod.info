@@ -1,0 +1,16 @@
+[
+{
+  "modid": "rptubes",
+  "name": "RP Tubes",
+  "description": "RedPower2 pneumatic tubes and related machines revived for Forge.\nBrass, Alloy Furnace, Filters, Transposers, and authentic tube routing.",
+  "version": "1.2.0",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Bryce"],
+  "credits": "Eloraam for the original RedPower2",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

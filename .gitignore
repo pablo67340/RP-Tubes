@@ -31,4 +31,7 @@ reference/
 libs/
 tools/
 
+# Built release jars are published as GitHub release assets instead
+releases/
+
 *.log

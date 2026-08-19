@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "rptubes:blocks/auto_crafting_table_top",
+    "bottom": "rptubes:blocks/auto_crafting_table_top",
+    "side": "rptubes:blocks/auto_crafting_table_side"
+  }
+}

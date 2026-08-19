@@ -1,0 +1,43 @@
+itemGroup.rptubes=RP Tubes
+
+tile.rptubes.alloy_furnace.name=Alloy Furnace
+tile.rptubes.transposer.name=Transposer
+tile.rptubes.filter.name=Filter
+tile.rptubes.ejector.name=Ejector
+tile.rptubes.block_breaker.name=Block Breaker
+tile.rptubes.deployer.name=Deployer
+tile.rptubes.buffer.name=Buffer
+tile.rptubes.item_detector.name=Item Detector
+tile.rptubes.relay.name=Relay
+tile.rptubes.retriever.name=Retriever
+tile.rptubes.regulator.name=Regulator
+tile.rptubes.sorting_machine.name=Sorting Machine
+tile.rptubes.igniter.name=Igniter
+tile.rptubes.auto_crafting_table.name=Automatic Crafting Table
+tile.rptubes.act_mk2.name=Automatic Crafting Table Mk II
+tile.rptubes.pneumatic_tube.name=Pneumatic Tube
+tile.rptubes.redstone_tube.name=Redstone Tube
+tile.rptubes.restriction_tube.name=Restriction Tube
+tile.rptubes.tin_ore.name=Tin Ore
+
+item.rptubes.tin_ingot.name=Tin Ingot
+item.rptubes.brass_ingot.name=Brass Ingot
+item.rptubes.screwdriver.name=Screwdriver
+
+block.rptubes.alloy_furnace=Alloy Furnace
+block.rptubes.transposer=Transposer
+block.rptubes.filter=Filter
+block.rptubes.ejector=Ejector
+block.rptubes.block_breaker=Block Breaker
+block.rptubes.deployer=Deployer
+block.rptubes.buffer=Buffer
+block.rptubes.item_detector=Item Detector
+block.rptubes.relay=Relay
+block.rptubes.retriever=Retriever
+block.rptubes.regulator=Regulator
+block.rptubes.sorting_machine=Sorting Machine
+block.rptubes.igniter=Igniter
+block.rptubes.auto_crafting_table=Automatic Crafting Table
+block.rptubes.act_mk2=Automatic Crafting Table Mk II
+
+jei.rptubes.alloy_smelting=Alloy Smelting

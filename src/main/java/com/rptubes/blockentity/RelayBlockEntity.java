@@ -48,6 +48,13 @@ public class RelayBlockEntity extends EjectorBlockEntity {
     }
 
     @Override
+    protected boolean handleExtract() {
+        // Unlike the Ejector, the Relay never pulls from the inventory behind it —
+        // auto-extracting every 10 ticks would silently drain any adjacent chest.
+        return this.extractInternal();
+    }
+
+    @Override
     public Component getDisplayName() {
         return Component.translatable("block.rptubes.relay");
     }

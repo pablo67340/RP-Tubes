@@ -1,0 +1,21 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Java: 17.0.20, JVM: 17.0.20+8 (Eclipse Adoptium), Arch: amd64
+
+> Task :compileJava
+.\gradlew : Note: Some input files use or override a deprecated API.
+At C:\Users\Bryce\AppData\Local\Temp\ps-script-2107335f-b5bc-440e-926f-d0d2d33a4ffb.ps1:105 char:1
++ .\gradlew compileJava --console=plain 2>&1 | Out-File compile_errs.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Note: Some inpu...deprecated API.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Note: Recompile with -Xlint:deprecation for details.
+Note: C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.12.2\src\main\java\com\rptubes\client\ClientSetup.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+BUILD SUCCESSFUL in 7s
+1 actionable task: 1 executed

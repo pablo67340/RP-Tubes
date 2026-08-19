@@ -1,0 +1,121 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Java: 1.8.0_202, JVM: 25.202-b08 (Oracle Corporation), Arch: amd64
+
+> Task :compileJava
+.\gradlew.bat : C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\AlloyFurnaceScreen.java:15: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+At C:\Users\Bryce\AppData\Local\Temp\ps-script-780f5057-1ef1-4051-891c-64f61514b072.ps1:105 char:1
++ .\gradlew.bat compileJava --no-daemon 2>&1 | Out-File -Encoding utf8  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Bryce\...ked for removal:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/alloy_furnace.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\AutoCraftingTableMk2Screen.java:16: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation("rptubes", "textures/gui/act_mk2.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\AutoCraftingTableScreen.java:15: warning: [removal] 
+ResourceLocation(String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation("textures/gui/container/crafting_table.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\BufferScreen.java:15: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/buffer.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\ClientSetup.java:36: warning: [removal] 
+setRenderLayer(Block,RenderType) in ItemBlockRenderTypes has been deprecated and marked for removal
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.PNEUMATIC_TUBE.get(), RenderType.cutout());
+                                ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\ClientSetup.java:37: warning: [removal] 
+setRenderLayer(Block,RenderType) in ItemBlockRenderTypes has been deprecated and marked for removal
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.REDSTONE_TUBE.get(), RenderType.cutout());
+                                ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\ClientSetup.java:38: warning: [removal] 
+setRenderLayer(Block,RenderType) in ItemBlockRenderTypes has been deprecated and marked for removal
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.RESTRICTION_TUBE.get(), RenderType.cutout());
+                                ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\DeployerScreen.java:15: warning: [removal] 
+ResourceLocation(String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation("textures/gui/container/dispenser.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\EjectorScreen.java:15: warning: [removal] ResourceLocation(String) 
+in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation("textures/gui/container/dispenser.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\FilterScreen.java:18: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/filter9.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\ItemDetectorScreen.java:18: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/itemdet.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\RegulatorScreen.java:18: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/regulator.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\RelayScreen.java:15: warning: [removal] ResourceLocation(String) 
+in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation("textures/gui/container/dispenser.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\RetrieverScreen.java:18: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/retriever.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\client\SortingMachineScreen.java:18: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            new ResourceLocation(RPTubes.MOD_ID, "textures/gui/sorting_machine.png");
+            ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\compat\jei\AlloySmeltingCategory.java:23: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+    public static final ResourceLocation UID = new ResourceLocation(RPTubes.MOD_ID, "alloy_smelting");
+                                               ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\compat\jei\AlloySmeltingCategory.java:31: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+        ResourceLocation gui = new ResourceLocation(RPTubes.MOD_ID, "textures/gui/alloy_furnace.png");
+                               ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed 
+Tubes\ports\1.20.6\src\main\java\com\rptubes\compat\jei\RPTubesJeiPlugin.java:32: warning: [removal] 
+ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+        return new ResourceLocation(RPTubes.MOD_ID, "jei");
+               ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed Tubes\ports\1.20.6\src\main\java\com\rptubes\RPTubes.java:34: warning: 
+[removal] ResourceLocation(String,String) in ResourceLocation has been deprecated and marked for removal
+            .named(new ResourceLocation(MOD_ID, "main"))
+                   ^
+C:\Users\Bryce\Desktop\Missing Mods\ProjectRed Tubes\ports\1.20.6\src\main\java\com\rptubes\RPTubes.java:39: warning: 
+[removal] get() in FMLJavaModLoadingContext has been deprecated and marked for removal
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+                                                   ^
+20 warnings
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.8/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 10s
+1 actionable task: 1 executed

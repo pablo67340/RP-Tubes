@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    { "type": "forge:not", "value": { "type": "forge:mod_loaded", "modid": "projectred-core" } }
+  ],
+  "pattern": ["BEB", "IFI", "IRI"],
+  "key": {
+    "B": { "type": "forge:ore_dict", "ore": "ingotBrass" },
+    "E": { "item": "minecraft:ender_pearl" },
+    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
+    "F": { "item": "rptubes:filter" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "item": "rptubes:retriever" }
+}

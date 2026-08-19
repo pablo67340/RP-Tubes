@@ -1,0 +1,84 @@
+package com.rptubes.api;
+
+import com.rptubes.tube.ITubeConnectable;
+import com.rptubes.tube.TubeItem;
+import com.rptubes.tube.TubeLib;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
+/**
+ * Public entry point for mods that want to interact with the RP Tubes network.
+ *
+ * <p>Stability: everything in {@code com.rptubes.api}, plus
+ * {@link com.rptubes.tube.ITubeConnectable} and {@link com.rptubes.tube.TubeItem},
+ * is considered public API and will not break within a major version.
+ *
+ * <p>The two integration levels, simplest first:
+ * <ol>
+ *   <li><b>Expose a Forge {@code IItemHandler} capability.</b> Tubes connect to and
+ *       deliver into any block entity that exposes {@code CapabilityItemHandler.ITEM_HANDLER_CAPABILITY}
+ *       on the touching face. Most mods need nothing else.</li>
+ *   <li><b>Implement {@link ITubeConnectable} on your TileEntity</b> to become part of
+ *       the network itself: control which sides tubes connect to, add routing weight,
+ *       or accept/route traveling {@link TubeItem}s (this is how our own machines work).
+ *       Return {@code 0} from {@code getTubeConClass()} to connect to standard tubes.</li>
+ * </ol>
+ */
+public final class RPTubesApi {
+    public static final String MOD_ID = "rptubes";
+
+    private RPTubesApi() {
+    }
+
+    /** True if the block entity at {@code pos} participates in the tube network. */
+    public static boolean isTubeConnectable(World world, BlockPos pos) {
+        return world.getTileEntity(pos) instanceof ITubeConnectable;
+    }
+
+    /**
+     * True if the tube/machine at {@code pos} would connect toward {@code side}
+     * (same check used for tube model connections and routing).
+     */
+    public static boolean canConnect(World world, BlockPos pos, EnumFacing side) {
+        return TubeLib.canConnect(world, pos, side);
+    }
+
+    /** Inject an unpainted item. See {@link #injectItem(World, BlockPos, EnumFacing, ItemStack, EnumDyeColor)}. */
+    public static boolean injectItem(World world, BlockPos sourcePos, EnumFacing toward, ItemStack stack) {
+        return injectItem(world, sourcePos, toward, stack, null);
+    }
+
+    /**
+     * Send an item into a tube adjacent to your block, exactly like an Ejector does.
+     * The network routes it to the nearest valid destination; if every destination is
+     * full or unreachable, injection fails and nothing is consumed.
+     *
+     * <p>Server side only.
+     *
+     * @param sourcePos position of <i>your</i> block (the item visually leaves from here)
+     * @param toward    side of your block the tube sits on
+     * @param stack     the items to send; not mutated — on success a copy travels the
+     *                  network, so shrink/clear your own stack when this returns true
+     * @param paint     optional paint color for Filter/Sorting Machine color routing
+     * @return true if the whole stack was accepted into the network
+     */
+    public static boolean injectItem(World world, BlockPos sourcePos, EnumFacing toward,
+                                     ItemStack stack, EnumDyeColor paint) {
+        if (world.isRemote || stack.isEmpty()) {
+            return false;
+        }
+        BlockPos tubePos = sourcePos.offset(toward);
+        EnumFacing enterSide = toward.getOpposite();
+        TubeItem ti = new TubeItem(enterSide.ordinal(), stack.copy());
+        ti.color = paintValue(paint);
+        return TubeLib.addToTubeRoute(world, ti, sourcePos, tubePos, enterSide);
+    }
+
+    /** Convert a dye to the tube paint value: 0 = unpainted, 1-16 = {@code EnumDyeColor.getId() + 1}. */
+    public static byte paintValue(EnumDyeColor color) {
+        return color == null ? 0 : (byte) (color.getMetadata() + 1);
+    }
+}

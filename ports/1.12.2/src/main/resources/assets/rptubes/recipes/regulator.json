@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    { "type": "forge:mod_loaded", "modid": "projectred-core" }
+  ],
+  "pattern": ["BDB", "WRW", "BPB"],
+  "key": {
+    "B": { "type": "forge:ore_dict", "ore": "ingotBrass" },
+    "D": { "item": "rptubes:item_detector" },
+    "W": { "type": "forge:ore_dict", "ore": "plankWood" },
+    "R": { "type": "forge:ore_dict", "ore": "ingotRedAlloy" },
+    "P": { "item": "rptubes:buffer" }
+  },
+  "result": { "item": "rptubes:regulator" }
+}

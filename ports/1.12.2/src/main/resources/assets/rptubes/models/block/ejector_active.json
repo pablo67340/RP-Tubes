@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "rptubes:blocks/machine_bottom",
+    "front": "rptubes:blocks/machine_bottom",
+    "back": "rptubes:blocks/ejector_back",
+    "ud": "rptubes:blocks/ejector_ud",
+    "we": "rptubes:blocks/ejector_side_active"
+  },
+  "elements": [{
+    "from": [0, 0, 0], "to": [16, 16, 16],
+    "faces": {
+      "north": { "uv": [0,0,16,16], "texture": "#front", "cullface": "north" },
+      "south": { "uv": [0,0,16,16], "texture": "#back", "cullface": "south" },
+      "up":    { "uv": [0,0,16,16], "texture": "#ud", "cullface": "up", "rotation": 180 },
+      "down":  { "uv": [0,0,16,16], "texture": "#ud", "cullface": "down" },
+      "west":  { "uv": [0,0,16,16], "texture": "#we", "cullface": "west", "rotation": 90 },
+      "east":  { "uv": [0,0,16,16], "texture": "#we", "cullface": "east", "rotation": 270 }
+    }
+  }]
+}
