@@ -1,0 +1,12 @@
+﻿{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["WBW", "WTW", "SRS"],
+  "key": {
+    "W": { "tag": "minecraft:planks" },
+    "B": { "item": "minecraft:chest" },
+    "T": { "item": "rptubes:transposer" },
+    "S": { "item": "minecraft:stone" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "item": "rptubes:ejector" }
+}

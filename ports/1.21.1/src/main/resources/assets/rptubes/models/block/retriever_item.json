@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "rptubes:block/retriever_front",
+    "bottom": "rptubes:block/retriever_back",
+    "top": "rptubes:block/retriever_front",
+    "side": "rptubes:block/retriever_side"
+  },
+  "elements": [{
+    "from": [0, 0, 0], "to": [16, 16, 16],
+    "faces": {
+      "north": { "uv": [0,0,16,16], "texture": "#side" },
+      "south": { "uv": [0,0,16,16], "texture": "#side" },
+      "up":    { "uv": [0,0,16,16], "texture": "#top" },
+      "down":  { "uv": [0,0,16,16], "texture": "#bottom" },
+      "west":  { "uv": [0,0,16,16], "texture": "#side" },
+      "east":  { "uv": [0,0,16,16], "texture": "#side" }
+    }
+  }]
+}

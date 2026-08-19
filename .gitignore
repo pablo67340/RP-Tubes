@@ -35,3 +35,7 @@ tools/
 releases/
 
 *.log
+__pycache__/
+compile-errors.txt
+server_val*.log
+server-log.txt

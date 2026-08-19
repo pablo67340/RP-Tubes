@@ -1,6 +1,8 @@
 # RP Tubes
 
-RedPower 2 pneumatic tubes and related machines, revived for **Minecraft 1.19.2 / Forge 43+**.
+RedPower 2 pneumatic tubes and related machines, revived for **Forge** on
+**Minecraft 1.7.10, 1.12.2, 1.16.5, 1.19.2, 1.20.1, 1.20.6, 1.21.1, 1.21.11,
+26.1.2 and 26.2**.
 
 A faithful recreation of the RedPower 2 pr5b2 (Tekkit Classic era) tube transport system:
 original behaviors, textures, GUIs, and routing logic, rebuilt on modern Forge.

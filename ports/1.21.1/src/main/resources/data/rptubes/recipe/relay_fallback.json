@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
+  "pattern": ["WBW", "WTW", "SRS"],
+  "key": {
+    "W": { "tag": "minecraft:planks" },
+    "B": { "item": "minecraft:chest" },
+    "T": { "item": "rptubes:transposer" },
+    "S": { "item": "minecraft:stone" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "id": "rptubes:relay" }
+}
