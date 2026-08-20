@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["SPS", "SIS", "SRS"],
+  "key": {
+    "S": "minecraft:stone",
+    "P": "minecraft:piston",
+    "I": "minecraft:iron_pickaxe",
+    "R": "minecraft:redstone"
+  },
+  "result": { "id": "rptubes:block_breaker" }
+}

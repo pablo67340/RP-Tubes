@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "rptubes:block/igniter_front_active",
+    "front": "rptubes:block/igniter_front_active",
+    "back": "rptubes:block/machine_back",
+    "ns": "rptubes:block/igniter_ns",
+    "we": "rptubes:block/igniter_we"
+  },
+  "elements": [{
+    "from": [0, 0, 0], "to": [16, 16, 16],
+    "faces": {
+      "north": { "uv": [0,0,16,16], "texture": "#front", "cullface": "north" },
+      "south": { "uv": [0,0,16,16], "texture": "#back", "cullface": "south" },
+      "up":    { "uv": [0,0,16,16], "texture": "#ns", "cullface": "up" },
+      "down":  { "uv": [0,0,16,16], "texture": "#ns", "cullface": "down" },
+      "west":  { "uv": [0,0,16,16], "texture": "#we", "cullface": "west", "rotation": 270 },
+      "east":  { "uv": [0,0,16,16], "texture": "#we", "cullface": "east", "rotation": 90 }
+    }
+  }]
+}

@@ -1,0 +1,72 @@
+{
+  "multipart": [
+    { "when": { "north": "true", "south": "true", "east": "false", "west": "false", "up": "false", "down": "false" },
+      "apply": { "model": "rptubes:block/pneumatic_tube_straight_z" } },
+    { "when": { "east": "true", "west": "true", "north": "false", "south": "false", "up": "false", "down": "false" },
+      "apply": { "model": "rptubes:block/pneumatic_tube_straight_x" } },
+    { "when": { "up": "true", "down": "true", "north": "false", "south": "false", "east": "false", "west": "false" },
+      "apply": { "model": "rptubes:block/pneumatic_tube_straight_y" } },
+
+    { "when": { "OR": [ {"north":"true","south":"false"}, {"north":"true","east":"true"}, {"north":"true","west":"true"}, {"north":"true","up":"true"}, {"north":"true","down":"true"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_arm" } },
+    { "when": { "OR": [ {"east":"true","west":"false"}, {"east":"true","north":"true"}, {"east":"true","south":"true"}, {"east":"true","up":"true"}, {"east":"true","down":"true"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_arm", "y": 90 } },
+    { "when": { "OR": [ {"south":"true","north":"false"}, {"south":"true","east":"true"}, {"south":"true","west":"true"}, {"south":"true","up":"true"}, {"south":"true","down":"true"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_arm", "y": 180 } },
+    { "when": { "OR": [ {"west":"true","east":"false"}, {"west":"true","north":"true"}, {"west":"true","south":"true"}, {"west":"true","up":"true"}, {"west":"true","down":"true"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_arm", "y": 270 } },
+    { "when": { "OR": [ {"up":"true","down":"false"}, {"up":"true","north":"true"}, {"up":"true","south":"true"}, {"up":"true","east":"true"}, {"up":"true","west":"true"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_arm", "x": 270 } },
+    { "when": { "OR": [ {"down":"true","up":"false"}, {"down":"true","north":"true"}, {"down":"true","south":"true"}, {"down":"true","east":"true"}, {"down":"true","west":"true"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_arm", "x": 90 } },
+
+    { "when": { "OR": [
+        {"north":"false","south":"true"},
+        {"north":"false","east":"true","west":"false"}, {"north":"false","west":"true","east":"false"},
+        {"north":"false","east":"true","up":"true"}, {"north":"false","east":"true","down":"true"},
+        {"north":"false","west":"true","up":"true"}, {"north":"false","west":"true","down":"true"},
+        {"north":"false","up":"true","down":"false"}, {"north":"false","down":"true","up":"false"},
+        {"north":"false","south":"false","east":"false","west":"false","up":"false","down":"false"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_face" } },
+    { "when": { "OR": [
+        {"east":"false","west":"true"},
+        {"east":"false","north":"true","south":"false"}, {"east":"false","south":"true","north":"false"},
+        {"east":"false","north":"true","up":"true"}, {"east":"false","north":"true","down":"true"},
+        {"east":"false","south":"true","up":"true"}, {"east":"false","south":"true","down":"true"},
+        {"east":"false","up":"true","down":"false"}, {"east":"false","down":"true","up":"false"},
+        {"east":"false","north":"false","south":"false","west":"false","up":"false","down":"false"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_face", "y": 90 } },
+    { "when": { "OR": [
+        {"south":"false","north":"true"},
+        {"south":"false","east":"true","west":"false"}, {"south":"false","west":"true","east":"false"},
+        {"south":"false","east":"true","up":"true"}, {"south":"false","east":"true","down":"true"},
+        {"south":"false","west":"true","up":"true"}, {"south":"false","west":"true","down":"true"},
+        {"south":"false","up":"true","down":"false"}, {"south":"false","down":"true","up":"false"},
+        {"south":"false","north":"false","east":"false","west":"false","up":"false","down":"false"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_face", "y": 180 } },
+    { "when": { "OR": [
+        {"west":"false","east":"true"},
+        {"west":"false","north":"true","south":"false"}, {"west":"false","south":"true","north":"false"},
+        {"west":"false","north":"true","up":"true"}, {"west":"false","north":"true","down":"true"},
+        {"west":"false","south":"true","up":"true"}, {"west":"false","south":"true","down":"true"},
+        {"west":"false","up":"true","down":"false"}, {"west":"false","down":"true","up":"false"},
+        {"west":"false","north":"false","south":"false","east":"false","up":"false","down":"false"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_face", "y": 270 } },
+    { "when": { "OR": [
+        {"up":"false","down":"true"},
+        {"up":"false","north":"true","south":"false"}, {"up":"false","south":"true","north":"false"},
+        {"up":"false","east":"true","west":"false"}, {"up":"false","west":"true","east":"false"},
+        {"up":"false","north":"true","east":"true"}, {"up":"false","north":"true","west":"true"},
+        {"up":"false","south":"true","east":"true"}, {"up":"false","south":"true","west":"true"},
+        {"up":"false","north":"false","south":"false","east":"false","west":"false","down":"false"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_face", "x": 270 } },
+    { "when": { "OR": [
+        {"down":"false","up":"true"},
+        {"down":"false","north":"true","south":"false"}, {"down":"false","south":"true","north":"false"},
+        {"down":"false","east":"true","west":"false"}, {"down":"false","west":"true","east":"false"},
+        {"down":"false","north":"true","east":"true"}, {"down":"false","north":"true","west":"true"},
+        {"down":"false","south":"true","east":"true"}, {"down":"false","south":"true","west":"true"},
+        {"down":"false","north":"false","south":"false","east":"false","west":"false","up":"false"} ] },
+      "apply": { "model": "rptubes:block/pneumatic_tube_face", "x": 90 } }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    { "type": "forge:not", "value": { "type": "forge:mod_loaded", "modid": "projectred_core" } }
+  ],
+  "pattern": ["BTB", "RPR", "WWW"],
+  "key": {
+    "B": { "tag": "forge:ingots/brass" },
+    "T": { "item": "rptubes:pneumatic_tube" },
+    "R": { "item": "minecraft:redstone" },
+    "P": { "item": "minecraft:stone_pressure_plate" },
+    "W": { "tag": "minecraft:planks" }
+  },
+  "result": { "item": "rptubes:item_detector" }
+}

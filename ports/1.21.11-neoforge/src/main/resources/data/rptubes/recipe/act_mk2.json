@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PWP",
+    "WCW",
+    "PcP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "W": "#rptubes:act_pipes",
+    "C": "rptubes:auto_crafting_table",
+    "c": "minecraft:chest"
+  },
+  "result": { "id": "rptubes:act_mk2" }
+}

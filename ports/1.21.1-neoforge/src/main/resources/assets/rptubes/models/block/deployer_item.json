@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "rptubes:block/deployer_front",
+    "bottom": "rptubes:block/machine_back",
+    "top": "rptubes:block/deployer_front",
+    "ns": "rptubes:block/deployer_ns",
+    "we": "rptubes:block/machine_side"
+  },
+  "elements": [{
+    "from": [0, 0, 0], "to": [16, 16, 16],
+    "faces": {
+      "north": { "uv": [0,0,16,16], "texture": "#ns" },
+      "south": { "uv": [0,0,16,16], "texture": "#ns" },
+      "up":    { "uv": [0,0,16,16], "texture": "#top" },
+      "down":  { "uv": [0,0,16,16], "texture": "#bottom" },
+      "west":  { "uv": [0,0,16,16], "texture": "#we" },
+      "east":  { "uv": [0,0,16,16], "texture": "#we" }
+    }
+  }]
+}

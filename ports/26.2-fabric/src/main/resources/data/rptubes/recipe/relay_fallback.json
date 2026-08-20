@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [ "projectred-core" ]
+      }
+    }
+  ],
+  "pattern": ["WBW", "WTW", "SRS"],
+  "key": {
+    "W": "#minecraft:planks",
+    "B": "minecraft:chest",
+    "T": "rptubes:transposer",
+    "S": "minecraft:stone",
+    "R": "minecraft:redstone"
+  },
+  "result": { "id": "rptubes:relay" }
+}

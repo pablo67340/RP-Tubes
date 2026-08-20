@@ -1,0 +1,18 @@
+{
+  "type": "rptubes:alloy_smelting",
+  "ingredients": [
+    {
+      "tag": "c:ingots/copper",
+      "count": 3
+    },
+    {
+      "tag": "c:ingots/tin",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "rptubes:brass_ingot",
+    "count": 4
+  },
+  "cookTime": 200
+}

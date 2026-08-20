@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
+  "pattern": ["BDB", "WRW", "BPB"],
+  "key": {
+    "B": "#forge:ingots/brass",
+    "D": "rptubes:item_detector",
+    "W": "#minecraft:planks",
+    "R": "minecraft:redstone",
+    "P": "rptubes:buffer"
+  },
+  "result": { "id": "rptubes:regulator" }
+}

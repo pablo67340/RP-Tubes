@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [ { "type": "neoforge:mod_loaded", "modid": "projectred_core" } ],
+  "pattern": ["WBW", "WTW", "SRS"],
+  "key": {
+    "W": "#minecraft:planks",
+    "B": "minecraft:chest",
+    "T": "rptubes:transposer",
+    "S": "minecraft:stone",
+    "R": "#c:ingots/red_alloy"
+  },
+  "result": { "id": "rptubes:relay" }
+}

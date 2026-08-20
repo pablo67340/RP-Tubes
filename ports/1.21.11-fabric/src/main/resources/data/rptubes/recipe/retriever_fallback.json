@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "fabric:load_conditions": [{ "condition": "fabric:not", "value": { "condition": "fabric:all_mods_loaded", "values": ["projectred-core"] } }],
+  "pattern": ["BEB", "IFI", "IRI"],
+  "key": {
+    "B": "#c:ingots/brass",
+    "E": "minecraft:ender_pearl",
+    "I": "#c:ingots/iron",
+    "F": "rptubes:filter",
+    "R": "minecraft:redstone"
+  },
+  "result": { "id": "rptubes:retriever" }
+}

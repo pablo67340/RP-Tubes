@@ -1,0 +1,30 @@
+{
+  "type": "rptubes:alloy_smelting",
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:redstone"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "tag": "c:ingots/iron"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "id": "projectred-core:red_ingot",
+    "count": 1
+  },
+  "cookTime": 200,
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "projectred-core"
+      ]
+    }
+  ]
+}

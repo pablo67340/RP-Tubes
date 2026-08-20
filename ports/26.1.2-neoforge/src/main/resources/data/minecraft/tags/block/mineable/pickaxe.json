@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "rptubes:tin_ore",
+    "rptubes:alloy_furnace",
+    "rptubes:transposer",
+    "rptubes:filter",
+    "rptubes:ejector",
+    "rptubes:block_breaker",
+    "rptubes:deployer",
+    "rptubes:buffer",
+    "rptubes:item_detector",
+    "rptubes:relay",
+    "rptubes:retriever",
+    "rptubes:regulator",
+    "rptubes:sorting_machine",
+    "rptubes:igniter",
+    "rptubes:act_mk2",
+    "rptubes:pneumatic_tube",
+    "rptubes:redstone_tube",
+    "rptubes:restriction_tube"
+  ]
+}

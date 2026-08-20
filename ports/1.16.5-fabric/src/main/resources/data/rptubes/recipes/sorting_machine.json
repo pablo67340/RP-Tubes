@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IFI",
+    "IRI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "F": {
+      "item": "rptubes:filter"
+    },
+    "R": {
+      "tag": "forge:ingots/red_alloy"
+    }
+  },
+  "result": {
+    "item": "rptubes:sorting_machine"
+  }
+}

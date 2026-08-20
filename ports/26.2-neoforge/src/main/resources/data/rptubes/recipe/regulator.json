@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [ { "type": "neoforge:mod_loaded", "modid": "projectred_core" } ],
+  "pattern": ["BDB", "WRW", "BPB"],
+  "key": {
+    "B": "#c:ingots/brass",
+    "D": "rptubes:item_detector",
+    "W": "#minecraft:planks",
+    "R": "#c:ingots/red_alloy",
+    "P": "rptubes:buffer"
+  },
+  "result": { "id": "rptubes:regulator" }
+}

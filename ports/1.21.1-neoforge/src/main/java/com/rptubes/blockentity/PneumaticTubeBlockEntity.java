@@ -1,0 +1,286 @@
+package com.rptubes.blockentity;
+
+import com.rptubes.RPTubes;
+import com.rptubes.network.TubeItemUpsertPacket;
+import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.tube.ITubeFlow;
+import com.rptubes.tube.MachineLib;
+import com.rptubes.tube.TubeFlow;
+import com.rptubes.tube.TubeItem;
+import com.rptubes.tube.TubeLib;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+/**
+ * Port of eloraam.machine.TileTube — routes items to the nearest valid destination.
+ */
+public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
+    private byte lastDir = 0;
+
+    private final TubeFlow flow = new TubeFlow() {
+        @Override
+        public BlockEntity getParent() {
+            return PneumaticTubeBlockEntity.this;
+        }
+
+        @Override
+        public boolean schedule(TubeItem ti, TubeScheduleContext tsc) {
+            ti.scheduled = true;
+            ti.progress = 0;
+            int available = tsc.cons & ~(1 << ti.side);
+            if (available == 0) {
+                return true;
+            }
+            if (Integer.bitCount(available) == 1) {
+                ti.side = (byte) Integer.numberOfTrailingZeros(available);
+                return true;
+            }
+            if (tsc.world.isClientSide) {
+                // Can't route client-side at a junction; freeze the item at the
+                // tube center until the server sync provides the chosen route.
+                ti.side = (byte) -1;
+                return true;
+            }
+            // Routing decision the client can't predict — send an item event
+            this.pendingSync.add(ti);
+            if (ti.mode != 3) {
+                ti.mode = 1;
+            }
+            ti.side = (byte) TubeLib.findRoute(tsc.world, tsc.wc, ti, available, ti.mode, lastDir);
+            if (ti.side >= 0) {
+                int m = available & ~((2 << lastDir) - 1);
+                if (m == 0) {
+                    m = available;
+                }
+                lastDir = m == 0 ? 0 : (byte) Integer.numberOfTrailingZeros(m);
+            } else {
+                ti.side = (byte) TubeLib.findRoute(tsc.world, tsc.wc, ti, tsc.cons, 2, lastDir);
+                if (ti.side >= 0) {
+                    ti.mode = 2;
+                    return true;
+                }
+                if (ti.mode == 3) {
+                    ti.side = (byte) TubeLib.findRoute(tsc.world, tsc.wc, ti, tsc.cons, 1, lastDir);
+                    ti.mode = 1;
+                }
+                if (ti.side < 0) {
+                    ti.side = lastDir;
+                    int m = available & ~((2 << lastDir) - 1);
+                    if (m == 0) {
+                        m = available;
+                    }
+                    lastDir = m == 0 ? 0 : (byte) Integer.numberOfTrailingZeros(m);
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public boolean handleItem(TubeItem ti, TubeScheduleContext tsc) {
+            Direction side = Direction.from3DDataValue(ti.side);
+            BlockPos dest = tsc.wc.relative(side);
+            ItemStack leftover = MachineLib.insert(tsc.world, dest, side.getOpposite(), ti.item, false);
+            if (leftover.isEmpty()) {
+                return true;
+            }
+            ti.item = leftover;
+            return false;
+        }
+    };
+
+    public PneumaticTubeBlockEntity(BlockPos pos, BlockState state) {
+        this(ModBlockEntities.PNEUMATIC_TUBE.get(), pos, state);
+    }
+
+    protected PneumaticTubeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, PneumaticTubeBlockEntity be) {
+        if (be.flow.update()) {
+            be.setChanged();
+        }
+        if (!level.isClientSide && !be.flow.pendingSync.isEmpty()) {
+            // Drain queued item events (entries, junction routes, bounces) into
+            // one small packet. Items are captured in their end-of-tick state,
+            // after routing has run. Sent over our own channel — hybrid servers
+            // (Arclight) drop vanilla same-state BE updates.
+            net.minecraft.nbt.ListTag items = new net.minecraft.nbt.ListTag();
+            java.util.Set<Integer> seen = new java.util.HashSet<>();
+            for (TubeItem ti : be.flow.pendingSync) {
+                if (!seen.add(ti.id)) {
+                    continue;
+                }
+                CompoundTag itemTag = new CompoundTag();
+                ti.writeToNBT(itemTag, level.registryAccess());
+                items.add(itemTag);
+            }
+            be.flow.pendingSync.clear();
+            PacketDistributor.sendToPlayersTrackingChunk((net.minecraft.server.level.ServerLevel) level,
+                    level.getChunkAt(pos).getPos(), new TubeItemUpsertPacket(pos, items));
+        }
+    }
+
+    @Override
+    public int getTubeConnectableSides() {
+        return 0x3F;
+    }
+
+    @Override
+    public int getTubeConClass() {
+        return 0;
+    }
+
+    @Override
+    public boolean canRouteItems() {
+        return true;
+    }
+
+    @Override
+    public boolean tubeItemEnter(int side, int state, TubeItem item) {
+        if (state != 0) {
+            return false;
+        }
+        item.side = (byte) side;
+        this.flow.add(item);
+        this.setChanged();
+        if (this.level != null && !this.level.isClientSide) {
+            // Item entered the network from a machine — event the client can't predict
+            this.flow.pendingSync.add(item);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean tubeItemCanEnter(int side, int state, TubeItem item) {
+        // OG TileTube: tubes are pass-through (state 0), never a destination.
+        // Answering true for state 1 made route-finding always "succeed",
+        // so machines kept re-ejecting items with nowhere to go.
+        return state == 0;
+    }
+
+    @Override
+    public int tubeWeight(int side, int state) {
+        return 0;
+    }
+
+    @Override
+    public void addTubeItem(TubeItem item) {
+        if (this.level != null && this.level.isClientSide) {
+            // Guard against double-adds if a server event already placed it here
+            for (TubeItem existing : this.flow.contents) {
+                if (existing.id == item.id) {
+                    return;
+                }
+            }
+        }
+        // Tube-to-tube handoff — deterministic, the client simulates it itself
+        item.side = (byte) (item.side ^ 1);
+        item.progress = 0;
+        item.lastProgress = -16;
+        item.scheduled = false;
+        this.flow.contents.add(item);
+        this.setChanged();
+    }
+
+    @Override
+    public TubeFlow getTubeFlow() {
+        return this.flow;
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        this.flow.writeToNBT(tag, registries);
+        tag.putByte("lastDir", this.lastDir);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.flow.readFromNBT(tag, registries);
+        this.lastDir = tag.getByte("lastDir");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection connection, ClientboundBlockEntityDataPacket pkt, net.minecraft.core.HolderLookup.Provider registries) {
+        CompoundTag tag = pkt.getTag();
+        if (tag == null) {
+            return;
+        }
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        net.minecraft.nbt.ListTag items = tag.getList("Items", net.minecraft.nbt.Tag.TAG_COMPOUND);
+        for (int i = 0; i < items.size(); i++) {
+            this.upsertItem(TubeItem.newFromNBT(items.getCompound(i), registries));
+        }
+    }
+
+    /**
+     * Merge a single server item event into the local simulation.
+     *
+     * The client fully simulates tube flow; the server only reports what the
+     * client can't predict (entries, junction routes, bounces). If the client
+     * already has the item and agrees on its path, the further-along position
+     * wins so motion never jumps backwards. On disagreement (routed at a
+     * junction, bounced) the server's path wins. If the item isn't here, any
+     * stale copy in a neighboring tube is removed before adding it.
+     */
+    public void upsertItem(TubeItem inc) {
+        for (TubeItem existing : this.flow.contents) {
+            if (existing.id != inc.id) {
+                continue;
+            }
+            existing.item = inc.item;
+            existing.color = inc.color;
+            existing.power = inc.power;
+            existing.mode = inc.mode;
+            if (existing.side == inc.side && existing.scheduled == inc.scheduled) {
+                if (inc.progress > existing.progress) {
+                    existing.progress = inc.progress;
+                    existing.lastProgress = inc.lastProgress;
+                }
+            } else {
+                existing.side = inc.side;
+                existing.scheduled = inc.scheduled;
+                existing.progress = inc.progress;
+                existing.lastProgress = inc.lastProgress;
+            }
+            return;
+        }
+        if (this.level != null) {
+            for (Direction d : Direction.values()) {
+                BlockEntity nbe = this.level.getBlockEntity(this.worldPosition.relative(d));
+                if (nbe instanceof PneumaticTubeBlockEntity neighbor) {
+                    neighbor.flow.contents.removeIf(t -> t.id == inc.id);
+                }
+            }
+        }
+        this.flow.contents.add(inc);
+    }
+
+    @Override
+    public void setRemoved() {
+        this.flow.onRemove();
+        super.setRemoved();
+    }
+}

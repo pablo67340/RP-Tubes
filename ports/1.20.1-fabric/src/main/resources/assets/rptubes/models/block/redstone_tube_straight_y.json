@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "side": "rptubes:block/redstone_tube_side", "particle": "rptubes:block/redstone_tube_side" },
+  "elements": [
+    { "from": [4,0,4], "to": [4,16,12], "faces": {
+      "west": { "uv": [4,0,12,16], "texture": "#side" },
+      "east": { "uv": [4,0,12,16], "texture": "#side" } } },
+    { "from": [12,0,4], "to": [12,16,12], "faces": {
+      "east": { "uv": [4,0,12,16], "texture": "#side" },
+      "west": { "uv": [4,0,12,16], "texture": "#side" } } },
+    { "from": [4,0,4], "to": [12,16,4], "faces": {
+      "north": { "uv": [4,0,12,16], "texture": "#side" },
+      "south": { "uv": [4,0,12,16], "texture": "#side" } } },
+    { "from": [4,0,12], "to": [12,16,12], "faces": {
+      "south": { "uv": [4,0,12,16], "texture": "#side" },
+      "north": { "uv": [4,0,12,16], "texture": "#side" } } }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BEB",
+    "IFI",
+    "IRI"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:ingots/brass"
+    },
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "F": {
+      "item": "rptubes:filter"
+    },
+    "R": {
+      "tag": "forge:ingots/red_alloy"
+    }
+  },
+  "result": {
+    "item": "rptubes:retriever"
+  }
+}

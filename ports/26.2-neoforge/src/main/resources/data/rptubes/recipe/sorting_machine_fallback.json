@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [ { "type": "neoforge:not", "value": { "type": "neoforge:mod_loaded", "modid": "projectred_core" } } ],
+  "pattern": ["IFI", "IRI", "III"],
+  "key": {
+    "I": "#c:ingots/iron",
+    "F": "rptubes:filter",
+    "R": "minecraft:redstone"
+  },
+  "result": { "id": "rptubes:sorting_machine" }
+}

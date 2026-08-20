@@ -1,0 +1,71 @@
+package com.rptubes.client;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import com.rptubes.blockentity.PneumaticTubeBlockEntity;
+import com.rptubes.tube.TubeItem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
+
+/**
+ * Port of eloraam.machine.TileTubeRenderer — draws items traveling through tubes.
+ * Position: tube center + side vector * d, where d = progress/128 * 0.5,
+ * inverted while the item is moving inward (not yet scheduled).
+ */
+public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> implements BlockEntityRenderer<T> {
+    private final ItemRenderer itemRenderer;
+
+    public TubeItemRenderer(BlockEntityRendererProvider.Context context) {
+        this.itemRenderer = context.getItemRenderer();
+    }
+
+    @Override
+    public void render(T be, float partialTick, PoseStack poseStack, MultiBufferSource buffers,
+                       int packedLight, int packedOverlay) {
+        var contents = be.getTubeFlow().contents;
+        if (contents.isEmpty()) {
+            return;
+        }
+        for (TubeItem ti : contents) {
+            if (ti.item.isEmpty()) {
+                continue;
+            }
+            double x = 0.5;
+            double y = 0.5;
+            double z = 0.5;
+            if (ti.side >= 0) {
+                // True interpolation between last tick and current — never overshoots
+                float progress = ti.lastProgress + (ti.progress - ti.lastProgress) * partialTick;
+                double d = progress / 128.0 * 0.5;
+                if (!ti.scheduled) {
+                    d = 0.5 - d;
+                }
+                Direction dir = Direction.from3DDataValue(ti.side);
+                x += dir.getStepX() * d;
+                y += dir.getStepY() * d;
+                z += dir.getStepZ() * d;
+            }
+            // else: awaiting the server's routing decision — hold at the tube center
+            poseStack.pushPose();
+            poseStack.translate(x, y, z);
+            // Point-billboard, yaw only: each item turns horizontally to face
+            // the viewer's position (never tilts vertically). Client-side, so
+            // every player sees items facing themselves on their own screen.
+            var cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+            double wx = be.getBlockPos().getX() + x;
+            double wz = be.getBlockPos().getZ() + z;
+            float yaw = (float) Math.toDegrees(Math.atan2(cam.x - wx, cam.z - wz));
+            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
+            // FIXED renders ~2x larger than GROUND; halve the scale to keep size
+            poseStack.scale(0.35f, 0.35f, 0.35f);
+            this.itemRenderer.renderStatic(ti.item, net.minecraft.world.item.ItemDisplayContext.FIXED,
+                    packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, be.getLevel(), 0);
+            poseStack.popPose();
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "rptubes:pneumatic_tube",
+    { "id": "buildcrafttransport:wood_item", "required": false }
+  ]
+}

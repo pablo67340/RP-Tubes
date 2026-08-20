@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Upload every RP-Tubes jar (root 1.19.2 + all ports) to CurseForge as
-project files, with the right game version, modloader, Java version and
-environment tags, plus the changelog.
+"""Upload RP-Tubes jars to CurseForge with the right Minecraft version,
+modloader, Java version, and Client+Server environment tags.
 
 Prerequisites:
   1. pip install -r requirements.txt          (just `requests`)
@@ -10,13 +9,16 @@ Prerequisites:
   3. Your project's numeric ID (shown in the "About Project" box on the
      project page) -> CURSEFORGE_PROJECT_ID environment variable (or
      --project-id)
-  4. The jars collected in releases/<mod_version>/ (the build workflow
-     already does this: rptubes-<mc>-<mod_version>.jar for all ports)
+  4. Jars collected in releases/<mod_version>/:
+       Forge:     rptubes-<mc>-<mod_version>.jar
+       NeoForge:  rptubes-<mc>-neoforge-<mod_version>.jar
+       Fabric:    rptubes-<mc>-fabric-<mod_version>.jar
 
 Usage, from the project root:
   python scripts/upload_curseforge.py --project-id 123456
-  python scripts/upload_curseforge.py --dry-run          # resolve + preview only
-  python scripts/upload_curseforge.py --only 1.19.2,1.20.6
+  python scripts/upload_curseforge.py --dry-run
+  python scripts/upload_curseforge.py --loaders neoforge,fabric
+  python scripts/upload_curseforge.py --only 1.20.1-neoforge,1.20.1-fabric
 """
 
 import argparse
@@ -31,24 +33,45 @@ import requests
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 UPLOAD_API = "https://minecraft.curseforge.com/api"
 
-# Every shipped version: Minecraft version tag on CurseForge + the Java the
-# jar targets. All of them are Forge, client + server.
+# Minecraft version + loader + Java the jar targets. Client + server for all.
+# `loader` must match the CurseForge Modloader tag name exactly.
 PORTS = [
-    {"mc": "1.7.10",  "java": "Java 8"},
-    {"mc": "1.12.2",  "java": "Java 8"},
-    {"mc": "1.16.5",  "java": "Java 8"},
-    {"mc": "1.19.2",  "java": "Java 17"},
-    {"mc": "1.20.1",  "java": "Java 17"},
-    {"mc": "1.20.6",  "java": "Java 21"},
-    {"mc": "1.21.1",  "java": "Java 21"},
-    {"mc": "1.21.11", "java": "Java 21"},
-    {"mc": "26.1.2",  "java": "Java 25"},
-    {"mc": "26.2",    "java": "Java 25"},
+    {"mc": "1.7.10",  "loader": "Forge",    "java": "Java 8"},
+    {"mc": "1.12.2",  "loader": "Forge",    "java": "Java 8"},
+    {"mc": "1.16.5",  "loader": "Forge",    "java": "Java 8"},
+    {"mc": "1.16.5",  "loader": "Fabric",   "java": "Java 17"},
+    {"mc": "1.19.2",  "loader": "Forge",    "java": "Java 17"},
+    {"mc": "1.20.1",  "loader": "Forge",    "java": "Java 17"},
+    {"mc": "1.20.1",  "loader": "NeoForge", "java": "Java 17"},
+    {"mc": "1.20.1",  "loader": "Fabric",   "java": "Java 17"},
+    {"mc": "1.20.6",  "loader": "Forge",    "java": "Java 21"},
+    {"mc": "1.20.6",  "loader": "NeoForge", "java": "Java 21"},
+    {"mc": "1.20.6",  "loader": "Fabric",   "java": "Java 21"},
+    {"mc": "1.21.1",  "loader": "Forge",    "java": "Java 21"},
+    {"mc": "1.21.1",  "loader": "NeoForge", "java": "Java 21"},
+    {"mc": "1.21.1",  "loader": "Fabric",   "java": "Java 21"},
+    {"mc": "1.21.11", "loader": "Forge",    "java": "Java 21"},
+    {"mc": "1.21.11", "loader": "NeoForge", "java": "Java 21"},
+    {"mc": "1.21.11", "loader": "Fabric",   "java": "Java 21"},
+    {"mc": "26.1.2",  "loader": "Forge",    "java": "Java 25"},
+    {"mc": "26.1.2",  "loader": "NeoForge", "java": "Java 25"},
+    {"mc": "26.1.2",  "loader": "Fabric",   "java": "Java 25"},
+    {"mc": "26.2",    "loader": "Forge",    "java": "Java 25"},
+    {"mc": "26.2",    "loader": "NeoForge", "java": "Java 25"},
+    {"mc": "26.2",    "loader": "Fabric",   "java": "Java 25"},
 ]
 
-COMMON_TAGS = [("modloader", "Forge"),
-               ("environment", "Client"),
-               ("environment", "Server")]
+ENV_TAGS = [("environment", "Client"), ("environment", "Server")]
+
+
+def port_key(port: dict) -> str:
+    return f"{port['mc']}-{port['loader'].lower()}"
+
+
+def jar_filename(port: dict, mod_version: str) -> str:
+    if port["loader"] == "Forge":
+        return f"rptubes-{port['mc']}-{mod_version}.jar"
+    return f"rptubes-{port['mc']}-{port['loader'].lower()}-{mod_version}.jar"
 
 
 def read_mod_version() -> str:
@@ -120,7 +143,9 @@ def main() -> None:
     parser.add_argument("--release-type", default="release",
                         choices=["release", "beta", "alpha"])
     parser.add_argument("--only", default=None,
-                        help="comma-separated MC versions to upload (default: all)")
+                        help="comma-separated keys (1.20.1 or 1.20.1-neoforge). Default: all")
+    parser.add_argument("--loaders", default=None,
+                        help="comma-separated loaders to include (forge,neoforge,fabric)")
     parser.add_argument("--dry-run", action="store_true",
                         help="resolve everything and show what would be uploaded")
     args = parser.parse_args()
@@ -132,14 +157,26 @@ def main() -> None:
 
     mod_version = args.mod_version or read_mod_version()
     changelog = Path(args.changelog_file).read_text(encoding="utf-8")
-    only = set(args.only.split(",")) if args.only else None
+    only = {s.strip().lower() for s in args.only.split(",")} if args.only else None
+    loaders = ({s.strip().lower() for s in args.loaders.split(",")}
+               if args.loaders else None)
 
     release_dir = PROJECT_ROOT / "releases" / mod_version
-    ports = [p for p in PORTS if only is None or p["mc"] in only]
+    ports = []
+    for port in PORTS:
+        if loaders is not None and port["loader"].lower() not in loaders:
+            continue
+        key = port_key(port)
+        if only is not None and port["mc"] not in only and key not in only:
+            continue
+        ports.append(port)
+
+    if not ports:
+        sys.exit("No ports matched --only / --loaders")
 
     # Verify all jars exist before touching the network
     for port in ports:
-        port["jar"] = release_dir / f"rptubes-{port['mc']}-{mod_version}.jar"
+        port["jar"] = release_dir / jar_filename(port, mod_version)
         if not port["jar"].is_file():
             sys.exit(f"Missing jar: {port['jar']}\n"
                      f"Build and collect the release jars first.")
@@ -149,12 +186,14 @@ def main() -> None:
 
     uploaded = []
     for port in ports:
-        tags = [("minecraft", port["mc"]), ("java", port["java"])] + COMMON_TAGS
+        tags = [("minecraft", port["mc"]),
+                ("java", port["java"]),
+                ("modloader", port["loader"])] + ENV_TAGS
         game_versions = resolve_tags(tags, version_ids)
         metadata = {
             "changelog": changelog,
             "changelogType": "markdown",
-            "displayName": f"RP-Tubes {mod_version} (MC {port['mc']})",
+            "displayName": f"RP-Tubes {mod_version} (MC {port['mc']} {port['loader']})",
             "gameVersions": game_versions,
             "releaseType": args.release_type,
         }
@@ -174,7 +213,7 @@ def main() -> None:
         if resp.status_code != 200:
             sys.exit(f"  UPLOAD FAILED ({resp.status_code}): {resp.text}")
         file_id = resp.json()["id"]
-        uploaded.append((port["mc"], file_id))
+        uploaded.append((port_key(port), file_id))
         print(f"  uploaded -> file id {file_id}")
 
     if args.dry_run:

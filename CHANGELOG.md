@@ -1,3 +1,24 @@
+# RP-Tubes 1.2.1 — NeoForge & Fabric
+
+RP Tubes now ships on **Forge, NeoForge, and Fabric**. Pick the jar that
+matches your Minecraft version and loader.
+
+## NeoForge
+
+- 1.20.1, 1.20.6, 1.21.1, 1.21.11, 26.1.2, 26.2
+- There is no NeoForge for 1.19.2 or earlier (the loader starts at 1.20.1).
+
+## Fabric
+
+- 1.16.5, 1.20.1, 1.20.6, 1.21.1, 1.21.11, 26.1.2, 26.2
+
+## Also
+
+- **Forge 1.19.2** source tree is in the repo now (`ports/1.19.2`). NeoForge
+  does not exist for that version; use Forge 43.5.2.
+
+Jar names: `rptubes-<minecraft>-<loader>-1.2.1.jar`
+
 # RP-Tubes 1.3.0 (1.12.2 only)
 
 ## Fixed

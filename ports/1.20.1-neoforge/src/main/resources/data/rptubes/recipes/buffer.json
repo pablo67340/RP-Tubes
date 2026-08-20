@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["IWI", "W W", "IWI"],
+  "key": {
+    "I": { "item": "minecraft:iron_bars" },
+    "W": { "tag": "minecraft:planks" }
+  },
+  "result": { "item": "rptubes:buffer" }
+}

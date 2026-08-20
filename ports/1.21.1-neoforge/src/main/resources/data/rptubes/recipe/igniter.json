@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NFN",
+    "SDS",
+    "SRS"
+  ],
+  "key": {
+    "N": { "item": "minecraft:netherrack" },
+    "F": { "item": "minecraft:flint_and_steel" },
+    "D": { "item": "rptubes:deployer" },
+    "S": { "item": "minecraft:stone" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "id": "rptubes:igniter" }
+}

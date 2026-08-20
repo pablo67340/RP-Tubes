@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "bwb",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "rptubes:brass_ingot"
+    },
+    "w": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "id": "rptubes:auto_crafting_table"
+  }
+}

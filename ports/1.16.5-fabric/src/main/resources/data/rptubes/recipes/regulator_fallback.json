@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BDB",
+    "WRW",
+    "BPB"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:ingots/brass"
+    },
+    "D": {
+      "item": "rptubes:item_detector"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "rptubes:buffer"
+    }
+  },
+  "result": {
+    "item": "rptubes:regulator"
+  }
+}

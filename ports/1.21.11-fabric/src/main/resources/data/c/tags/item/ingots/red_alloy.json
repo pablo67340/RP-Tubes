@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "projectred-core:red_ingot",
+      "required": false
+    }
+  ]
+}

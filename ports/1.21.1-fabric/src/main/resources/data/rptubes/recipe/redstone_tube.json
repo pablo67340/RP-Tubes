@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "rptubes:pneumatic_tube"
+    }
+  ],
+  "result": {
+    "id": "rptubes:redstone_tube"
+  }
+}
