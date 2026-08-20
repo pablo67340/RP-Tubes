@@ -1,14 +1,33 @@
 {
   "type": "minecraft:crafting_shaped",
   "conditions": [
-    { "type": "forge:mod_loaded", "modid": "projectred-core" }
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred-core"
+    }
   ],
-  "pattern": ["SSS", "GPG", "SRS"],
+  "pattern": [
+    "SSS",
+    "GPG",
+    "SRS"
+  ],
   "key": {
-    "S": { "item": "minecraft:stone" },
-    "G": { "item": "minecraft:gold_ingot" },
-    "P": { "item": "minecraft:piston" },
-    "R": { "type": "forge:ore_dict", "ore": "ingotRedAlloy" }
+    "S": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "ingotRedAlloy"
+    }
   },
-  "result": { "item": "rptubes:filter" }
+  "result": {
+    "item": "rptubes:filter"
+  }
 }

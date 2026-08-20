@@ -1,11 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["SSS", "WPW", "SRS"],
+  "pattern": [
+    "SSS",
+    "WPW",
+    "SRS"
+  ],
   "key": {
-    "S": { "item": "minecraft:stone" },
-    "W": { "type": "forge:ore_dict", "ore": "plankWood" },
-    "P": { "item": "minecraft:piston" },
-    "R": { "item": "minecraft:redstone" }
+    "S": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
   },
-  "result": { "item": "rptubes:transposer" }
+  "result": {
+    "item": "rptubes:transposer"
+  }
 }

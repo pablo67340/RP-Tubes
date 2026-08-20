@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "rptubes:auto_crafting_table" }
+    "normal": {
+      "model": "rptubes:auto_crafting_table"
+    }
   }
 }

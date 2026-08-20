@@ -1,15 +1,37 @@
 {
   "type": "minecraft:crafting_shaped",
   "conditions": [
-    { "type": "forge:mod_loaded", "modid": "projectred-core" }
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred-core"
+    }
   ],
-  "pattern": ["WBW", "WTW", "SRS"],
+  "pattern": [
+    "WBW",
+    "WTW",
+    "SRS"
+  ],
   "key": {
-    "W": { "type": "forge:ore_dict", "ore": "plankWood" },
-    "B": { "item": "minecraft:chest" },
-    "T": { "item": "rptubes:transposer" },
-    "S": { "item": "minecraft:stone" },
-    "R": { "type": "forge:ore_dict", "ore": "ingotRedAlloy" }
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "B": {
+      "item": "minecraft:chest"
+    },
+    "T": {
+      "item": "rptubes:transposer"
+    },
+    "S": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "ingotRedAlloy"
+    }
   },
-  "result": { "item": "rptubes:relay" }
+  "result": {
+    "item": "rptubes:relay"
+  }
 }

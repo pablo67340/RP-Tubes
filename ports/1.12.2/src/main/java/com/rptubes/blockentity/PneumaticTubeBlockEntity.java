@@ -287,4 +287,13 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         }
         tick(this.world, this.pos, this.world.getBlockState(this.pos), this);
     }
+
+    @Override
+    public boolean shouldRefresh(net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos,
+                                 net.minecraft.block.state.IBlockState oldState,
+                                 net.minecraft.block.state.IBlockState newState) {
+        // Default Forge behavior recreates modded tile entities on ANY state
+        // change (e.g. lit/active toggles), silently wiping their contents.
+        return oldState.getBlock() != newState.getBlock();
+    }
 }

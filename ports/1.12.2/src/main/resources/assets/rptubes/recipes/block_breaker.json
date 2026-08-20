@@ -1,11 +1,26 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["SPS", "SIS", "SRS"],
+  "pattern": [
+    "SPS",
+    "SIS",
+    "SRS"
+  ],
   "key": {
-    "S": { "item": "minecraft:stone" },
-    "P": { "item": "minecraft:piston" },
-    "I": { "item": "minecraft:iron_pickaxe" },
-    "R": { "item": "minecraft:redstone" }
+    "S": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "I": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
   },
-  "result": { "item": "rptubes:block_breaker" }
+  "result": {
+    "item": "rptubes:block_breaker"
+  }
 }

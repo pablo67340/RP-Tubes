@@ -52,6 +52,8 @@ public final class ModBlocks {
     // OG BlockCustomOre: hardness 3.0, resistance 5.0
     public static final Ref<Block> TIN_ORE = new Ref<Block>(
             named(new Block(Material.ROCK), "tin_ore").setHardness(3.0F).setResistance(5.0F));
+    public static final Ref<Block> COPPER_ORE = new Ref<Block>(
+            named(new Block(Material.ROCK), "copper_ore").setHardness(3.0F).setResistance(5.0F));
 
     public static final Ref<Block> ALLOY_FURNACE = new Ref<Block>(
             named(new AlloyFurnaceBlock(), "alloy_furnace").setHardness(3.5F));
@@ -84,7 +86,7 @@ public final class ModBlocks {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
-                TIN_ORE.get(), ALLOY_FURNACE.get(), TRANSPOSER.get(), FILTER.get(), EJECTOR.get(),
+                TIN_ORE.get(), COPPER_ORE.get(), ALLOY_FURNACE.get(), TRANSPOSER.get(), FILTER.get(), EJECTOR.get(),
                 BLOCK_BREAKER.get(), DEPLOYER.get(), BUFFER.get(), ITEM_DETECTOR.get(), RELAY.get(),
                 RETRIEVER.get(), REGULATOR.get(), SORTING_MACHINE.get(), IGNITER.get(),
                 AUTO_CRAFTING_TABLE.get(), ACT_MK2.get(),

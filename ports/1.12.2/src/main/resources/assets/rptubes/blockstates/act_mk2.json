@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "rptubes:act_mk2" }
+    "normal": {
+      "model": "rptubes:act_mk2"
+    }
   }
 }

@@ -6,11 +6,24 @@
     "SRS"
   ],
   "key": {
-    "N": { "item": "minecraft:netherrack" },
-    "F": { "item": "minecraft:flint_and_steel" },
-    "D": { "item": "rptubes:deployer" },
-    "S": { "item": "minecraft:stone" },
-    "R": { "item": "minecraft:redstone" }
+    "N": {
+      "item": "minecraft:netherrack"
+    },
+    "F": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "D": {
+      "item": "rptubes:deployer"
+    },
+    "S": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
   },
-  "result": { "item": "rptubes:igniter" }
+  "result": {
+    "item": "rptubes:igniter"
+  }
 }

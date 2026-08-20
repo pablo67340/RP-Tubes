@@ -88,14 +88,20 @@ public class PneumaticTubeBlock extends Block {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-        if (!(world instanceof World)) {
-            return state;
-        }
-        World realWorld = (World) world;
+        // Must work with ChunkCache too: the renderer never passes a full World,
+        // and bailing out here made every tube render unconnected.
         for (EnumFacing dir : EnumFacing.values()) {
-            state = state.withProperty(PROPERTY_BY_DIRECTION.get(dir), TubeLib.canConnect(realWorld, pos, dir));
+            state = state.withProperty(PROPERTY_BY_DIRECTION.get(dir), TubeLib.canConnect(world, pos, dir));
         }
         return state;
+    }
+
+    @Override
+    @net.minecraftforge.fml.relauncher.SideOnly(net.minecraftforge.fml.relauncher.Side.CLIENT)
+    public net.minecraft.util.BlockRenderLayer getRenderLayer() {
+        // Tube textures have transparent windows; without this 1.12 renders
+        // them in the SOLID layer and the see-through parts come out black.
+        return net.minecraft.util.BlockRenderLayer.CUTOUT;
     }
 
     @Override
@@ -111,15 +117,13 @@ public class PneumaticTubeBlock extends Block {
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         AxisAlignedBB bounds = CORE;
-        if (world instanceof World) {
-            IBlockState actual = this.getActualState(state, world, pos);
-            if (actual.getValue(NORTH)) bounds = bounds.union(ARM_N);
-            if (actual.getValue(SOUTH)) bounds = bounds.union(ARM_S);
-            if (actual.getValue(WEST)) bounds = bounds.union(ARM_W);
-            if (actual.getValue(EAST)) bounds = bounds.union(ARM_E);
-            if (actual.getValue(DOWN)) bounds = bounds.union(ARM_D);
-            if (actual.getValue(UP)) bounds = bounds.union(ARM_U);
-        }
+        IBlockState actual = this.getActualState(state, world, pos);
+        if (actual.getValue(NORTH)) bounds = bounds.union(ARM_N);
+        if (actual.getValue(SOUTH)) bounds = bounds.union(ARM_S);
+        if (actual.getValue(WEST)) bounds = bounds.union(ARM_W);
+        if (actual.getValue(EAST)) bounds = bounds.union(ARM_E);
+        if (actual.getValue(DOWN)) bounds = bounds.union(ARM_D);
+        if (actual.getValue(UP)) bounds = bounds.union(ARM_U);
         return bounds;
     }
 

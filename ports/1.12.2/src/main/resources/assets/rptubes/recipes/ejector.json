@@ -1,12 +1,30 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["WBW", "WTW", "SRS"],
+  "pattern": [
+    "WBW",
+    "WTW",
+    "SRS"
+  ],
   "key": {
-    "W": { "type": "forge:ore_dict", "ore": "plankWood" },
-    "B": { "item": "minecraft:chest" },
-    "T": { "item": "rptubes:transposer" },
-    "S": { "item": "minecraft:stone" },
-    "R": { "item": "minecraft:redstone" }
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "B": {
+      "item": "minecraft:chest"
+    },
+    "T": {
+      "item": "rptubes:transposer"
+    },
+    "S": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
   },
-  "result": { "item": "rptubes:ejector" }
+  "result": {
+    "item": "rptubes:ejector"
+  }
 }

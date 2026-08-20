@@ -22,7 +22,9 @@ public final class ClientSetup {
         item(ModItems.BRASS_INGOT.get());
         item(ModItems.SCREWDRIVER.get());
         item(ModItems.TIN_INGOT.get());
+        item(ModItems.COPPER_INGOT.get());
         item(ModItems.TIN_ORE.get());
+        item(ModItems.COPPER_ORE.get());
         item(ModItems.ALLOY_FURNACE.get());
         item(ModItems.TRANSPOSER.get());
         item(ModItems.FILTER.get());

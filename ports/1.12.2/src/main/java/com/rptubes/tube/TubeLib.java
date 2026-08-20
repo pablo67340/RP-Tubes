@@ -45,7 +45,9 @@ public final class TubeLib {
         return (((long) a) << 32) | (b & 0xFFFFFFFFL);
     }
 
-    public static boolean canConnect(World world, BlockPos pos, EnumFacing dir) {
+    // IBlockAccess overload so getActualState works during rendering, where the
+    // client hands blocks a ChunkCache rather than the full World.
+    public static boolean canConnect(net.minecraft.world.IBlockAccess world, BlockPos pos, EnumFacing dir) {
         BlockPos neighbor = pos.offset(dir);
         TileEntity self = world.getTileEntity(pos);
         int selfClass = 0;
@@ -71,7 +73,7 @@ public final class TubeLib {
         return isCompatible(selfClass, 0) && hasItemHandler(world, neighbor, opposite);
     }
 
-    public static boolean hasItemHandler(World world, BlockPos pos, EnumFacing side) {
+    public static boolean hasItemHandler(net.minecraft.world.IBlockAccess world, BlockPos pos, EnumFacing side) {
         TileEntity be = world.getTileEntity(pos);
         if (be == null) {
             return false;

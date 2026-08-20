@@ -1,16 +1,50 @@
 {
   "variants": {
-    "facing=north,active=false": { "model": "rptubes:sorting_machine" },
-    "facing=south,active=false": { "model": "rptubes:sorting_machine", "y": 180 },
-    "facing=west,active=false":  { "model": "rptubes:sorting_machine", "y": 270 },
-    "facing=east,active=false":  { "model": "rptubes:sorting_machine", "y": 90 },
-    "facing=up,active=false":    { "model": "rptubes:sorting_machine", "x": 270 },
-    "facing=down,active=false":  { "model": "rptubes:sorting_machine", "x": 90 },
-    "facing=north,active=true":  { "model": "rptubes:sorting_machine_active" },
-    "facing=south,active=true":  { "model": "rptubes:sorting_machine_active", "y": 180 },
-    "facing=west,active=true":   { "model": "rptubes:sorting_machine_active", "y": 270 },
-    "facing=east,active=true":   { "model": "rptubes:sorting_machine_active", "y": 90 },
-    "facing=up,active=true":     { "model": "rptubes:sorting_machine_active", "x": 270 },
-    "facing=down,active=true":   { "model": "rptubes:sorting_machine_active", "x": 90 }
+    "active=false,facing=north": {
+      "model": "rptubes:sorting_machine"
+    },
+    "active=false,facing=south": {
+      "model": "rptubes:sorting_machine",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "rptubes:sorting_machine",
+      "y": 270
+    },
+    "active=false,facing=east": {
+      "model": "rptubes:sorting_machine",
+      "y": 90
+    },
+    "active=false,facing=up": {
+      "model": "rptubes:sorting_machine",
+      "x": 270
+    },
+    "active=false,facing=down": {
+      "model": "rptubes:sorting_machine",
+      "x": 90
+    },
+    "active=true,facing=north": {
+      "model": "rptubes:sorting_machine_active"
+    },
+    "active=true,facing=south": {
+      "model": "rptubes:sorting_machine_active",
+      "y": 180
+    },
+    "active=true,facing=west": {
+      "model": "rptubes:sorting_machine_active",
+      "y": 270
+    },
+    "active=true,facing=east": {
+      "model": "rptubes:sorting_machine_active",
+      "y": 90
+    },
+    "active=true,facing=up": {
+      "model": "rptubes:sorting_machine_active",
+      "x": 270
+    },
+    "active=true,facing=down": {
+      "model": "rptubes:sorting_machine_active",
+      "x": 90
+    }
   }
 }

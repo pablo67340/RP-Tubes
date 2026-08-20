@@ -34,8 +34,10 @@ public final class ModItems {
     public static final Ref<Item> SCREWDRIVER = new Ref<Item>(
             named(new com.rptubes.item.ScrewdriverItem(), "screwdriver"));
     public static final Ref<Item> TIN_INGOT = new Ref<Item>(named(new Item(), "tin_ingot"));
+    public static final Ref<Item> COPPER_INGOT = new Ref<Item>(named(new Item(), "copper_ingot"));
 
     public static final Ref<Item> TIN_ORE = new Ref<Item>(blockItem(ModBlocks.TIN_ORE.get()));
+    public static final Ref<Item> COPPER_ORE = new Ref<Item>(blockItem(ModBlocks.COPPER_ORE.get()));
     public static final Ref<Item> ALLOY_FURNACE = new Ref<Item>(blockItem(ModBlocks.ALLOY_FURNACE.get()));
     public static final Ref<Item> TRANSPOSER = new Ref<Item>(blockItem(ModBlocks.TRANSPOSER.get()));
     public static final Ref<Item> FILTER = new Ref<Item>(blockItem(ModBlocks.FILTER.get()));
@@ -58,8 +60,8 @@ public final class ModItems {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                BRASS_INGOT.get(), SCREWDRIVER.get(), TIN_INGOT.get(),
-                TIN_ORE.get(), ALLOY_FURNACE.get(), TRANSPOSER.get(), FILTER.get(), EJECTOR.get(),
+                BRASS_INGOT.get(), SCREWDRIVER.get(), TIN_INGOT.get(), COPPER_INGOT.get(),
+                TIN_ORE.get(), COPPER_ORE.get(), ALLOY_FURNACE.get(), TRANSPOSER.get(), FILTER.get(), EJECTOR.get(),
                 BLOCK_BREAKER.get(), DEPLOYER.get(), BUFFER.get(), ITEM_DETECTOR.get(), RELAY.get(),
                 RETRIEVER.get(), REGULATOR.get(), SORTING_MACHINE.get(), IGNITER.get(),
                 AUTO_CRAFTING_TABLE.get(), ACT_MK2.get(),
@@ -67,8 +69,10 @@ public final class ModItems {
 
         // ore dictionary — replaces the forge item tags used on newer versions
         OreDictionary.registerOre("ingotTin", TIN_INGOT.get());
+        OreDictionary.registerOre("ingotCopper", COPPER_INGOT.get());
         OreDictionary.registerOre("ingotBrass", BRASS_INGOT.get());
         OreDictionary.registerOre("oreTin", ModBlocks.TIN_ORE.get());
+        OreDictionary.registerOre("oreCopper", ModBlocks.COPPER_ORE.get());
     }
 
     private ModItems() {

@@ -19,8 +19,10 @@ tile.rptubes.pneumatic_tube.name=Pneumatic Tube
 tile.rptubes.redstone_tube.name=Redstone Tube
 tile.rptubes.restriction_tube.name=Restriction Tube
 tile.rptubes.tin_ore.name=Tin Ore
+tile.rptubes.copper_ore.name=Copper Ore
 
 item.rptubes.tin_ingot.name=Tin Ingot
+item.rptubes.copper_ingot.name=Copper Ingot
 item.rptubes.brass_ingot.name=Brass Ingot
 item.rptubes.screwdriver.name=Screwdriver
 

@@ -34,14 +34,13 @@ public final class ModRecipes {
 
     /** Call during init, after ore dictionary entries from all mods are in place. */
     public static void register() {
-        // Brass: 3 copper + 1 tin -> 4 brass (OG CraftLib alloy)
-        if (!OreDictionary.getOres("ingotCopper").isEmpty()) {
-            NonNullList<Ingredient> ingredients = NonNullList.create();
-            ingredients.add(new OreIngredient("ingotCopper"));
-            ingredients.add(new OreIngredient("ingotTin"));
-            ALLOY_RECIPES.add(new AlloyRecipe(ingredients, new int[]{3, 1},
-                    new ItemStack(ModItems.BRASS_INGOT.get(), 4), 200));
-        }
+        // Brass: 3 copper + 1 tin -> 4 brass (OG CraftLib alloy). Ore dictionary
+        // ingredients, so copper/tin from any mod (or CraftTweaker) works.
+        NonNullList<Ingredient> brassIngredients = NonNullList.create();
+        brassIngredients.add(new OreIngredient("ingotCopper"));
+        brassIngredients.add(new OreIngredient("ingotTin"));
+        ALLOY_RECIPES.add(new AlloyRecipe(brassIngredients, new int[]{3, 1},
+                new ItemStack(ModItems.BRASS_INGOT.get(), 4), 200));
 
         // Red alloy ingot: 4 redstone + 1 iron -> 1 red alloy (when ProjectRed provides it)
         List<ItemStack> redAlloy = OreDictionary.getOres("ingotRedAlloy");
@@ -54,9 +53,11 @@ public final class ModRecipes {
             ALLOY_RECIPES.add(new AlloyRecipe(ingredients, new int[]{4, 1}, result, 200));
         }
 
-        // Tin ore smelting (replaces the smelting/blasting JSONs)
+        // Ore smelting (replaces the smelting/blasting JSONs)
         GameRegistry.addSmelting(ModBlocks.TIN_ORE.get(),
                 new ItemStack(ModItems.TIN_INGOT.get()), 0.7F);
+        GameRegistry.addSmelting(ModBlocks.COPPER_ORE.get(),
+                new ItemStack(ModItems.COPPER_INGOT.get()), 0.7F);
     }
 
     private ModRecipes() {
