@@ -24,6 +24,31 @@ public final class RPTubesConfig {
             "any ore-dictionary copper (ingotCopper)."})
     public static boolean generateCopperOre = true;
 
+    @Config.Name("rfPowersMachines")
+    @Config.Comment({
+            "Filter, Retriever and Sorting Machine accept Forge Energy / RF.",
+            "While they have enough energy they extract on their own (no redstone needed).",
+            "Redstone pulses still work even with this off. IC2 EU and BuildCraft MJ are",
+            "not spoken natively — use a converter (Flux Networks, Power Converters, etc.)."})
+    public static boolean rfPowersMachines = true;
+
+    @Config.Name("requireEnergy")
+    @Config.Comment({
+            "If true, Filter / Retriever / Sorting Machine will not extract on a redstone",
+            "pulse unless they also have Forge Energy. Off by default so existing worlds",
+            "keep working without a generator."})
+    public static boolean requireEnergy = false;
+
+    @Config.Name("energyCapacity")
+    @Config.Comment("Forge Energy buffer size on Filter, Retriever and Sorting Machine.")
+    @Config.RangeInt(min = 100, max = 1000000)
+    public static int energyCapacity = 8000;
+
+    @Config.Name("energyPerOperation")
+    @Config.Comment("FE consumed each time a Filter / Retriever / Sorting Machine extracts.")
+    @Config.RangeInt(min = 1, max = 100000)
+    public static int energyPerOperation = 40;
+
     private RPTubesConfig() {
     }
 

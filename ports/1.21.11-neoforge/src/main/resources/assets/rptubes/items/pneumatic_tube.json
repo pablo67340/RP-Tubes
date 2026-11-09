@@ -1,6 +1,11 @@
 ﻿{
   "model": {
     "type": "minecraft:model",
-    "model": "rptubes:item/pneumatic_tube"
+    "model": "rptubes:item/pneumatic_tube",
+    "tints": [
+      {
+        "type": "rptubes:paint"
+      }
+    ]
   }
 }

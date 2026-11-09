@@ -2,13 +2,20 @@ package com.rptubes.block;
 
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.tube.TubeLib;
+import com.rptubes.tube.DyeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -139,6 +146,56 @@ public class PneumaticTubeBlock extends Block {
         if (actual.getValue(EAST)) addCollisionBoxToList(pos, entityBox, collidingBoxes, ARM_E);
         if (actual.getValue(DOWN)) addCollisionBoxToList(pos, entityBox, collidingBoxes, ARM_D);
         if (actual.getValue(UP)) addCollisionBoxToList(pos, entityBox, collidingBoxes, ARM_U);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+                                    EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEntity be = world.getTileEntity(pos);
+        if (!(be instanceof PneumaticTubeBlockEntity)) {
+            return false;
+        }
+        PneumaticTubeBlockEntity tube = (PneumaticTubeBlockEntity) be;
+        ItemStack held = player.getHeldItem(hand);
+        if (player.isSneaking() && held.isEmpty()) {
+            if (!world.isRemote) {
+                tube.tryPaint(0);
+            }
+            return true;
+        }
+        int paint = DyeHelper.paintFrom(held);
+        if (paint < 0) {
+            return false;
+        }
+        if (!world.isRemote && tube.tryPaint(paint) && !player.capabilities.isCreativeMode) {
+            held.shrink(1);
+        }
+        return true;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state,
+                                EntityLivingBase placer, ItemStack stack) {
+        TileEntity be = world.getTileEntity(pos);
+        if (be instanceof PneumaticTubeBlockEntity && stack.hasTagCompound()) {
+            ((PneumaticTubeBlockEntity) be).tryPaint(stack.getTagCompound().getByte("pCol"));
+        }
+    }
+
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos,
+                         IBlockState state, int fortune) {
+        ItemStack stack = new ItemStack(this);
+        TileEntity be = world.getTileEntity(pos);
+        if (be instanceof PneumaticTubeBlockEntity) {
+            byte color = ((PneumaticTubeBlockEntity) be).getPaintColor();
+            if (color > 0) {
+                NBTTagCompound tag = new NBTTagCompound();
+                tag.setByte("pCol", color);
+                stack.setTagCompound(tag);
+            }
+        }
+        drops.add(stack);
     }
 
     @Override

@@ -1,9 +1,15 @@
 package com.rptubes.client;
 
 import com.rptubes.RPTubes;
+import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
 import com.rptubes.registry.ModBlocks;
+import com.rptubes.registry.ModItems;
 import com.rptubes.registry.ModMenus;
+import com.rptubes.tube.PaintColors;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
@@ -11,6 +17,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -48,5 +55,30 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, world, pos, tint) -> {
+            if (world == null || pos == null) {
+                return 0xFFFFFF;
+            }
+            BlockEntity te = world.getBlockEntity(pos);
+            if (te instanceof PneumaticTubeBlockEntity tube) {
+                return PaintColors.rgb(tube.getPaintColor());
+            }
+            return 0xFFFFFF;
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+    }
+
+    @SubscribeEvent
+    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tint) -> {
+            CustomData data = stack.get(DataComponents.CUSTOM_DATA);
+            if (data != null) {
+                return PaintColors.rgb(data.copyTag().getByte("pCol"));
+            }
+            return 0xFFFFFF;
+        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get());
     }
 }

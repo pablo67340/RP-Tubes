@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
@@ -30,6 +31,8 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
     public byte color = 0;
+    protected final MachineEnergy energy = new MachineEnergy();
+    private LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> this.energy);
     private LazyOptional<? extends IItemHandler>[] handlers =
             SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
 
@@ -100,6 +103,25 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
             }
         }
         return super.tubeItemCanEnter(side, state, ti);
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
     }
 
     public boolean applyColor(int dyeColor) {
@@ -204,6 +226,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.filterSlots);
         tag.putByte("color", this.color);
+        this.energy.write(tag);
     }
 
     @Override
@@ -212,11 +235,15 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.filterSlots);
         this.color = tag.getByte("color");
+        this.energy.read(tag);
         this.filterMap = null;
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && cap == ForgeCapabilities.ENERGY) {
+            return this.energyCap.cast();
+        }
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
             return handlers[Math.abs(side.ordinal() % handlers.length)].cast();
         }
@@ -226,6 +253,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
+        this.energyCap.invalidate();
         for (LazyOptional<? extends IItemHandler> h : handlers) {
             h.invalidate();
         }
@@ -234,6 +262,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     @Override
     public void reviveCaps() {
         super.reviveCaps();
+        this.energyCap = LazyOptional.of(() -> this.energy);
         this.handlers = SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
     }
 

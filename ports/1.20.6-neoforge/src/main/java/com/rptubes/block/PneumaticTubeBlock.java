@@ -2,9 +2,19 @@ package com.rptubes.block;
 
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.tube.DyeHelper;
 import com.rptubes.tube.TubeLib;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,10 +29,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -147,6 +161,66 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         return createTickerHelper(type, ModBlockEntities.PNEUMATIC_TUBE.get(), PneumaticTubeBlockEntity::tick);
     }
 
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level,
+            BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (!(be instanceof PneumaticTubeBlockEntity tube)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        int paint = DyeHelper.paintFrom(held);
+        if (paint < 0) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (!level.isClientSide && tube.tryPaint(paint) && !player.getAbilities().instabuild) {
+            held.shrink(1);
+        }
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (player.isShiftKeyDown() && be instanceof PneumaticTubeBlockEntity tube) {
+            if (!level.isClientSide) {
+                tube.tryPaint(0);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (level.getBlockEntity(pos) instanceof PneumaticTubeBlockEntity tube) {
+            CustomData data = stack.get(DataComponents.CUSTOM_DATA);
+            if (data != null) {
+                tube.tryPaint(data.copyTag().getByte("pCol"));
+            }
+        }
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        List<ItemStack> drops = super.getDrops(state, builder);
+        BlockEntity be = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if (be instanceof PneumaticTubeBlockEntity tube) {
+            byte color = tube.getPaintColor();
+            if (color > 0) {
+                for (ItemStack drop : drops) {
+                    CompoundTag tag = new CompoundTag();
+                    CustomData existing = drop.get(DataComponents.CUSTOM_DATA);
+                    if (existing != null) {
+                        tag = existing.copyTag();
+                    }
+                    tag.putByte("pCol", color);
+                    drop.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+                }
+            }
+        }
+        return drops;
+    }
 
     @Override
     protected com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.block.BaseEntityBlock> codec() {

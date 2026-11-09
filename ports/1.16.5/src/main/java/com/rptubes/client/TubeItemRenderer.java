@@ -1,16 +1,20 @@
 package com.rptubes.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
+import com.rptubes.tube.PaintColors;
 import com.rptubes.tube.TubeItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -30,6 +34,9 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> extends TileEn
     @Override
     public void render(T be, float partialTick, MatrixStack poseStack, IRenderTypeBuffer buffers,
                        int packedLight, int packedOverlay) {
+        if (be.getPaintColor() > 0) {
+            this.renderPaintOverlay(poseStack, buffers, be.getPaintColor());
+        }
         List<TubeItem> contents = be.getTubeFlow().contents;
         if (contents.isEmpty()) {
             return;
@@ -71,5 +78,33 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> extends TileEn
                     packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers);
             poseStack.popPose();
         }
+    }
+
+    /** Thin colored glass around the tube so dyed pipes are visible in-world. */
+    private void renderPaintOverlay(MatrixStack poseStack, IRenderTypeBuffer buffers, int paint) {
+        int rgb = PaintColors.rgb(paint);
+        float r = ((rgb >> 16) & 0xFF) / 255f;
+        float g = ((rgb >> 8) & 0xFF) / 255f;
+        float b = (rgb & 0xFF) / 255f;
+        IVertexBuilder buf = buffers.getBuffer(RenderType.lightning());
+        Matrix4f mat = poseStack.last().pose();
+        float n = 0.26f;
+        float x = 0.74f;
+        quad(buf, mat, n, n, n, x, n, n, x, x, n, n, x, n, r, g, b);
+        quad(buf, mat, n, n, x, n, x, x, x, x, x, x, n, x, r, g, b);
+        quad(buf, mat, n, n, n, n, n, x, x, n, x, x, n, n, r, g, b);
+        quad(buf, mat, n, x, n, x, x, n, x, x, x, n, x, x, r, g, b);
+        quad(buf, mat, n, n, n, n, x, n, n, x, x, n, n, x, r, g, b);
+        quad(buf, mat, x, n, n, x, n, x, x, x, x, x, x, n, r, g, b);
+    }
+
+    private static void quad(IVertexBuilder buf, Matrix4f mat,
+                             float x1, float y1, float z1, float x2, float y2, float z2,
+                             float x3, float y3, float z3, float x4, float y4, float z4,
+                             float r, float g, float b) {
+        buf.vertex(mat, x1, y1, z1).color(r, g, b, 0.35f).endVertex();
+        buf.vertex(mat, x2, y2, z2).color(r, g, b, 0.35f).endVertex();
+        buf.vertex(mat, x3, y3, z3).color(r, g, b, 0.35f).endVertex();
+        buf.vertex(mat, x4, y4, z4).color(r, g, b, 0.35f).endVertex();
     }
 }

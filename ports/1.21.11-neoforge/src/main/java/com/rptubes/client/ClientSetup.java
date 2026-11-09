@@ -1,12 +1,18 @@
 package com.rptubes.client;
 
 import com.rptubes.RPTubes;
+import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
+import com.rptubes.tube.PaintColors;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @EventBusSubscriber(modid = RPTubes.MOD_ID, value = Dist.CLIENT)
@@ -35,5 +41,24 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, world, pos, tint) -> {
+            if (world == null || pos == null) {
+                return 0xFFFFFF;
+            }
+            BlockEntity te = world.getBlockEntity(pos);
+            if (te instanceof PneumaticTubeBlockEntity tube) {
+                return PaintColors.rgb(tube.getPaintColor());
+            }
+            return 0xFFFFFF;
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+    }
+
+    @SubscribeEvent
+    public static void onItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(Identifier.fromNamespaceAndPath(RPTubes.MOD_ID, "paint"), TubePaintTintSource.MAP_CODEC);
     }
 }

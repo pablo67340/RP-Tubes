@@ -22,5 +22,8 @@
     "minecraft": "~26.2",
     "java": ">=25",
     "fabric-api": "*"
+  },
+  "recommends": {
+    "team_reborn_energy": "*"
   }
 }

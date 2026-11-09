@@ -3,7 +3,11 @@ package com.rptubes.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
+import com.rptubes.tube.PaintColors;
 import com.rptubes.tube.TubeItem;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.RenderType;
+import org.joml.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -27,6 +31,9 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> implements Blo
     @Override
     public void render(T be, float partialTick, PoseStack poseStack, MultiBufferSource buffers,
                        int packedLight, int packedOverlay) {
+        if (be.getPaintColor() > 0) {
+            this.renderPaintOverlay(poseStack, buffers, be.getPaintColor());
+        }
         var contents = be.getTubeFlow().contents;
         if (contents.isEmpty()) {
             return;
@@ -67,5 +74,33 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> implements Blo
                     packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, be.getLevel(), 0);
             poseStack.popPose();
         }
+    }
+
+    private void renderPaintOverlay(PoseStack poseStack, MultiBufferSource buffers, int paint) {
+        int rgb = PaintColors.rgb(paint);
+        float r = ((rgb >> 16) & 0xFF) / 255f;
+        float g = ((rgb >> 8) & 0xFF) / 255f;
+        float b = (rgb & 0xFF) / 255f;
+        float a = 0.35f;
+        Matrix4f mat = poseStack.last().pose();
+        VertexConsumer buf = buffers.getBuffer(RenderType.lightning());
+        float n = 0.26f;
+        float x = 0.74f;
+        quad(buf, mat, n, n, n, x, n, n, x, x, n, n, x, n, r, g, b, a);
+        quad(buf, mat, n, n, x, n, x, x, x, x, x, x, n, x, r, g, b, a);
+        quad(buf, mat, n, n, n, n, n, x, x, n, x, x, n, n, r, g, b, a);
+        quad(buf, mat, n, x, n, x, x, n, x, x, x, n, x, x, r, g, b, a);
+        quad(buf, mat, n, n, n, n, x, n, n, x, x, n, n, x, r, g, b, a);
+        quad(buf, mat, x, n, n, x, n, x, x, x, x, x, x, n, r, g, b, a);
+    }
+
+    private static void quad(VertexConsumer buf, Matrix4f mat,
+                             float x1, float y1, float z1, float x2, float y2, float z2,
+                             float x3, float y3, float z3, float x4, float y4, float z4,
+                             float r, float g, float b, float a) {
+        buf.addVertex(mat, x1, y1, z1).setColor(r, g, b, a);
+        buf.addVertex(mat, x2, y2, z2).setColor(r, g, b, a);
+        buf.addVertex(mat, x3, y3, z3).setColor(r, g, b, a);
+        buf.addVertex(mat, x4, y4, z4).setColor(r, g, b, a);
     }
 }

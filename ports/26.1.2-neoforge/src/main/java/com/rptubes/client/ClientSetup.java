@@ -2,11 +2,16 @@ package com.rptubes.client;
 
 import com.rptubes.RPTubes;
 import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
+import net.minecraft.resources.Identifier;
+
+import java.util.List;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @EventBusSubscriber(modid = RPTubes.MOD_ID, value = Dist.CLIENT)
@@ -35,5 +40,16 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onBlockTintSources(RegisterColorHandlersEvent.BlockTintSources event) {
+        event.register(List.of(TubePaintBlockTint.INSTANCE),
+                ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+    }
+
+    @SubscribeEvent
+    public static void onItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(Identifier.fromNamespaceAndPath(RPTubes.MOD_ID, "paint"), TubePaintTintSource.MAP_CODEC);
     }
 }

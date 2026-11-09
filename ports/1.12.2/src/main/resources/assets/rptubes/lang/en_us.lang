@@ -43,3 +43,5 @@ block.rptubes.auto_crafting_table=Automatic Crafting Table
 block.rptubes.act_mk2=Automatic Crafting Table Mk II
 
 jei.rptubes.alloy_smelting=Alloy Smelting
+
+tooltip.rptubes.tube_paint=Right-click with dye to color. Sneak-empty-hand to clear.

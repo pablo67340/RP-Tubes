@@ -1,16 +1,21 @@
 package com.rptubes.client;
 
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
+import com.rptubes.tube.PaintColors;
 import com.rptubes.tube.TubeItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -23,6 +28,9 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> extends TileEn
 
     @Override
     public void render(T be, double rx, double ry, double rz, float partialTick, int destroyStage, float alpha) {
+        if (be.getPaintColor() > 0) {
+            this.renderPaintOverlay(rx, ry, rz, be.getPaintColor());
+        }
         List<TubeItem> contents = be.getTubeFlow().contents;
         if (contents.isEmpty()) {
             return;
@@ -63,14 +71,54 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity> extends TileEn
                 GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
             }
             // FIXED renders ~2x larger than GROUND; halve the scale to keep size
+            if (ti.color > 0) {
+                int rgb = PaintColors.rgb(ti.color);
+                GlStateManager.color(((rgb >> 16) & 0xFF) / 255f, ((rgb >> 8) & 0xFF) / 255f,
+                        (rgb & 0xFF) / 255f, 1f);
+            }
             GlStateManager.scale(0.35F, 0.35F, 0.35F);
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, light % 65536, (float) (light / 65536));
             GlStateManager.enableRescaleNormal();
             RenderHelper.enableStandardItemLighting();
             itemRenderer.renderItem(ti.item, ItemCameraTransforms.TransformType.FIXED);
+            GlStateManager.color(1f, 1f, 1f, 1f);
             RenderHelper.disableStandardItemLighting();
             GlStateManager.disableRescaleNormal();
             GlStateManager.popMatrix();
         }
+    }
+
+    /** Thin colored glass around the tube so dyed pipes are visible in-world. */
+    private void renderPaintOverlay(double rx, double ry, double rz, int paint) {
+        int rgb = PaintColors.rgb(paint);
+        float r = ((rgb >> 16) & 0xFF) / 255f;
+        float g = ((rgb >> 8) & 0xFF) / 255f;
+        float b = (rgb & 0xFF) / 255f;
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(rx, ry, rz);
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.disableLighting();
+        GlStateManager.color(r, g, b, 0.35f);
+        Tessellator tess = Tessellator.getInstance();
+        BufferBuilder buf = tess.getBuffer();
+        double n = 0.26;
+        double x = 0.74;
+        buf.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+        buf.pos(n, n, n).endVertex(); buf.pos(x, n, n).endVertex(); buf.pos(x, x, n).endVertex(); buf.pos(n, x, n).endVertex();
+        buf.pos(n, n, x).endVertex(); buf.pos(n, x, x).endVertex(); buf.pos(x, x, x).endVertex(); buf.pos(x, n, x).endVertex();
+        buf.pos(n, n, n).endVertex(); buf.pos(n, n, x).endVertex(); buf.pos(x, n, x).endVertex(); buf.pos(x, n, n).endVertex();
+        buf.pos(n, x, n).endVertex(); buf.pos(x, x, n).endVertex(); buf.pos(x, x, x).endVertex(); buf.pos(n, x, x).endVertex();
+        buf.pos(n, n, n).endVertex(); buf.pos(n, x, n).endVertex(); buf.pos(n, x, x).endVertex(); buf.pos(n, n, x).endVertex();
+        buf.pos(x, n, n).endVertex(); buf.pos(x, n, x).endVertex(); buf.pos(x, x, x).endVertex(); buf.pos(x, x, n).endVertex();
+        tess.draw();
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.enableTexture2D();
+        GlStateManager.color(1f, 1f, 1f, 1f);
+        GlStateManager.popMatrix();
     }
 }

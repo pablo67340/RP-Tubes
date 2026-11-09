@@ -30,6 +30,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     private MachineLib.FilterMap filterMap;
     public byte color = 0;
     private final IItemHandler handler = new SidedInvWrapper(this, EnumFacing.NORTH);
+    protected final MachineEnergy energy = new MachineEnergy();
 
     public FilterBlockEntity() {
         super();
@@ -93,6 +94,25 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
             }
         }
         return super.tubeItemCanEnter(side, state, ti);
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.markDirty();
     }
 
     public boolean applyColor(int dyeColor) {
@@ -196,6 +216,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         super.writeToNBT(tag);
         ItemStackHelper.saveAllItems(tag, this.filterSlots);
         tag.setByte("color", this.color);
+        this.energy.write(tag);
         return tag;
     }
 
@@ -205,12 +226,15 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(tag, this.filterSlots);
         this.color = tag.getByte("color");
+        this.energy.read(tag);
         this.filterMap = null;
     }
 
     @Override
     public boolean hasCapability(Capability<?> cap, EnumFacing side) {
-        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(cap, side);
+        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
+                || this.energy.isEnergyCap(cap)
+                || super.hasCapability(cap, side);
     }
 
     @Override
@@ -218,6 +242,10 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     public <T> T getCapability(Capability<T> cap, EnumFacing side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) this.handler;
+        }
+        T energy = this.energy.cast(cap, side);
+        if (energy != null) {
+            return energy;
         }
         return super.getCapability(cap, side);
     }

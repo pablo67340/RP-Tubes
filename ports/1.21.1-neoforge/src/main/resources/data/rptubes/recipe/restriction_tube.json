@@ -1,8 +1,14 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "tag": "forge:ingots/iron" },
-    { "item": "rptubes:pneumatic_tube" }
+    {
+      "tag": "c:ingots/iron"
+    },
+    {
+      "item": "rptubes:pneumatic_tube"
+    }
   ],
-  "result": { "id": "rptubes:restriction_tube" }
+  "result": {
+    "id": "rptubes:restriction_tube"
+  }
 }

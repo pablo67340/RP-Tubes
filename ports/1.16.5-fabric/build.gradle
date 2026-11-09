@@ -16,6 +16,11 @@ println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty '
 
 repositories {
     maven {
+        name = "FabricMC"
+        url = "https://maven.fabricmc.net/"
+    }
+
+    maven {
         name = "BlameJared"
         url = "https://maven.blamejared.com/"
     }
@@ -30,6 +35,8 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modCompileOnly "teamreborn:energy:0.1.1"
+    modLocalRuntime "teamreborn:energy:0.1.1"
 
 }
 

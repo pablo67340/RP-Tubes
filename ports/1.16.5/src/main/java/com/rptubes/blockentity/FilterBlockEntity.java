@@ -33,6 +33,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     public byte color = 0;
     private LazyOptional<? extends IItemHandler>[] handlers =
             SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+    protected final MachineEnergy energy = new MachineEnergy();
 
     public FilterBlockEntity() {
         super(ModBlockEntities.FILTER.get());
@@ -100,6 +101,25 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
             }
         }
         return super.tubeItemCanEnter(side, state, ti);
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
     }
 
     public boolean applyColor(int dyeColor) {
@@ -204,6 +224,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         super.save(tag);
         ItemStackHelper.saveAllItems(tag, this.filterSlots);
         tag.putByte("color", this.color);
+        this.energy.write(tag);
         return tag;
     }
 
@@ -213,6 +234,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(tag, this.filterSlots);
         this.color = tag.getByte("color");
+        this.energy.read(tag);
         this.filterMap = null;
     }
 
@@ -220,6 +242,9 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && side != null) {
             return handlers[Math.abs(side.ordinal() % handlers.length)].cast();
+        }
+        if (!this.remove && this.energy.isEnergyCap(cap)) {
+            return this.energy.cast(cap, side);
         }
         return super.getCapability(cap, side);
     }
@@ -230,12 +255,14 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         for (LazyOptional<? extends IItemHandler> h : handlers) {
             h.invalidate();
         }
+        this.energy.invalidate();
     }
 
     @Override
     public void reviveCaps() {
         super.reviveCaps();
         this.handlers = SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+        this.energy.revive();
     }
 
     @Override

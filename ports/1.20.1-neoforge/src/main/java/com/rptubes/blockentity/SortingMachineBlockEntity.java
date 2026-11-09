@@ -20,6 +20,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
 
 /**
  * Port of TileSorter — 8×5 filter columns, per-column paint colors, 5 modes,
@@ -38,12 +42,33 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
     private byte draining = -1;
     private final TubeBuffer[] channelBuffers = new TubeBuffer[8];
     private MachineLib.FilterMap filterMap;
+    private final MachineEnergy energy = new MachineEnergy();
+    private LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> this.energy);
 
     public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SORTING_MACHINE.get(), pos, state);
         for (int i = 0; i < 8; i++) {
             this.channelBuffers[i] = new TubeBuffer();
         }
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
     }
 
     private void regenFilterMap() {
@@ -432,6 +457,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             bufs.add(buf);
         }
         tag.put("buffers", bufs);
+        this.energy.write(tag);
     }
 
     @Override
@@ -452,6 +478,27 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             this.channelBuffers[i].readFromNBT(bufs.getCompound(i));
         }
         this.filterMap = null;
+        this.energy.read(tag);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && cap == ForgeCapabilities.ENERGY) {
+            return this.energyCap.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.energyCap.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.energyCap = LazyOptional.of(() -> this.energy);
     }
 
     @Override

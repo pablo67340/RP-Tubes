@@ -28,6 +28,11 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
     public byte color = 0;
+    protected final MachineEnergy energy = new MachineEnergy();
+
+    public MachineEnergy getEnergy() {
+        return this.energy;
+    }
     public ResourceHandler<ItemResource> getItemHandler(Direction side) {
         return new WorldlyContainerWrapper(this, side);
     }
@@ -99,6 +104,25 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
             }
         }
         return super.tubeItemCanEnter(side, state, ti);
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
     }
 
     public boolean applyColor(int dyeColor) {
@@ -203,6 +227,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.filterSlots);
         tag.putByte("color", this.color);
+        this.energy.write(tag);
     }
 
     @Override
@@ -211,6 +236,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.filterSlots);
         this.color = tag.getByteOr("color", (byte) 0);
+        this.energy.read(tag);
         this.filterMap = null;
     }
 

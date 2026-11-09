@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     private byte lastDir = 0;
+    /** OG paintColor: 0 = unpainted, 1-16 = dye. */
+    private byte paintColor = 0;
 
     private final TubeFlow flow = new TubeFlow() {
         @Override
@@ -136,7 +138,26 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
 
     @Override
     public int getTubeConClass() {
-        return 0;
+        return this.paintColor & 0xFF;
+    }
+
+    public byte getPaintColor() {
+        return this.paintColor;
+    }
+
+    public boolean tryPaint(int color) {
+        byte next = (byte) (color < 0 ? 0 : color > 16 ? 16 : color);
+        if (this.paintColor == next) {
+            return false;
+        }
+        this.paintColor = next;
+        this.setChanged();
+        if (this.level != null) {
+            net.minecraft.world.level.block.state.BlockState state = this.getBlockState();
+            this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+            this.level.updateNeighborsAt(this.worldPosition, state.getBlock());
+        }
+        return true;
     }
 
     @Override
@@ -147,6 +168,9 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem item) {
         if (state != 0) {
+            return false;
+        }
+        if (!this.colorAllows(item)) {
             return false;
         }
         item.side = (byte) side;
@@ -164,7 +188,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         // OG TileTube: tubes are pass-through (state 0), never a destination.
         // Answering true for state 1 made route-finding always "succeed",
         // so machines kept re-ejecting items with nowhere to go.
-        return state == 0;
+        return state == 0 && this.colorAllows(item);
+    }
+
+    protected boolean colorAllows(TubeItem item) {
+        return item.color == 0 || this.paintColor == 0 || item.color == this.paintColor;
     }
 
     @Override
@@ -201,6 +229,7 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         super.saveAdditional(tag, registries);
         this.flow.writeToNBT(tag, registries);
         tag.putByte("lastDir", this.lastDir);
+        tag.putByte("pCol", this.paintColor);
     }
 
     @Override
@@ -208,6 +237,7 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         super.loadAdditional(tag, registries);
         this.flow.readFromNBT(tag, registries);
         this.lastDir = tag.getByte("lastDir");
+        this.paintColor = tag.getByte("pCol");
     }
 
     @Override

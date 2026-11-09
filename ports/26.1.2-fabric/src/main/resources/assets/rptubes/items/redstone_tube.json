@@ -1,6 +1,9 @@
 ﻿{
   "model": {
     "type": "minecraft:model",
-    "model": "rptubes:item/redstone_tube"
+    "model": "rptubes:item/redstone_tube",
+    "tints": [
+      { "type": "rptubes:tube_paint" }
+    ]
   }
 }

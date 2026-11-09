@@ -22,6 +22,13 @@ loom {
     }
 }
 
+repositories {
+    maven {
+        name = "FabricMC"
+        url = "https://maven.fabricmc.net/"
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${loader_version}"
@@ -75,6 +82,11 @@ publishing {
         }
     }
     repositories {
+    maven {
+        name = "FabricMC"
+        url = "https://maven.fabricmc.net/"
+    }
+
         maven {
             url "file://${project.projectDir}/mcmodsrepo"
         }

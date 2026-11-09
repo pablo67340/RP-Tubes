@@ -2,10 +2,19 @@ package com.rptubes.block;
 
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.tube.DyeHelper;
 import com.rptubes.tube.TubeLib;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.IWorld;
@@ -17,9 +26,12 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.shapes.VoxelShape;
+
+import java.util.List;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -94,6 +106,68 @@ public class PneumaticTubeBlock extends Block {
                     TubeLib.canConnect(realLevel, pos, direction));
         }
         return state;
+    }
+
+    @Override
+    public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+                                 Hand hand, BlockRayTraceResult hit) {
+        TileEntity be = level.getBlockEntity(pos);
+        if (!(be instanceof PneumaticTubeBlockEntity)) {
+            return ActionResultType.PASS;
+        }
+        PneumaticTubeBlockEntity tube = (PneumaticTubeBlockEntity) be;
+        ItemStack held = player.getItemInHand(hand);
+        if (player.isShiftKeyDown() && held.isEmpty()) {
+            if (!level.isClientSide) {
+                tube.tryPaint(0);
+            }
+            return ActionResultType.sidedSuccess(level.isClientSide);
+        }
+        int paint = DyeHelper.paintFrom(held);
+        if (paint < 0) {
+            return ActionResultType.PASS;
+        }
+        if (!level.isClientSide && tube.tryPaint(paint) && !player.abilities.instabuild) {
+            held.shrink(1);
+        }
+        return ActionResultType.sidedSuccess(level.isClientSide);
+    }
+
+    @Override
+    public void setPlacedBy(World level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        TileEntity be = level.getBlockEntity(pos);
+        if (be instanceof PneumaticTubeBlockEntity && stack.hasTag()) {
+            ((PneumaticTubeBlockEntity) be).tryPaint(stack.getTag().getByte("pCol"));
+        }
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        List<ItemStack> drops = super.getDrops(state, builder);
+        TileEntity be = builder.getOptionalParameter(LootParameters.BLOCK_ENTITY);
+        if (be instanceof PneumaticTubeBlockEntity) {
+            byte color = ((PneumaticTubeBlockEntity) be).getPaintColor();
+            if (color > 0) {
+                for (ItemStack stack : drops) {
+                    CompoundNBT tag = stack.getOrCreateTag();
+                    tag.putByte("pCol", color);
+                }
+            }
+        }
+        return drops;
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(IBlockReader level, BlockPos pos, BlockState state) {
+        ItemStack stack = super.getCloneItemStack(level, pos, state);
+        TileEntity be = level.getBlockEntity(pos);
+        if (be instanceof PneumaticTubeBlockEntity) {
+            byte color = ((PneumaticTubeBlockEntity) be).getPaintColor();
+            if (color > 0) {
+                stack.getOrCreateTag().putByte("pCol", color);
+            }
+        }
+        return stack;
     }
 
     @Override

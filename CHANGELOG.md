@@ -1,3 +1,29 @@
+# RP-Tubes 1.3.1
+
+## New (all 1.12.2+ ports, all loaders)
+
+- **Dyeable tubes.** Right-click a Pneumatic, Redstone, or Restriction Tube with
+  dye to paint it. Sneak + empty hand clears the paint. Painted items from the
+  Sorting Machine / Filter / Retriever only travel through unpainted tubes or
+  tubes of the same color — the original RedPower color-routing setup.
+- **Energy on Filter, Retriever, and Sorting Machine.**
+  Forge / NeoForge speak Forge Energy (RF). Fabric uses Team Reborn Energy.
+  While they have energy they extract on their own; a redstone pulse still
+  works without a generator. IC2 EU and BuildCraft MJ need a converter.
+
+## Fixed (1.21.1 NeoForge)
+
+- **Tin ore now generates.** The world generation file was in the old Forge
+  location, so NeoForge never loaded it and no tin spawned. Without tin there
+  was no brass, which most tube recipes need.
+- **Restriction Tube, Retriever, and Sorting Machine can be crafted.** Their
+  recipes asked for the old `forge:ingots/iron` tag, which NeoForge 1.21.1 no
+  longer has. Recipes now use the shared `c:` tags, and RP Tubes' tin and brass
+  ingots are tagged under `c:` so other mods' recipes accept them.
+- **Only one version of each recipe loads.** The "use red alloy when
+  ProjectRed is installed, redstone otherwise" switch was written in the old
+  Forge format and ignored, so both versions showed up in JEI.
+
 # RP-Tubes 1.2.1 — NeoForge & Fabric
 
 RP Tubes now ships on **Forge, NeoForge, and Fabric**. Pick the jar that

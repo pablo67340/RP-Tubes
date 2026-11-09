@@ -1,11 +1,33 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:mod_loaded", "modid": "projectred_core" },
-  "pattern": ["IFI", "IRI", "III"],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "IFI",
+    "IRI",
+    "III"
+  ],
   "key": {
-    "I": { "tag": "forge:ingots/iron" },
-    "F": { "item": "rptubes:filter" },
-    "R": { "tag": "forge:ingots/red_alloy" }
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "F": {
+      "item": "rptubes:filter"
+    },
+    "R": [
+      {
+        "tag": "c:ingots/red_alloy"
+      },
+      {
+        "item": "projectred_core:red_ingot"
+      }
+    ]
   },
-  "result": { "id": "rptubes:sorting_machine" }
+  "result": {
+    "id": "rptubes:sorting_machine"
+  }
 }

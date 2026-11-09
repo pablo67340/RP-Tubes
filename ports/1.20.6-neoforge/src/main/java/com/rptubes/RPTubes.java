@@ -7,7 +7,9 @@ import com.rptubes.registry.ModMenus;
 import com.rptubes.registry.ModRecipes;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 
 @Mod(RPTubes.MOD_ID)
@@ -23,7 +25,7 @@ public class RPTubes {
      */
     public static final String PROTOCOL = "10200";
 
-    public RPTubes(IEventBus modBus) {
+    public RPTubes(IEventBus modBus, ModContainer container) {
         ModBlocks.BLOCKS.register(modBus);
         ModItems.ITEMS.register(modBus);
         ModItems.TABS.register(modBus);
@@ -31,6 +33,7 @@ public class RPTubes {
         ModMenus.MENUS.register(modBus);
         ModRecipes.RECIPE_TYPES.register(modBus);
         ModRecipes.RECIPE_SERIALIZERS.register(modBus);
+        container.registerConfig(ModConfig.Type.COMMON, RPTubesConfig.SPEC);
         LOGGER.info("RP Tubes loading — RedPower tube logic rides again.");
     }
 }

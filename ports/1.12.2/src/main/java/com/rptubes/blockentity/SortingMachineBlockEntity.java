@@ -38,6 +38,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
     private byte draining = -1;
     private final TubeBuffer[] channelBuffers = new TubeBuffer[8];
     private MachineLib.FilterMap filterMap;
+    private final MachineEnergy energy = new MachineEnergy();
 
     public SortingMachineBlockEntity() {
         super();
@@ -48,6 +49,25 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
 
     private void regenFilterMap() {
         this.filterMap = MachineLib.makeFilterMap(this.filterSlots.toArray(new ItemStack[0]));
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.markDirty();
     }
 
     private MachineLib.FilterMap map() {
@@ -431,6 +451,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             bufs.appendTag(buf);
         }
         tag.setTag("buffers", bufs);
+        this.energy.write(tag);
         return tag;
     }
 
@@ -452,6 +473,21 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             this.channelBuffers[i].readFromNBT(bufs.getCompoundTagAt(i));
         }
         this.filterMap = null;
+        this.energy.read(tag);
+    }
+
+    @Override
+    public boolean hasCapability(net.minecraftforge.common.capabilities.Capability<?> cap, EnumFacing side) {
+        return this.energy.isEnergyCap(cap) || super.hasCapability(cap, side);
+    }
+
+    @Override
+    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> cap, EnumFacing side) {
+        T energy = this.energy.cast(cap, side);
+        if (energy != null) {
+            return energy;
+        }
+        return super.getCapability(cap, side);
     }
 
     public void dropContents() {

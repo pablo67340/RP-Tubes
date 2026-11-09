@@ -1,7 +1,12 @@
 package com.rptubes.client;
 
 import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlocks;
+import com.rptubes.registry.ModItems;
+import com.rptubes.tube.DyeHelper;
+import com.rptubes.tube.PaintColors;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import com.rptubes.registry.ModMenus;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
@@ -33,5 +38,19 @@ public final class ClientSetup {
         BlockEntityRendererRegistry.INSTANCE.register(ModBlockEntities.PNEUMATIC_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.INSTANCE.register(ModBlockEntities.REDSTONE_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.INSTANCE.register(ModBlockEntities.RESTRICTION_TUBE, TubeItemRenderer::new);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tint) -> {
+            if (world == null || pos == null) {
+                return 0xFFFFFF;
+            }
+            net.minecraft.world.level.block.entity.BlockEntity te = world.getBlockEntity(pos);
+            if (te instanceof PneumaticTubeBlockEntity) {
+                return PaintColors.rgb(((PneumaticTubeBlockEntity) te).getPaintColor());
+            }
+            return 0xFFFFFF;
+        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE);
+
+        ColorProviderRegistry.ITEM.register((stack, tint) -> PaintColors.rgb(DyeHelper.readPaint(stack)),
+                ModItems.PNEUMATIC_TUBE, ModItems.REDSTONE_TUBE, ModItems.RESTRICTION_TUBE);
     }
 }

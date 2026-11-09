@@ -40,6 +40,20 @@ public class RPTubes implements ModInitializer {
         ModBlockEntities.init();
         ModMenus.init();
         ModRecipes.init();
+        RPTubesConfig.load();
+        try {
+            Class.forName("team.reborn.energy.api.EnergyStorage");
+            Class.forName("com.rptubes.compat.TrEnergyCompat").getMethod("register").invoke(null);
+        } catch (ClassNotFoundException e) {
+            try {
+                Class.forName("team.reborn.energy.EnergyStorage");
+                Class.forName("com.rptubes.compat.TrEnergyCompat").getMethod("register").invoke(null);
+            } catch (Throwable t) {
+                LOGGER.info("Team Reborn Energy not present; machines keep an internal buffer only.");
+            }
+        } catch (Throwable e) {
+            LOGGER.info("Team Reborn Energy not present; machines keep an internal buffer only.");
+        }
         ModStorage.register();
         ModNetworking.register();
 
@@ -52,6 +66,10 @@ public class RPTubes implements ModInitializer {
         UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
             if (player.getItemInHand(hand).getItem() instanceof ScrewdriverItem) {
                 return ScrewdriverItem.tryRotate(player.getItemInHand(hand), level, hit.getBlockPos(), player, hand);
+            }
+            InteractionResult paint = com.rptubes.tube.DyeHelper.tryUseOnTube(player, level, hand, hit);
+            if (paint.consumesAction()) {
+                return paint;
             }
             return InteractionResult.PASS;
         });

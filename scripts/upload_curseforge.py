@@ -6,16 +6,16 @@ Prerequisites:
   1. pip install -r requirements.txt          (just `requests`)
   2. An API token from https://authors.curseforge.com/account/api-tokens
      -> put it in the CURSEFORGE_TOKEN environment variable (or --token)
-  3. Your project's numeric ID (shown in the "About Project" box on the
-     project page) -> CURSEFORGE_PROJECT_ID environment variable (or
-     --project-id)
-  4. Jars collected in releases/<mod_version>/:
+  3. Jars collected in releases/<mod_version>/:
        Forge:     rptubes-<mc>-<mod_version>.jar
        NeoForge:  rptubes-<mc>-neoforge-<mod_version>.jar
        Fabric:    rptubes-<mc>-fabric-<mod_version>.jar
 
+The project ID defaults to RP-Tubes' own (1650052); pass --project-id only
+if you are uploading somewhere else.
+
 Usage, from the project root:
-  python scripts/upload_curseforge.py --project-id 123456
+  python scripts/upload_curseforge.py
   python scripts/upload_curseforge.py --dry-run
   python scripts/upload_curseforge.py --loaders neoforge,fabric
   python scripts/upload_curseforge.py --only 1.20.1-neoforge,1.20.1-fabric
@@ -32,6 +32,10 @@ import requests
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 UPLOAD_API = "https://minecraft.curseforge.com/api"
+
+# Baked in rather than read from CURSEFORGE_PROJECT_ID, because that variable is
+# shared with the other mod projects and the wrong value uploads to the wrong page.
+DEFAULT_PROJECT_ID = "1650052"
 
 # Minecraft version + loader + Java the jar targets. Client + server for all.
 # `loader` must match the CurseForge Modloader tag name exactly.
@@ -133,8 +137,8 @@ def resolve_tags(tags: list, version_ids: dict) -> list:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--project-id", default=os.environ.get("CURSEFORGE_PROJECT_ID"),
-                        help="numeric CurseForge project id")
+    parser.add_argument("--project-id", default=DEFAULT_PROJECT_ID,
+                        help=f"numeric CurseForge project id (default {DEFAULT_PROJECT_ID})")
     parser.add_argument("--token", default=os.environ.get("CURSEFORGE_TOKEN"),
                         help="CurseForge author API token")
     parser.add_argument("--mod-version", default=None,

@@ -26,7 +26,7 @@ public class RPTubes {
      * so refuse the connection loudly instead of corrupting silently.
      * Bump alongside any release that changes networking or machine behavior.
      */
-    public static final int PROTOCOL = 10200; // 1.2.0
+    public static final int PROTOCOL = 10310; // 1.3.1
 
     public static final SimpleChannel CHANNEL = ChannelBuilder
             .named(Identifier.fromNamespaceAndPath(MOD_ID, "main"))
@@ -34,6 +34,7 @@ public class RPTubes {
             .simpleChannel();
 
     public RPTubes(FMLJavaModLoadingContext context) {
+        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, RPTubesConfig.COMMON_SPEC);
         net.minecraftforge.eventbus.api.bus.BusGroup modBus = context.getModBusGroup();
 
         ModBlocks.BLOCKS.register(modBus);

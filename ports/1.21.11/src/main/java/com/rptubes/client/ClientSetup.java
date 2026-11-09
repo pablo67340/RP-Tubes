@@ -1,9 +1,13 @@
 package com.rptubes.client;
 
 import com.rptubes.RPTubes;
+import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
+import com.rptubes.tube.PaintColors;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -40,5 +44,19 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, world, pos, tint) -> {
+            if (world == null || pos == null) {
+                return 0xFFFFFF;
+            }
+            BlockEntity te = world.getBlockEntity(pos);
+            if (te instanceof PneumaticTubeBlockEntity tube) {
+                return PaintColors.rgb(tube.getPaintColor());
+            }
+            return 0xFFFFFF;
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
     }
 }

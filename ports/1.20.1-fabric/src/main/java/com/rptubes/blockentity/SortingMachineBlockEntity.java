@@ -38,12 +38,36 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
     private byte draining = -1;
     private final TubeBuffer[] channelBuffers = new TubeBuffer[8];
     private MachineLib.FilterMap filterMap;
+    private final MachineEnergy energy = new MachineEnergy();
 
     public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SORTING_MACHINE, pos, state);
         for (int i = 0; i < 8; i++) {
             this.channelBuffers[i] = new TubeBuffer();
         }
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
+    }
+
+    public MachineEnergy getEnergy() {
+        return this.energy;
     }
 
     private void regenFilterMap() {
@@ -432,6 +456,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             bufs.add(buf);
         }
         tag.put("buffers", bufs);
+        this.energy.write(tag);
     }
 
     @Override
@@ -452,6 +477,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             this.channelBuffers[i].readFromNBT(bufs.getCompound(i));
         }
         this.filterMap = null;
+        this.energy.read(tag);
     }
 
     @Override

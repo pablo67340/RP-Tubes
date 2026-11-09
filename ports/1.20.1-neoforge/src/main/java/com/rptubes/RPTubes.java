@@ -11,7 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -54,6 +56,7 @@ public class RPTubes {
         CHANNEL.registerMessage(0, TubeItemUpsertPacket.class,
                 TubeItemUpsertPacket::encode, TubeItemUpsertPacket::decode, TubeItemUpsertPacket::handle);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, RPTubesConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(this);
         LOGGER.info("RP Tubes loading — RedPower tube logic rides again.");
     }

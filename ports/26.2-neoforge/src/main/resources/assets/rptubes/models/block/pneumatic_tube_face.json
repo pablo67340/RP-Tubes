@@ -4,7 +4,7 @@
   "textures": { "end": "rptubes:block/pneumatic_tube_end", "particle": "rptubes:block/pneumatic_tube_side" },
   "elements": [
     { "from": [4,4,4], "to": [12,12,4], "faces": {
-      "north": { "uv": [4,4,12,12], "texture": "#end" },
-      "south": { "uv": [4,4,12,12], "texture": "#end" } } }
+      "north": { "uv": [4,4,12,12], "texture": "#end", "tintindex": 0 },
+      "south": { "uv": [4,4,12,12], "texture": "#end", "tintindex": 0 } } }
   ]
 }

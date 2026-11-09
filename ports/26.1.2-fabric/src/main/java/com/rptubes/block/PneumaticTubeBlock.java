@@ -125,6 +125,51 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         return state;
     }
 
+
+    @Override
+    protected net.minecraft.world.InteractionResult useItemOn(net.minecraft.world.item.ItemStack held, net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.level.Level level,
+            net.minecraft.core.BlockPos pos, net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand, net.minecraft.world.phys.BlockHitResult hit) {
+        return com.rptubes.tube.DyeHelper.tryUseOnTube(player, level, hand, hit);
+    }
+
+    @Override
+    protected net.minecraft.world.InteractionResult useWithoutItem(net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos, net.minecraft.world.entity.player.Player player, net.minecraft.world.phys.BlockHitResult hit) {
+        return com.rptubes.tube.DyeHelper.tryUseOnTube(player, level, player.getUsedItemHand(), hit);
+    }
+
+    @Override
+    public void setPlacedBy(net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.entity.LivingEntity placer, net.minecraft.world.item.ItemStack stack) {
+        net.minecraft.world.level.block.entity.BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof com.rptubes.blockentity.PneumaticTubeBlockEntity tube) {
+            tube.tryPaint(com.rptubes.tube.DyeHelper.readPaint(stack));
+        }
+    }
+
+    @Override
+    protected net.minecraft.world.item.ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level, net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state, boolean includeData) {
+        net.minecraft.world.item.ItemStack stack = new net.minecraft.world.item.ItemStack(this);
+        net.minecraft.world.level.block.entity.BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof com.rptubes.blockentity.PneumaticTubeBlockEntity tube) {
+            com.rptubes.tube.DyeHelper.writePaint(stack, tube.getPaintColor());
+        }
+        return stack;
+    }
+
+    @Override
+    public java.util.List<net.minecraft.world.item.ItemStack> getDrops(net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.level.storage.loot.LootParams.Builder builder) {
+        java.util.List<net.minecraft.world.item.ItemStack> drops = super.getDrops(state, builder);
+        net.minecraft.world.level.block.entity.BlockEntity be = builder.getOptionalParameter(net.minecraft.world.level.storage.loot.parameters.LootContextParams.BLOCK_ENTITY);
+        if (be instanceof com.rptubes.blockentity.PneumaticTubeBlockEntity tube) {
+            byte color = tube.getPaintColor();
+            if (color > 0) {
+                for (net.minecraft.world.item.ItemStack drop : drops) {
+                    com.rptubes.tube.DyeHelper.writePaint(drop, color);
+                }
+            }
+        }
+        return drops;
+    }
+
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return this.beFactory.apply(pos, state);

@@ -1,19 +1,150 @@
 {
   "render_type": "minecraft:cutout",
   "parent": "minecraft:block/block",
-  "textures": { "side": "rptubes:block/redstone_tube_side", "particle": "rptubes:block/redstone_tube_side" },
+  "textures": {
+    "side": "rptubes:block/redstone_tube_side",
+    "particle": "rptubes:block/redstone_tube_side"
+  },
   "elements": [
-    { "from": [4,12,0], "to": [12,12,4], "faces": {
-      "up":   { "uv": [4,0,12,4], "texture": "#side" },
-      "down": { "uv": [4,0,12,4], "texture": "#side" } } },
-    { "from": [4,4,0], "to": [12,4,4], "faces": {
-      "down": { "uv": [4,0,12,4], "texture": "#side" },
-      "up":   { "uv": [4,0,12,4], "texture": "#side" } } },
-    { "from": [4,4,0], "to": [4,12,4], "faces": {
-      "west": { "uv": [4,0,12,4], "texture": "#side", "rotation": 90 },
-      "east": { "uv": [4,0,12,4], "texture": "#side", "rotation": 90 } } },
-    { "from": [12,4,0], "to": [12,12,4], "faces": {
-      "east": { "uv": [4,0,12,4], "texture": "#side", "rotation": 90 },
-      "west": { "uv": [4,0,12,4], "texture": "#side", "rotation": 90 } } }
+    {
+      "from": [
+        4,
+        12,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        4
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        },
+        "down": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        4,
+        0
+      ],
+      "to": [
+        12,
+        4,
+        4
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        4,
+        0
+      ],
+      "to": [
+        4,
+        12,
+        4
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "rotation": 90,
+          "tintindex": 0
+        },
+        "east": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "rotation": 90,
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        12,
+        4,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        4
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "rotation": 90,
+          "tintindex": 0
+        },
+        "west": {
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ],
+          "texture": "#side",
+          "rotation": 90,
+          "tintindex": 0
+        }
+      }
+    }
   ]
 }

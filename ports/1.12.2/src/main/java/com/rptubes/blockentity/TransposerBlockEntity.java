@@ -49,6 +49,9 @@ public class TransposerBlockEntity extends TileEntity implements net.minecraft.u
         if (!be.powered && be.active) {
             be.setActive(false);
         }
+        if (!be.powered && !be.hasBuffered() && be.tickCooldown <= 0) {
+            be.tryEnergyAutoExtract();
+        }
     }
 
     /** Whether any internal buffer still holds items (sorter adds channel buffers). */
@@ -71,12 +74,8 @@ public class TransposerBlockEntity extends TileEntity implements net.minecraft.u
                 return;
             }
             this.setActive(true);
-            EnumFacing back = this.getFacing().getOpposite();
-            BlockPos src = this.pos.offset(back);
-            if (this.canSuckAir(src)) {
-                this.doSuck();
-            } else {
-                this.handleExtract(src, this.getFacing());
+            if (this.payForExtract(false)) {
+                this.startExtract();
             }
         } else {
             if (this.active && this.tickCooldown <= 0) {
@@ -94,6 +93,24 @@ public class TransposerBlockEntity extends TileEntity implements net.minecraft.u
         }
         TileEntity te = this.world.getTileEntity(pos);
         return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.world, pos, this.getFacing()) == null);
+    }
+
+    /** Filter / Retriever / Sorter override. Transposer itself does not use RF. */
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return !mustHaveEnergy;
+    }
+
+    protected void tryEnergyAutoExtract() {
+    }
+
+    protected void startExtract() {
+        EnumFacing back = this.getFacing().getOpposite();
+        BlockPos src = this.pos.offset(back);
+        if (this.canSuckAir(src)) {
+            this.doSuck();
+        } else {
+            this.handleExtract(src, this.getFacing());
+        }
     }
 
     protected boolean handleExtract(BlockPos src, EnumFacing extractSide) {

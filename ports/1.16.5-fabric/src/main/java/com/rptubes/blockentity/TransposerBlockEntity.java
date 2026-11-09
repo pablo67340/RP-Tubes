@@ -53,6 +53,9 @@ public class TransposerBlockEntity extends BlockEntity implements net.minecraft.
         if (!be.powered && be.active) {
             be.setActive(false);
         }
+        if (!be.powered && !be.hasBuffered() && be.tickCooldown <= 0) {
+            be.tryEnergyAutoExtract();
+        }
     }
 
     /** Whether any internal buffer still holds items (sorter adds channel buffers). */
@@ -75,12 +78,8 @@ public class TransposerBlockEntity extends BlockEntity implements net.minecraft.
                 return;
             }
             this.setActive(true);
-            Direction back = this.getFacing().getOpposite();
-            BlockPos src = this.worldPosition.relative(back);
-            if (this.canSuckAir(src)) {
-                this.doSuck();
-            } else {
-                this.handleExtract(src, this.getFacing());
+            if (this.payForExtract(false)) {
+                this.startExtract();
             }
         } else {
             if (this.active && this.tickCooldown <= 0) {
@@ -98,6 +97,23 @@ public class TransposerBlockEntity extends BlockEntity implements net.minecraft.
         }
         BlockEntity te = this.level.getBlockEntity(pos);
         return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.level, pos, this.getFacing()) == null);
+    }
+
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return !mustHaveEnergy;
+    }
+
+    protected void tryEnergyAutoExtract() {
+    }
+
+    protected void startExtract() {
+        Direction back = this.getFacing().getOpposite();
+        BlockPos src = this.worldPosition.relative(back);
+        if (this.canSuckAir(src)) {
+            this.doSuck();
+        } else {
+            this.handleExtract(src, this.getFacing());
+        }
     }
 
     protected boolean handleExtract(BlockPos src, Direction extractSide) {

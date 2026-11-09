@@ -34,6 +34,7 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity>
 
     public static class TubeRenderState extends BlockEntityRenderState {
         final List<Entry> items = new ArrayList<>();
+        int paintColor;
     }
 
     static class Entry {
@@ -56,6 +57,7 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity>
     public void extractRenderState(T be, TubeRenderState state, float partialTick, Vec3 cameraPos,
                                    ModelFeatureRenderer.CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(be, state, partialTick, cameraPos, breakProgress);
+        state.paintColor = be.getPaintColor();
         state.items.clear();
         ItemModelResolver resolver = Minecraft.getInstance().getItemModelResolver();
         for (TubeItem ti : be.getTubeFlow().contents) {

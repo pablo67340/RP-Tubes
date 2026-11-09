@@ -3,16 +3,16 @@
   "textures": { "side": "rptubes:blocks/redstone_tube_side", "particle": "rptubes:blocks/redstone_tube_side" },
   "elements": [
     { "from": [0,12,4], "to": [16,12,12], "faces": {
-      "up":   { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 },
-      "down": { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 } } },
+      "up":   { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 },
+      "down": { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 } } },
     { "from": [0,4,4], "to": [16,4,12], "faces": {
-      "down": { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 },
-      "up":   { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 } } },
+      "down": { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 },
+      "up":   { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 } } },
     { "from": [0,4,4], "to": [16,12,4], "faces": {
-      "north": { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 },
-      "south": { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 } } },
+      "north": { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 },
+      "south": { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 } } },
     { "from": [0,4,12], "to": [16,12,12], "faces": {
-      "south": { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 },
-      "north": { "uv": [4,0,12,16], "texture": "#side", "rotation": 90 } } }
+      "south": { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 },
+      "north": { "uv": [4,0,12,16], "texture": "#side", "tintindex": 0, "rotation": 90 } } }
   ]
 }

@@ -34,5 +34,11 @@ public final class ModCapabilities {
                 (be, side) -> new WorldlyContainerWrapper(be, side));
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.BUFFER.get(),
                 (be, side) -> new WorldlyContainerWrapper(be, side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.FILTER.get(),
+                (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.RETRIEVER.get(),
+                (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
+                (be, side) -> be.getEnergy());
     }
 }

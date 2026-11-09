@@ -10,7 +10,9 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.NetworkDirection;
@@ -28,7 +30,7 @@ public class RPTubes {
      * so refuse the connection loudly instead of corrupting silently.
      * Bump alongside any release that changes networking or machine behavior.
      */
-    public static final int PROTOCOL = 10200; // 1.2.0
+    public static final int PROTOCOL = 10310; // 1.3.1
 
     public static final SimpleChannel CHANNEL = ChannelBuilder
             .named(new ResourceLocation(MOD_ID, "main"))
@@ -37,6 +39,7 @@ public class RPTubes {
 
     public RPTubes() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, RPTubesConfig.COMMON_SPEC);
 
         ModBlocks.BLOCKS.register(modBus);
         ModItems.ITEMS.register(modBus);

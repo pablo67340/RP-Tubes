@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 /**
  * Soft ProjectE EMC registration via reflection (no hard compile dependency).
  */
-@EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = RPTubes.MOD_ID)
 public final class ProjectECompat {
     private ProjectECompat() {
     }

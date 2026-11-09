@@ -3,7 +3,7 @@
   "textures": { "end": "rptubes:block/redstone_tube_end_p2", "particle": "rptubes:block/redstone_tube_side_p2" },
   "elements": [
     { "from": [4,4,4], "to": [12,12,4], "faces": {
-      "north": { "uv": [4,4,12,12], "texture": "#end" },
-      "south": { "uv": [4,4,12,12], "texture": "#end" } } }
+      "north": { "uv": [4,4,12,12], "texture": "#end", "tintindex": 0 },
+      "south": { "uv": [4,4,12,12], "texture": "#end", "tintindex": 0 } } }
   ]
 }

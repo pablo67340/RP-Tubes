@@ -11,6 +11,12 @@ public class RestrictionTubeBlockEntity extends PneumaticTubeBlockEntity {
     }
 
     @Override
+    public int getTubeConClass() {
+        int paint = this.getPaintColor() & 0xFF;
+        return paint == 0 ? 17 : 18 + paint;
+    }
+
+    @Override
     public int tubeWeight(int side, int state) {
         return 1_000_000;
     }

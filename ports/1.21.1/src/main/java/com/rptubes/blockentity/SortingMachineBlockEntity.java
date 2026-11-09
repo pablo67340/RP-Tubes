@@ -20,6 +20,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 /**
  * Port of TileSorter — 8×5 filter columns, per-column paint colors, 5 modes,
@@ -38,6 +40,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
     private byte draining = -1;
     private final TubeBuffer[] channelBuffers = new TubeBuffer[8];
     private MachineLib.FilterMap filterMap;
+    private final MachineEnergy energy = new MachineEnergy();
 
     public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SORTING_MACHINE.get(), pos, state);
@@ -48,6 +51,25 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
 
     private void regenFilterMap() {
         this.filterMap = MachineLib.makeFilterMap(this.filterSlots.toArray(ItemStack[]::new));
+    }
+
+    @Override
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
     }
 
     private MachineLib.FilterMap map() {
@@ -432,6 +454,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             bufs.add(buf);
         }
         tag.put("buffers", bufs);
+        this.energy.write(tag);
     }
 
     @Override
@@ -452,6 +475,27 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             this.channelBuffers[i].readFromNBT(bufs.getCompound(i), registries);
         }
         this.filterMap = null;
+        this.energy.read(tag);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && this.energy.isEnergyCap(cap)) {
+            return this.energy.cast(cap, side);
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.energy.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.energy.revive();
     }
 
     @Override

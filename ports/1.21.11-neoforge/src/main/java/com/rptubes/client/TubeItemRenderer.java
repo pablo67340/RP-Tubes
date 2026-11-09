@@ -3,8 +3,10 @@ package com.rptubes.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
+import com.rptubes.tube.PaintColors;
 import com.rptubes.tube.TubeItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -34,6 +36,7 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity>
 
     public static class TubeRenderState extends BlockEntityRenderState {
         final List<Entry> items = new ArrayList<>();
+        int paintColor;
     }
 
     static class Entry {
@@ -56,6 +59,7 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity>
     public void extractRenderState(T be, TubeRenderState state, float partialTick, Vec3 cameraPos,
                                    ModelFeatureRenderer.CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(be, state, partialTick, cameraPos, breakProgress);
+        state.paintColor = be.getPaintColor();
         state.items.clear();
         ItemModelResolver resolver = Minecraft.getInstance().getItemModelResolver();
         for (TubeItem ti : be.getTubeFlow().contents) {
@@ -96,6 +100,24 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity>
     @Override
     public void submit(TubeRenderState state, PoseStack poseStack, SubmitNodeCollector collector,
                        CameraRenderState cameraState) {
+        if (state.paintColor > 0) {
+            int rgb = PaintColors.rgb(state.paintColor);
+            float r = ((rgb >> 16) & 0xFF) / 255f;
+            float g = ((rgb >> 8) & 0xFF) / 255f;
+            float b = (rgb & 0xFF) / 255f;
+            float a = 0.35f;
+            collector.submitCustomGeometry(poseStack, RenderTypes.lightning(), (pose, vc) -> {
+                var mat = pose.pose();
+                float n = 0.26f;
+                float x = 0.74f;
+                quad(vc, mat, n, n, n, x, n, n, x, x, n, n, x, n, r, g, b, a);
+                quad(vc, mat, n, n, x, n, x, x, x, x, x, x, n, x, r, g, b, a);
+                quad(vc, mat, n, n, n, n, n, x, x, n, x, x, n, n, r, g, b, a);
+                quad(vc, mat, n, x, n, x, x, n, x, x, x, n, x, x, r, g, b, a);
+                quad(vc, mat, n, n, n, n, x, n, n, x, x, n, n, x, r, g, b, a);
+                quad(vc, mat, x, n, n, x, n, x, x, x, x, x, x, n, r, g, b, a);
+            });
+        }
         for (Entry entry : state.items) {
             poseStack.pushPose();
             poseStack.translate(entry.x, entry.y, entry.z);
@@ -105,5 +127,15 @@ public class TubeItemRenderer<T extends PneumaticTubeBlockEntity>
             entry.itemState.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }
+    }
+
+    private static void quad(com.mojang.blaze3d.vertex.VertexConsumer vc, org.joml.Matrix4f mat,
+                             float x1, float y1, float z1, float x2, float y2, float z2,
+                             float x3, float y3, float z3, float x4, float y4, float z4,
+                             float r, float g, float b, float a) {
+        vc.addVertex(mat, x1, y1, z1).setColor(r, g, b, a);
+        vc.addVertex(mat, x2, y2, z2).setColor(r, g, b, a);
+        vc.addVertex(mat, x3, y3, z3).setColor(r, g, b, a);
+        vc.addVertex(mat, x4, y4, z4).setColor(r, g, b, a);
     }
 }

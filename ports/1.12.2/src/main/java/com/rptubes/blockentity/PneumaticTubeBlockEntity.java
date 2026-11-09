@@ -23,6 +23,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
  */
 public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraft.util.ITickable, ITubeFlow {
     private byte lastDir = 0;
+    /** OG paintColor: 0 = unpainted, 1-16 = dye. Used for sorter color routing. */
+    private byte paintColor = 0;
 
     private final TubeFlow flow = new TubeFlow() {
         @Override
@@ -132,7 +134,30 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
 
     @Override
     public int getTubeConClass() {
-        return 0;
+        return this.paintColor & 0xFF;
+    }
+
+    public byte getPaintColor() {
+        return this.paintColor;
+    }
+
+    /**
+     * Dye or clear this tube. {@code color} is 0 (unpainted) or 1-16.
+     * Returns false if the color did not change.
+     */
+    public boolean tryPaint(int color) {
+        byte next = (byte) (color < 0 ? 0 : color > 16 ? 16 : color);
+        if (this.paintColor == next) {
+            return false;
+        }
+        this.paintColor = next;
+        this.markDirty();
+        if (this.world != null) {
+            IBlockState state = this.world.getBlockState(this.pos);
+            this.world.notifyBlockUpdate(this.pos, state, state, 3);
+            this.world.notifyNeighborsOfStateChange(this.pos, state.getBlock(), false);
+        }
+        return true;
     }
 
     @Override
@@ -143,6 +168,9 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem item) {
         if (state != 0) {
+            return false;
+        }
+        if (!this.colorAllows(item)) {
             return false;
         }
         item.side = (byte) side;
@@ -160,7 +188,12 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         // OG TileTube: tubes are pass-through (state 0), never a destination.
         // Answering true for state 1 made route-finding always "succeed",
         // so machines kept re-ejecting items with nowhere to go.
-        return state == 0;
+        return state == 0 && this.colorAllows(item);
+    }
+
+    /** OG: painted items may only enter a tube that is unpainted or the same color. */
+    protected boolean colorAllows(TubeItem item) {
+        return item.color == 0 || this.paintColor == 0 || item.color == this.paintColor;
     }
 
     @Override
@@ -197,6 +230,7 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         super.writeToNBT(tag);
         this.flow.writeToNBT(tag);
         tag.setByte("lastDir", this.lastDir);
+        tag.setByte("pCol", this.paintColor);
         return tag;
     }
 
@@ -205,6 +239,7 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         super.readFromNBT(tag);
         this.flow.readFromNBT(tag);
         this.lastDir = tag.getByte("lastDir");
+        this.paintColor = tag.getByte("pCol");
     }
 
     @Override
@@ -226,6 +261,7 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         // Non-destructive: vanilla BE packets fire on unrelated block updates
         // (e.g. redstone tube power changes); replacing contents wholesale
         // would delete locally simulated items and cause visual glitches.
+        this.paintColor = tag.getByte("pCol");
         net.minecraft.nbt.NBTTagList items = tag.getTagList("Items", 10);
         for (int i = 0; i < items.tagCount(); i++) {
             this.upsertItem(TubeItem.newFromNBT(items.getCompoundTagAt(i)));
