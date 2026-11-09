@@ -1,12 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:mod_loaded", "modid": "projectred_core" },
-  "pattern": ["SSS", "GPG", "SRS"],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "SSS",
+    "GPG",
+    "SRS"
+  ],
   "key": {
     "S": "minecraft:stone",
     "G": "minecraft:gold_ingot",
     "P": "minecraft:piston",
     "R": "#c:ingots/red_alloy"
   },
-  "result": { "id": "rptubes:filter" }
+  "result": {
+    "id": "rptubes:filter"
+  }
 }

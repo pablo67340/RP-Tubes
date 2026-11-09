@@ -1,8 +1,14 @@
 {
   "type": "rptubes:alloy_smelting",
   "ingredients": [
-    { "ingredient": "#forge:ingots/copper", "count": 3 },
-    { "ingredient": "#forge:ingots/tin", "count": 1 }
+    {
+      "ingredient": "#c:ingots/copper",
+      "count": 3
+    },
+    {
+      "ingredient": "#c:ingots/tin",
+      "count": 1
+    }
   ],
   "result": {
     "id": "rptubes:brass_ingot",

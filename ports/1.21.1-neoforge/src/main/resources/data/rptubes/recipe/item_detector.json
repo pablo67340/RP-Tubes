@@ -18,14 +18,9 @@
     "T": {
       "item": "rptubes:pneumatic_tube"
     },
-    "R": [
-      {
-        "tag": "c:ingots/red_alloy"
-      },
-      {
-        "item": "projectred_core:red_ingot"
-      }
-    ],
+    "R": {
+      "tag": "c:ingots/red_alloy"
+    },
     "P": {
       "item": "minecraft:stone_pressure_plate"
     },

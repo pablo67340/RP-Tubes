@@ -7,13 +7,13 @@
   ],
   "key": {
     "B": {
-      "tag": "forge:ingots/brass"
+      "tag": "c:ingots/brass"
     },
     "E": {
       "item": "minecraft:ender_pearl"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "F": {
       "item": "rptubes:filter"

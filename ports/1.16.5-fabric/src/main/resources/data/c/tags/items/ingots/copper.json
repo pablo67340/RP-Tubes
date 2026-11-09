@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "projectred-core:copper_ingot",
+      "required": false
+    },
+    {
+      "id": "create:copper_ingot",
+      "required": false
+    },
+    {
+      "id": "immersiveengineering:ingot_copper",
+      "required": false
+    },
+    {
+      "id": "mekanism:ingot_copper",
+      "required": false
+    },
+    {
+      "id": "thermal:copper_ingot",
+      "required": false
+    }
+  ]
+}

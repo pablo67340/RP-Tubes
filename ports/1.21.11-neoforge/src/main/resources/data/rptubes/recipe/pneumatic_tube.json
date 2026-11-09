@@ -4,7 +4,7 @@
     "BGB"
   ],
   "key": {
-    "B": "#forge:ingots/brass",
+    "B": "#c:ingots/brass",
     "G": "minecraft:glass"
   },
   "result": {

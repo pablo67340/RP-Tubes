@@ -1,7 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:mod_loaded", "modid": "projectred_core" },
-  "pattern": ["WBW", "WTW", "SRS"],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "WBW",
+    "WTW",
+    "SRS"
+  ],
   "key": {
     "W": "#minecraft:planks",
     "B": "minecraft:chest",
@@ -9,5 +18,7 @@
     "S": "minecraft:stone",
     "R": "#c:ingots/red_alloy"
   },
-  "result": { "id": "rptubes:relay" }
+  "result": {
+    "id": "rptubes:relay"
+  }
 }

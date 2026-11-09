@@ -1,13 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
-  "pattern": ["BEB", "IFI", "IRI"],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "projectred_core"
+      }
+    }
+  ],
+  "pattern": [
+    "BEB",
+    "IFI",
+    "IRI"
+  ],
   "key": {
-    "B": "#forge:ingots/brass",
+    "B": "#c:ingots/brass",
     "E": "minecraft:ender_pearl",
-    "I": "#forge:ingots/iron",
+    "I": "#c:ingots/iron",
     "F": "rptubes:filter",
     "R": "minecraft:redstone"
   },
-  "result": { "id": "rptubes:retriever" }
+  "result": {
+    "id": "rptubes:retriever"
+  }
 }

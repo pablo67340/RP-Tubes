@@ -35,8 +35,9 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    modCompileOnly "teamreborn:energy:0.1.1"
-    modLocalRuntime "teamreborn:energy:0.1.1"
+    // energy 0.1.1 depends on fabric-loader 0.7.5, which would sit next to ours on the dev classpath
+    modCompileOnly("teamreborn:energy:0.1.1") { exclude group: "net.fabricmc", module: "fabric-loader" }
+    modLocalRuntime("teamreborn:energy:0.1.1") { exclude group: "net.fabricmc", module: "fabric-loader" }
 
 }
 

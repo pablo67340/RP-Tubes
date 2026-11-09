@@ -18,14 +18,9 @@
     "F": {
       "item": "rptubes:filter"
     },
-    "R": [
-      {
-        "tag": "c:ingots/red_alloy"
-      },
-      {
-        "item": "projectred_core:red_ingot"
-      }
-    ]
+    "R": {
+      "tag": "c:ingots/red_alloy"
+    }
   },
   "result": {
     "id": "rptubes:sorting_machine"

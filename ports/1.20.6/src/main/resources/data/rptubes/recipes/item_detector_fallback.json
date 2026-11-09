@@ -1,13 +1,35 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
-  "pattern": ["BTB", "RPR", "WWW"],
-  "key": {
-    "B": { "tag": "forge:ingots/brass" },
-    "T": { "item": "rptubes:pneumatic_tube" },
-    "R": { "item": "minecraft:redstone" },
-    "P": { "item": "minecraft:stone_pressure_plate" },
-    "W": { "tag": "minecraft:planks" }
+  "forge:condition": {
+    "type": "forge:not",
+    "value": {
+      "type": "forge:mod_loaded",
+      "modid": "projectred_core"
+    }
   },
-  "result": { "id": "rptubes:item_detector" }
+  "pattern": [
+    "BTB",
+    "RPR",
+    "WWW"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:ingots/brass"
+    },
+    "T": {
+      "item": "rptubes:pneumatic_tube"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "minecraft:stone_pressure_plate"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "id": "rptubes:item_detector"
+  }
 }

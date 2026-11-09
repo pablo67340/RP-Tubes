@@ -1,12 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
-  "pattern": ["SSS", "GPG", "SRS"],
+  "forge:condition": {
+    "type": "forge:not",
+    "value": {
+      "type": "forge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "GPG",
+    "SRS"
+  ],
   "key": {
     "S": "minecraft:stone",
     "G": "minecraft:gold_ingot",
     "P": "minecraft:piston",
     "R": "minecraft:redstone"
   },
-  "result": { "id": "rptubes:filter" }
+  "result": {
+    "id": "rptubes:filter"
+  }
 }

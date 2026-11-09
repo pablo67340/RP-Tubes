@@ -1,7 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
-  "pattern": ["BTB", "RPR", "WWW"],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "projectred_core"
+      }
+    }
+  ],
+  "pattern": [
+    "BTB",
+    "RPR",
+    "WWW"
+  ],
   "key": {
     "B": "#c:ingots/brass",
     "T": "rptubes:pneumatic_tube",
@@ -9,5 +21,7 @@
     "P": "minecraft:stone_pressure_plate",
     "W": "#minecraft:planks"
   },
-  "result": { "id": "rptubes:item_detector" }
+  "result": {
+    "id": "rptubes:item_detector"
+  }
 }

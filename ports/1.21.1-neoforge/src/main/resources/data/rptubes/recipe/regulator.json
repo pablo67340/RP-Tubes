@@ -21,14 +21,9 @@
     "W": {
       "tag": "minecraft:planks"
     },
-    "R": [
-      {
-        "tag": "c:ingots/red_alloy"
-      },
-      {
-        "item": "projectred_core:red_ingot"
-      }
-    ],
+    "R": {
+      "tag": "c:ingots/red_alloy"
+    },
     "P": {
       "item": "rptubes:buffer"
     }

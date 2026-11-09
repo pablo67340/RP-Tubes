@@ -80,6 +80,22 @@ gradlew.bat genEclipseRuns
 gradlew.bat runClient
 ```
 
+### Changing recipes or tags across ports
+
+Every port under `ports/` ships the same recipes and tags, but each loader and
+Minecraft version spells them differently (condition format, `forge:` or `c:`
+tags, ingredient syntax, folder names). Edit the file in one port, then let
+`scripts/port_data.py` translate it into the rest:
+
+```bat
+python scripts\port_data.py copy rptubes/recipe/filter.json --from 1.21.1-neoforge --dry-run
+python scripts\port_data.py copy rptubes/recipe/filter.json --from 1.21.1-neoforge
+python scripts\port_data.py check
+```
+
+`check` lists anything in a format its loader would ignore and exits non-zero;
+`fix` rewrites those files in place. Run `check` before building a release.
+
 ## Reference
 
 Decompiled RedPower 2.0pr5b2 sources live under `reference/decompiled/` (CFR).

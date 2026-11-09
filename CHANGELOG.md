@@ -11,18 +11,30 @@
   While they have energy they extract on their own; a redstone pulse still
   works without a generator. IC2 EU and BuildCraft MJ need a converter.
 
-## Fixed (1.21.1 NeoForge)
+## Fixed
 
-- **Tin ore now generates.** The world generation file was in the old Forge
-  location, so NeoForge never loaded it and no tin spawned. Without tin there
-  was no brass, which most tube recipes need.
-- **Restriction Tube, Retriever, and Sorting Machine can be crafted.** Their
-  recipes asked for the old `forge:ingots/iron` tag, which NeoForge 1.21.1 no
-  longer has. Recipes now use the shared `c:` tags, and RP Tubes' tin and brass
-  ingots are tagged under `c:` so other mods' recipes accept them.
-- **Only one version of each recipe loads.** The "use red alloy when
-  ProjectRed is installed, redstone otherwise" switch was written in the old
-  Forge format and ignored, so both versions showed up in JEI.
+- **The NeoForge 1.20.6 build loads again.** It asked for a newer mod loader
+  than NeoForge 20.6 ships, so NeoForge refused to start with it installed.
+- **The Fabric 1.16.5 build loads again.** It required Fabric API under its
+  newer name, `fabric-api`; on 1.16.5 Fabric API is still called `fabric`, so
+  the loader reported it missing even when installed.
+- **Filter, Item Detector, Regulator, Relay, Retriever, and Sorting Machine
+  can be crafted without ProjectRed (Forge 1.20.6 and newer).** Their
+  redstone recipes, used when ProjectRed is not installed, wrote the "not"
+  condition in a form Forge rejects, so Forge dropped them without a word.
+- **Tin ore now generates on NeoForge 1.20.6, 1.21.1, 1.21.11, and 26.1.2.**
+  The world generation file was in the old Forge location, so NeoForge never
+  loaded it and no tin spawned. Without tin there was no brass, which most tube
+  recipes need.
+- **Restriction Tube, Retriever, and Sorting Machine can be crafted on
+  NeoForge 1.20.6, 1.21.1, and 1.21.11, and on Fabric 1.16.5 and 1.20.1.**
+  Their recipes asked for an iron ingot tag those loaders do not have. NeoForge
+  recipes now use the shared `c:` tags, and the Fabric builds declare the tag
+  themselves. RP Tubes' tin and brass ingots are tagged under `c:` on NeoForge
+  so other mods' recipes accept them.
+- **Only one version of each recipe loads on NeoForge 1.20.6 to 26.1.2.** The
+  "use red alloy when ProjectRed is installed, redstone otherwise" switch was
+  written in the Forge format and ignored, so both versions showed up in JEI.
 
 # RP-Tubes 1.2.1 — NeoForge & Fabric
 

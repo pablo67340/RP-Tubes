@@ -21,7 +21,7 @@
     "fabricloader": ">=${loader_version}",
     "minecraft": "~1.16.5",
     "java": ">=17",
-    "fabric-api": "*"
+    "fabric": "*"
   },
   "recommends": {
     "team_reborn_energy": "*"

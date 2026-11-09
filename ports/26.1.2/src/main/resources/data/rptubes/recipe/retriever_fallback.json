@@ -1,7 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:not", "child": { "type": "forge:mod_loaded", "modid": "projectred_core" } },
-  "pattern": ["BEB", "IFI", "IRI"],
+  "forge:condition": {
+    "type": "forge:not",
+    "value": {
+      "type": "forge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  },
+  "pattern": [
+    "BEB",
+    "IFI",
+    "IRI"
+  ],
   "key": {
     "B": "#c:ingots/brass",
     "E": "minecraft:ender_pearl",
@@ -9,5 +19,7 @@
     "F": "rptubes:filter",
     "R": "minecraft:redstone"
   },
-  "result": { "id": "rptubes:retriever" }
+  "result": {
+    "id": "rptubes:retriever"
+  }
 }

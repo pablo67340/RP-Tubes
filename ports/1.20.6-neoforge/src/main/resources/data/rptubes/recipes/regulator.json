@@ -1,13 +1,34 @@
 {
   "type": "minecraft:crafting_shaped",
-  "forge:condition": { "type": "forge:mod_loaded", "modid": "projectred_core" },
-  "pattern": ["BDB", "WRW", "BPB"],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "BDB",
+    "WRW",
+    "BPB"
+  ],
   "key": {
-    "B": { "tag": "forge:ingots/brass" },
-    "D": { "item": "rptubes:item_detector" },
-    "W": { "tag": "minecraft:planks" },
-    "R": { "tag": "forge:ingots/red_alloy" },
-    "P": { "item": "rptubes:buffer" }
+    "B": {
+      "tag": "c:ingots/brass"
+    },
+    "D": {
+      "item": "rptubes:item_detector"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "R": {
+      "tag": "c:ingots/red_alloy"
+    },
+    "P": {
+      "item": "rptubes:buffer"
+    }
   },
-  "result": { "id": "rptubes:regulator" }
+  "result": {
+    "id": "rptubes:regulator"
+  }
 }
