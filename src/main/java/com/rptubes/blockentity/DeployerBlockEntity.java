@@ -72,30 +72,34 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     private boolean active;
     //? if forge {
     /*private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     *///?} else if neoforge && <1.21.11 {
 
 
-    private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlerDown;
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     //?} else if <1.21.1 {
     /*private final IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     *///?} else if fabric && >=1.21.11 && <26.1.2 {
     /*private IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     *///?} else if neoforge && >=26.2 {
     /*public ResourceHandler<ItemResource> getItemHandler(Direction side) {
         return new WorldlyContainerWrapper(this, side);
     }
     *///?} else {
-    /*private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    /*private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlerDown;
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     *///?}
 
@@ -292,7 +296,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     }
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlers[0];
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
 
     *///?} else if fabric && <1.21.1 {
@@ -306,7 +310,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
 
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlers[0];
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
 
     *///?} else if fabric && <1.21.11 {
@@ -333,7 +337,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -349,7 +353,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     *///?} else if forge && <1.21.11 {
@@ -364,7 +368,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -380,7 +384,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     *///?} else if <1.21.11 {
@@ -414,7 +418,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -430,7 +434,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     *///?} else {
@@ -460,7 +464,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
 
     /*@Override
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlers[0];
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     *///?}
 }

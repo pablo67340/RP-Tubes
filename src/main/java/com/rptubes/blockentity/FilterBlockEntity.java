@@ -66,6 +66,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
 *///?}
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
+    private long jammedUntil;
     public byte color = 0;
     //? if neoforge && <1.21.1 {
     /*protected final MachineEnergy energy = new MachineEnergy();
@@ -75,15 +76,13 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     }
 
 
-    private final IItemHandler[] handlers = new IItemHandler[] {
-            new SidedInvWrapper(this, Direction.NORTH),
-            new SidedInvWrapper(this, Direction.SOUTH),
-            new SidedInvWrapper(this, Direction.WEST)
-    };
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
         if (side == null) return this.handlers[0];
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
     *///?} else if neoforge && <1.21.11 {
     protected final MachineEnergy energy = new MachineEnergy();
@@ -93,22 +92,20 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     }
 
 
-    private final IItemHandler[] handlers = new IItemHandler[] {
-            new SidedInvWrapper(this, Direction.NORTH),
-            new SidedInvWrapper(this, Direction.SOUTH),
-            new SidedInvWrapper(this, Direction.WEST)
-    };
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
     //?} else if fabric && >=1.21.11 && <26.1.2 {
     /*protected final MachineEnergy energy = new MachineEnergy();
     private IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+            SidedInvWrapper.create(this, Direction.values());
     *///?} else if neoforge && >=26.2 {
     /*protected final MachineEnergy energy = new MachineEnergy();
 
@@ -121,42 +118,38 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     *///?} else if fabric && <1.21.1 {
     /*protected final MachineEnergy energy = new MachineEnergy();
     private final IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+            SidedInvWrapper.create(this, Direction.values());
     *///?} else if neoforge {
     /*protected final MachineEnergy energy = new MachineEnergy();
 
     public MachineEnergy getEnergy() {
         return this.energy;
     }
-    private final IItemHandler[] handlers = new IItemHandler[] {
-            new SidedInvWrapper(this, Direction.NORTH),
-            new SidedInvWrapper(this, Direction.SOUTH),
-            new SidedInvWrapper(this, Direction.WEST)
-    };
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
     *///?} else if fabric {
     /*protected final MachineEnergy energy = new MachineEnergy();
-    private final IItemHandler[] handlers = new IItemHandler[] {
-            new SidedInvWrapper(this, Direction.NORTH),
-            new SidedInvWrapper(this, Direction.SOUTH),
-            new SidedInvWrapper(this, Direction.WEST)
-    };
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
     *///?} else {
     /*private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+            SidedInvWrapper.create(this, Direction.values());
     protected final MachineEnergy energy = new MachineEnergy();
     *///?}
 
@@ -209,10 +202,27 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         return map.size() == 0 || map.containsKey(stack);
     }
 
+    /**
+     * Refuse passive tube items and RF auto-extraction for the next few ticks. A Retrievulator
+     * calls this every tick while its targets are met, so an emptied filter grid pulls nothing.
+     */
+    public void jam() {
+        if (this.level != null) {
+            this.jammedUntil = this.level.getGameTime() + 5;
+        }
+    }
+
+    protected boolean isJammed() {
+        return this.level != null && this.level.getGameTime() < this.jammedUntil;
+    }
+
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem ti) {
         Direction back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -225,6 +235,9 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     public boolean tubeItemCanEnter(int side, int state, TubeItem ti) {
         Direction back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -245,7 +258,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
 
     @Override
     protected void tryEnergyAutoExtract() {
-        if (!this.energy.canAutoExtract()) {
+        if (this.isJammed() || !this.energy.canAutoExtract()) {
             return;
         }
         if (!this.energy.pay(true)) {
@@ -406,7 +419,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     /*@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
-            return handlers[Math.abs(side.ordinal() % handlers.length)].cast();
+            return handlers[side.ordinal()].cast();
         }
         if (!this.remove && this.energy.isEnergyCap(cap)) {
             return this.energy.cast(cap, side);
@@ -426,7 +439,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
         this.energy.revive();
     }
 
@@ -436,7 +449,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
 
     @Override
@@ -446,7 +459,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
 
     @Override
@@ -482,7 +495,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
     *///?}
 }

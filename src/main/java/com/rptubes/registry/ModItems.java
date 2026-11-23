@@ -108,6 +108,8 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.RETRIEVER.get(), props()));
     public static final RegistryObject<Item> REGULATOR = ITEMS.register("regulator",
             () -> new BlockItem(ModBlocks.REGULATOR.get(), props()));
+    public static final RegistryObject<Item> RETRIEVULATOR = ITEMS.register("retrievulator",
+            () -> new BlockItem(ModBlocks.RETRIEVULATOR.get(), props()));
     public static final RegistryObject<Item> SORTING_MACHINE = ITEMS.register("sorting_machine",
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), props()));
     public static final RegistryObject<Item> IGNITER = ITEMS.register("igniter",
@@ -128,6 +130,10 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.REDSTONE_TUBE.get(), props()));
     public static final RegistryObject<Item> RESTRICTION_TUBE = ITEMS.register("restriction_tube",
             () -> new BlockItem(ModBlocks.RESTRICTION_TUBE.get(), props()));
+    public static final RegistryObject<Item> MAG_TUBE = ITEMS.register("mag_tube",
+            () -> new BlockItem(ModBlocks.MAG_TUBE.get(), props()));
+    public static final RegistryObject<Item> ACCELERATOR = ITEMS.register("accelerator",
+            () -> new BlockItem(ModBlocks.ACCELERATOR.get(), props()));
     *///?} else if fabric && >=1.21.1 && <1.21.11 {
     /*public static final Item BRASS_INGOT = register("brass_ingot", new Item(new Item.Properties()));
     public static final Item SCREWDRIVER = register("screwdriver",
@@ -147,6 +153,7 @@ public final class ModItems {
     public static final Item RELAY = register("relay", new BlockItem(ModBlocks.RELAY, new Item.Properties()));
     public static final Item RETRIEVER = register("retriever", new BlockItem(ModBlocks.RETRIEVER, new Item.Properties()));
     public static final Item REGULATOR = register("regulator", new BlockItem(ModBlocks.REGULATOR, new Item.Properties()));
+    public static final Item RETRIEVULATOR = register("retrievulator", new BlockItem(ModBlocks.RETRIEVULATOR, new Item.Properties()));
     public static final Item SORTING_MACHINE = register("sorting_machine", new BlockItem(ModBlocks.SORTING_MACHINE, new Item.Properties()));
     public static final Item IGNITER = register("igniter", new BlockItem(ModBlocks.IGNITER, new Item.Properties()));
     public static final Item SOLAR_PANEL = register("solar_panel", new BlockItem(ModBlocks.SOLAR_PANEL, new Item.Properties()));
@@ -157,6 +164,8 @@ public final class ModItems {
     public static final Item PNEUMATIC_TUBE = register("pneumatic_tube", new BlockItem(ModBlocks.PNEUMATIC_TUBE, new Item.Properties()));
     public static final Item REDSTONE_TUBE = register("redstone_tube", new BlockItem(ModBlocks.REDSTONE_TUBE, new Item.Properties()));
     public static final Item RESTRICTION_TUBE = register("restriction_tube", new BlockItem(ModBlocks.RESTRICTION_TUBE, new Item.Properties()));
+    public static final Item MAG_TUBE = register("mag_tube", new BlockItem(ModBlocks.MAG_TUBE, new Item.Properties()));
+    public static final Item ACCELERATOR = register("accelerator", new BlockItem(ModBlocks.ACCELERATOR, new Item.Properties()));
 
     public static final CreativeModeTab TAB = Registry.register(
             BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -174,6 +183,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
+                        output.accept(MAG_TUBE);
+                        output.accept(ACCELERATOR);
                         output.accept(ALLOY_FURNACE);
                         output.accept(TRANSPOSER);
                         output.accept(FILTER);
@@ -185,6 +196,7 @@ public final class ModItems {
                         output.accept(RELAY);
                         output.accept(RETRIEVER);
                         output.accept(REGULATOR);
+                        output.accept(RETRIEVULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
                         output.accept(SOLAR_PANEL);
@@ -231,6 +243,7 @@ public final class ModItems {
     public static final Item RELAY = blockItem("relay", ModBlocks.RELAY);
     public static final Item RETRIEVER = blockItem("retriever", ModBlocks.RETRIEVER);
     public static final Item REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
+    public static final Item RETRIEVULATOR = blockItem("retrievulator", ModBlocks.RETRIEVULATOR);
     public static final Item SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final Item IGNITER = blockItem("igniter", ModBlocks.IGNITER);
     public static final Item SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
@@ -241,6 +254,8 @@ public final class ModItems {
     public static final Item PNEUMATIC_TUBE = blockItem("pneumatic_tube", ModBlocks.PNEUMATIC_TUBE);
     public static final Item REDSTONE_TUBE = blockItem("redstone_tube", ModBlocks.REDSTONE_TUBE);
     public static final Item RESTRICTION_TUBE = blockItem("restriction_tube", ModBlocks.RESTRICTION_TUBE);
+    public static final Item MAG_TUBE = blockItem("mag_tube", ModBlocks.MAG_TUBE);
+    public static final Item ACCELERATOR = blockItem("accelerator", ModBlocks.ACCELERATOR);
 
     public static final CreativeModeTab TAB = Registry.register(
             BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -258,6 +273,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
+                        output.accept(MAG_TUBE);
+                        output.accept(ACCELERATOR);
                         output.accept(ALLOY_FURNACE);
                         output.accept(TRANSPOSER);
                         output.accept(FILTER);
@@ -269,6 +286,7 @@ public final class ModItems {
                         output.accept(RELAY);
                         output.accept(RETRIEVER);
                         output.accept(REGULATOR);
+                        output.accept(RETRIEVULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
                         output.accept(SOLAR_PANEL);
@@ -304,6 +322,7 @@ public final class ModItems {
     public static final Item RELAY = register("relay", new BlockItem(ModBlocks.RELAY, new Item.Properties()));
     public static final Item RETRIEVER = register("retriever", new BlockItem(ModBlocks.RETRIEVER, new Item.Properties()));
     public static final Item REGULATOR = register("regulator", new BlockItem(ModBlocks.REGULATOR, new Item.Properties()));
+    public static final Item RETRIEVULATOR = register("retrievulator", new BlockItem(ModBlocks.RETRIEVULATOR, new Item.Properties()));
     public static final Item SORTING_MACHINE = register("sorting_machine", new BlockItem(ModBlocks.SORTING_MACHINE, new Item.Properties()));
     public static final Item IGNITER = register("igniter", new BlockItem(ModBlocks.IGNITER, new Item.Properties()));
     public static final Item SOLAR_PANEL = register("solar_panel", new BlockItem(ModBlocks.SOLAR_PANEL, new Item.Properties()));
@@ -314,6 +333,8 @@ public final class ModItems {
     public static final Item PNEUMATIC_TUBE = register("pneumatic_tube", new BlockItem(ModBlocks.PNEUMATIC_TUBE, new Item.Properties()));
     public static final Item REDSTONE_TUBE = register("redstone_tube", new BlockItem(ModBlocks.REDSTONE_TUBE, new Item.Properties()));
     public static final Item RESTRICTION_TUBE = register("restriction_tube", new BlockItem(ModBlocks.RESTRICTION_TUBE, new Item.Properties()));
+    public static final Item MAG_TUBE = register("mag_tube", new BlockItem(ModBlocks.MAG_TUBE, new Item.Properties()));
+    public static final Item ACCELERATOR = register("accelerator", new BlockItem(ModBlocks.ACCELERATOR, new Item.Properties()));
 
     public static final CreativeModeTab TAB = Registry.register(
             BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -331,6 +352,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
+                        output.accept(MAG_TUBE);
+                        output.accept(ACCELERATOR);
                         output.accept(ALLOY_FURNACE);
                         output.accept(TRANSPOSER);
                         output.accept(FILTER);
@@ -342,6 +365,7 @@ public final class ModItems {
                         output.accept(RELAY);
                         output.accept(RETRIEVER);
                         output.accept(REGULATOR);
+                        output.accept(RETRIEVULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
                         output.accept(SOLAR_PANEL);
@@ -400,6 +424,8 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.RETRIEVER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> REGULATOR = ITEMS.register("regulator",
             () -> new BlockItem(ModBlocks.REGULATOR.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, Item> RETRIEVULATOR = ITEMS.register("retrievulator",
+            () -> new BlockItem(ModBlocks.RETRIEVULATOR.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> SORTING_MACHINE = ITEMS.register("sorting_machine",
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> IGNITER = ITEMS.register("igniter",
@@ -421,6 +447,10 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.REDSTONE_TUBE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> RESTRICTION_TUBE = ITEMS.register("restriction_tube",
             () -> new BlockItem(ModBlocks.RESTRICTION_TUBE.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, Item> MAG_TUBE = ITEMS.register("mag_tube",
+            () -> new BlockItem(ModBlocks.MAG_TUBE.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, Item> ACCELERATOR = ITEMS.register("accelerator",
+            () -> new BlockItem(ModBlocks.ACCELERATOR.get(), new Item.Properties()));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("main",
             () -> CreativeModeTab.builder()
@@ -436,6 +466,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
+                        output.accept(MAG_TUBE.get());
+                        output.accept(ACCELERATOR.get());
                         output.accept(ALLOY_FURNACE.get());
                         output.accept(TRANSPOSER.get());
                         output.accept(FILTER.get());
@@ -447,6 +479,7 @@ public final class ModItems {
                         output.accept(RELAY.get());
                         output.accept(RETRIEVER.get());
                         output.accept(REGULATOR.get());
+                        output.accept(RETRIEVULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
                         output.accept(SOLAR_PANEL.get());
@@ -484,6 +517,7 @@ public final class ModItems {
     public static final Item RELAY = blockItem("relay", ModBlocks.RELAY);
     public static final Item RETRIEVER = blockItem("retriever", ModBlocks.RETRIEVER);
     public static final Item REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
+    public static final Item RETRIEVULATOR = blockItem("retrievulator", ModBlocks.RETRIEVULATOR);
     public static final Item SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final Item IGNITER = blockItem("igniter", ModBlocks.IGNITER);
     public static final Item SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
@@ -494,6 +528,8 @@ public final class ModItems {
     public static final Item PNEUMATIC_TUBE = blockItem("pneumatic_tube", ModBlocks.PNEUMATIC_TUBE);
     public static final Item REDSTONE_TUBE = blockItem("redstone_tube", ModBlocks.REDSTONE_TUBE);
     public static final Item RESTRICTION_TUBE = blockItem("restriction_tube", ModBlocks.RESTRICTION_TUBE);
+    public static final Item MAG_TUBE = blockItem("mag_tube", ModBlocks.MAG_TUBE);
+    public static final Item ACCELERATOR = blockItem("accelerator", ModBlocks.ACCELERATOR);
 
     public static final CreativeModeTab TAB = Registry.register(
             BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -511,6 +547,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
+                        output.accept(MAG_TUBE);
+                        output.accept(ACCELERATOR);
                         output.accept(ALLOY_FURNACE);
                         output.accept(TRANSPOSER);
                         output.accept(FILTER);
@@ -522,6 +560,7 @@ public final class ModItems {
                         output.accept(RELAY);
                         output.accept(RETRIEVER);
                         output.accept(REGULATOR);
+                        output.accept(RETRIEVULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
                         output.accept(SOLAR_PANEL);
@@ -580,6 +619,8 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.RETRIEVER.get(), new Item.Properties()));
     public static final RegistryObject<Item> REGULATOR = ITEMS.register("regulator",
             () -> new BlockItem(ModBlocks.REGULATOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RETRIEVULATOR = ITEMS.register("retrievulator",
+            () -> new BlockItem(ModBlocks.RETRIEVULATOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> SORTING_MACHINE = ITEMS.register("sorting_machine",
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), new Item.Properties()));
     public static final RegistryObject<Item> IGNITER = ITEMS.register("igniter",
@@ -601,6 +642,10 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.REDSTONE_TUBE.get(), new Item.Properties()));
     public static final RegistryObject<Item> RESTRICTION_TUBE = ITEMS.register("restriction_tube",
             () -> new BlockItem(ModBlocks.RESTRICTION_TUBE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MAG_TUBE = ITEMS.register("mag_tube",
+            () -> new BlockItem(ModBlocks.MAG_TUBE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ACCELERATOR = ITEMS.register("accelerator",
+            () -> new BlockItem(ModBlocks.ACCELERATOR.get(), new Item.Properties()));
 
     public static final RegistryObject<CreativeModeTab> TAB = TABS.register("main",
             () -> CreativeModeTab.builder()
@@ -616,6 +661,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
+                        output.accept(MAG_TUBE.get());
+                        output.accept(ACCELERATOR.get());
                         output.accept(ALLOY_FURNACE.get());
                         output.accept(TRANSPOSER.get());
                         output.accept(FILTER.get());
@@ -627,6 +674,7 @@ public final class ModItems {
                         output.accept(RELAY.get());
                         output.accept(RETRIEVER.get());
                         output.accept(REGULATOR.get());
+                        output.accept(RETRIEVULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
                         output.accept(SOLAR_PANEL.get());
@@ -677,6 +725,7 @@ public final class ModItems {
     public static final RegistryObject<Item> RELAY = blockItem("relay", ModBlocks.RELAY);
     public static final RegistryObject<Item> RETRIEVER = blockItem("retriever", ModBlocks.RETRIEVER);
     public static final RegistryObject<Item> REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
+    public static final RegistryObject<Item> RETRIEVULATOR = blockItem("retrievulator", ModBlocks.RETRIEVULATOR);
     public static final RegistryObject<Item> SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final RegistryObject<Item> IGNITER = blockItem("igniter", ModBlocks.IGNITER);
     public static final RegistryObject<Item> SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
@@ -688,6 +737,8 @@ public final class ModItems {
     public static final RegistryObject<Item> PNEUMATIC_TUBE = blockItem("pneumatic_tube", ModBlocks.PNEUMATIC_TUBE);
     public static final RegistryObject<Item> REDSTONE_TUBE = blockItem("redstone_tube", ModBlocks.REDSTONE_TUBE);
     public static final RegistryObject<Item> RESTRICTION_TUBE = blockItem("restriction_tube", ModBlocks.RESTRICTION_TUBE);
+    public static final RegistryObject<Item> MAG_TUBE = blockItem("mag_tube", ModBlocks.MAG_TUBE);
+    public static final RegistryObject<Item> ACCELERATOR = blockItem("accelerator", ModBlocks.ACCELERATOR);
 
     public static final RegistryObject<CreativeModeTab> TAB = TABS.register("main",
             () -> CreativeModeTab.builder()
@@ -703,6 +754,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
+                        output.accept(MAG_TUBE.get());
+                        output.accept(ACCELERATOR.get());
                         output.accept(ALLOY_FURNACE.get());
                         output.accept(TRANSPOSER.get());
                         output.accept(FILTER.get());
@@ -714,6 +767,7 @@ public final class ModItems {
                         output.accept(RELAY.get());
                         output.accept(RETRIEVER.get());
                         output.accept(REGULATOR.get());
+                        output.accept(RETRIEVULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
                         output.accept(SOLAR_PANEL.get());
@@ -764,6 +818,7 @@ public final class ModItems {
     public static final DeferredHolder<Item, Item> RELAY = blockItem("relay", ModBlocks.RELAY);
     public static final DeferredHolder<Item, Item> RETRIEVER = blockItem("retriever", ModBlocks.RETRIEVER);
     public static final DeferredHolder<Item, Item> REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
+    public static final DeferredHolder<Item, Item> RETRIEVULATOR = blockItem("retrievulator", ModBlocks.RETRIEVULATOR);
     public static final DeferredHolder<Item, Item> SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final DeferredHolder<Item, Item> IGNITER = blockItem("igniter", ModBlocks.IGNITER);
     public static final DeferredHolder<Item, Item> SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
@@ -775,6 +830,8 @@ public final class ModItems {
     public static final DeferredHolder<Item, Item> PNEUMATIC_TUBE = blockItem("pneumatic_tube", ModBlocks.PNEUMATIC_TUBE);
     public static final DeferredHolder<Item, Item> REDSTONE_TUBE = blockItem("redstone_tube", ModBlocks.REDSTONE_TUBE);
     public static final DeferredHolder<Item, Item> RESTRICTION_TUBE = blockItem("restriction_tube", ModBlocks.RESTRICTION_TUBE);
+    public static final DeferredHolder<Item, Item> MAG_TUBE = blockItem("mag_tube", ModBlocks.MAG_TUBE);
+    public static final DeferredHolder<Item, Item> ACCELERATOR = blockItem("accelerator", ModBlocks.ACCELERATOR);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("main",
             () -> CreativeModeTab.builder()
@@ -790,6 +847,8 @@ public final class ModItems {
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
+                        output.accept(MAG_TUBE.get());
+                        output.accept(ACCELERATOR.get());
                         output.accept(ALLOY_FURNACE.get());
                         output.accept(TRANSPOSER.get());
                         output.accept(FILTER.get());
@@ -801,6 +860,7 @@ public final class ModItems {
                         output.accept(RELAY.get());
                         output.accept(RETRIEVER.get());
                         output.accept(REGULATOR.get());
+                        output.accept(RETRIEVULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
                         output.accept(SOLAR_PANEL.get());

@@ -5,6 +5,7 @@ import com.rptubes.RPTubes;
 import com.rptubes.blockentity.FilterBlockEntity;
 import com.rptubes.blockentity.MachineEnergy;
 import com.rptubes.blockentity.SortingMachineBlockEntity;
+import com.rptubes.blockentity.AcceleratorBlockEntity;
 import com.rptubes.power.EnergyBridge;
 import com.rptubes.power.PowerBlockEntity;
 import com.rptubes.power.PowerBuffer;
@@ -74,6 +75,9 @@ public final class TrEnergyCompat {
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, dir) -> wrap(((SortingMachineBlockEntity) be).getEnergy()),
                 ModBlockEntities.SORTING_MACHINE);
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, dir) -> wrap(((AcceleratorBlockEntity) be).getEnergy()),
+                ModBlockEntities.ACCELERATOR);
         RPTubes.LOGGER.info("Team Reborn Energy attached to the machines and power blocks.");
     }
 

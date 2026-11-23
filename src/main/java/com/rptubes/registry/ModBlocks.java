@@ -20,8 +20,11 @@ import com.rptubes.block.ItemDetectorBlock;
 import com.rptubes.block.PneumaticTubeBlock;
 import com.rptubes.block.RedstoneTubeBlock;
 import com.rptubes.block.RegulatorBlock;
+import com.rptubes.block.RetrievulatorBlock;
 import com.rptubes.block.RelayBlock;
 import com.rptubes.block.RestrictionTubeBlock;
+import com.rptubes.block.MagTubeBlock;
+import com.rptubes.block.AcceleratorBlock;
 import com.rptubes.block.RetrieverBlock;
 import com.rptubes.block.SortingMachineBlock;
 import com.rptubes.block.TransposerBlock;
@@ -240,6 +243,8 @@ public final class ModBlocks {
             () -> new RetrieverBlock(MACHINE));
     public static final RegistryObject<Block> REGULATOR = BLOCKS.register("regulator",
             () -> new RegulatorBlock(MACHINE));
+    public static final RegistryObject<Block> RETRIEVULATOR = BLOCKS.register("retrievulator",
+            () -> new RetrievulatorBlock(MACHINE));
     public static final RegistryObject<Block> SORTING_MACHINE = BLOCKS.register("sorting_machine",
             () -> new SortingMachineBlock(MACHINE));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
@@ -265,6 +270,7 @@ public final class ModBlocks {
     public static final Block RELAY = register("relay", new RelayBlock(machine("relay")));
     public static final Block RETRIEVER = register("retriever", new RetrieverBlock(machine("retriever")));
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(machine("regulator")));
+    public static final Block RETRIEVULATOR = register("retrievulator", new RetrievulatorBlock(machine("retrievulator")));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(machine("sorting_machine")));
     public static final Block IGNITER = register("igniter", new IgniterBlock(machine("igniter")));
     public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(machine("solar_panel")));
@@ -295,6 +301,8 @@ public final class ModBlocks {
             () -> new RetrieverBlock(MACHINE));
     public static final DeferredHolder<Block, Block> REGULATOR = BLOCKS.register("regulator",
             () -> new RegulatorBlock(MACHINE));
+    public static final DeferredHolder<Block, Block> RETRIEVULATOR = BLOCKS.register("retrievulator",
+            () -> new RetrievulatorBlock(MACHINE));
     public static final DeferredHolder<Block, Block> SORTING_MACHINE = BLOCKS.register("sorting_machine",
             () -> new SortingMachineBlock(MACHINE));
     public static final DeferredHolder<Block, Block> IGNITER = BLOCKS.register("igniter",
@@ -320,6 +328,7 @@ public final class ModBlocks {
     public static final Block RELAY = register("relay", new RelayBlock(machine("relay")));
     public static final Block RETRIEVER = register("retriever", new RetrieverBlock(machine("retriever")));
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(machine("regulator")));
+    public static final Block RETRIEVULATOR = register("retrievulator", new RetrievulatorBlock(machine("retrievulator")));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(machine("sorting_machine")));
     public static final Block IGNITER = register("igniter", new IgniterBlock(machine("igniter")));
     public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(machine("solar_panel")));
@@ -339,6 +348,7 @@ public final class ModBlocks {
     public static final Block RELAY = register("relay", new RelayBlock(MACHINE));
     public static final Block RETRIEVER = register("retriever", new RetrieverBlock(MACHINE));
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(MACHINE));
+    public static final Block RETRIEVULATOR = register("retrievulator", new RetrievulatorBlock(MACHINE));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(MACHINE));
     public static final Block IGNITER = register("igniter", new IgniterBlock(MACHINE));
     public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(MACHINE));
@@ -368,6 +378,8 @@ public final class ModBlocks {
             () -> new RetrieverBlock(MACHINE));
     public static final RegistryObject<Block> REGULATOR = BLOCKS.register("regulator",
             () -> new RegulatorBlock(MACHINE));
+    public static final RegistryObject<Block> RETRIEVULATOR = BLOCKS.register("retrievulator",
+            () -> new RetrievulatorBlock(MACHINE));
     public static final RegistryObject<Block> SORTING_MACHINE = BLOCKS.register("sorting_machine",
             () -> new SortingMachineBlock(MACHINE));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
@@ -403,6 +415,8 @@ public final class ModBlocks {
             () -> new RetrieverBlock(machine("retriever")));
     public static final RegistryObject<Block> REGULATOR = BLOCKS.register("regulator",
             () -> new RegulatorBlock(machine("regulator")));
+    public static final RegistryObject<Block> RETRIEVULATOR = BLOCKS.register("retrievulator",
+            () -> new RetrievulatorBlock(machine("retrievulator")));
     public static final RegistryObject<Block> SORTING_MACHINE = BLOCKS.register("sorting_machine",
             () -> new SortingMachineBlock(machine("sorting_machine")));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
@@ -438,6 +452,8 @@ public final class ModBlocks {
             () -> new RetrieverBlock(machine("retriever")));
     public static final DeferredHolder<Block, Block> REGULATOR = BLOCKS.register("regulator",
             () -> new RegulatorBlock(machine("regulator")));
+    public static final DeferredHolder<Block, Block> RETRIEVULATOR = BLOCKS.register("retrievulator",
+            () -> new RetrievulatorBlock(machine("retrievulator")));
     public static final DeferredHolder<Block, Block> SORTING_MACHINE = BLOCKS.register("sorting_machine",
             () -> new SortingMachineBlock(machine("sorting_machine")));
     public static final DeferredHolder<Block, Block> IGNITER = BLOCKS.register("igniter",
@@ -492,6 +508,8 @@ public final class ModBlocks {
     /*public static final Block PNEUMATIC_TUBE = register("pneumatic_tube", new PneumaticTubeBlock(TUBE));
     public static final Block REDSTONE_TUBE = register("redstone_tube", new RedstoneTubeBlock(TUBE));
     public static final Block RESTRICTION_TUBE = register("restriction_tube", new RestrictionTubeBlock(TUBE));
+    public static final Block MAG_TUBE = register("mag_tube", new MagTubeBlock(TUBE));
+    public static final Block ACCELERATOR = register("accelerator", new AcceleratorBlock(TUBE));
 
     private static Block register(String name, Block block) {
         return Registry.register(BuiltInRegistries.BLOCK,
@@ -504,6 +522,8 @@ public final class ModBlocks {
     /*public static final Block PNEUMATIC_TUBE = register("pneumatic_tube", new PneumaticTubeBlock(TUBE));
     public static final Block REDSTONE_TUBE = register("redstone_tube", new RedstoneTubeBlock(TUBE));
     public static final Block RESTRICTION_TUBE = register("restriction_tube", new RestrictionTubeBlock(TUBE));
+    public static final Block MAG_TUBE = register("mag_tube", new MagTubeBlock(TUBE));
+    public static final Block ACCELERATOR = register("accelerator", new AcceleratorBlock(TUBE));
 
     private static Block register(String name, Block block) {
         return Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(RPTubes.MOD_ID, name), block);
@@ -518,10 +538,16 @@ public final class ModBlocks {
             () -> new RedstoneTubeBlock(TUBE));
     public static final DeferredHolder<Block, Block> RESTRICTION_TUBE = BLOCKS.register("restriction_tube",
             () -> new RestrictionTubeBlock(TUBE));
+    public static final DeferredHolder<Block, Block> MAG_TUBE = BLOCKS.register("mag_tube",
+            () -> new MagTubeBlock(TUBE));
+    public static final DeferredHolder<Block, Block> ACCELERATOR = BLOCKS.register("accelerator",
+            () -> new AcceleratorBlock(TUBE));
     //?} else if fabric {
     /*public static final Block PNEUMATIC_TUBE = register("pneumatic_tube", new PneumaticTubeBlock(tube("pneumatic_tube")));
     public static final Block REDSTONE_TUBE = register("redstone_tube", new RedstoneTubeBlock(tube("redstone_tube")));
     public static final Block RESTRICTION_TUBE = register("restriction_tube", new RestrictionTubeBlock(tube("restriction_tube")));
+    public static final Block MAG_TUBE = register("mag_tube", new MagTubeBlock(tube("mag_tube")));
+    public static final Block ACCELERATOR = register("accelerator", new AcceleratorBlock(tube("accelerator")));
 
     private static Block register(String name, Block block) {
         return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, name), block);
@@ -536,6 +562,10 @@ public final class ModBlocks {
             () -> new RedstoneTubeBlock(tube("redstone_tube")));
     public static final RegistryObject<Block> RESTRICTION_TUBE = BLOCKS.register("restriction_tube",
             () -> new RestrictionTubeBlock(tube("restriction_tube")));
+    public static final RegistryObject<Block> MAG_TUBE = BLOCKS.register("mag_tube",
+            () -> new MagTubeBlock(tube("mag_tube")));
+    public static final RegistryObject<Block> ACCELERATOR = BLOCKS.register("accelerator",
+            () -> new AcceleratorBlock(tube("accelerator")));
     *///?} else if >=1.21.11 {
     /*public static final DeferredHolder<Block, Block> PNEUMATIC_TUBE = BLOCKS.register("pneumatic_tube",
             () -> new PneumaticTubeBlock(tube("pneumatic_tube")));
@@ -543,6 +573,10 @@ public final class ModBlocks {
             () -> new RedstoneTubeBlock(tube("redstone_tube")));
     public static final DeferredHolder<Block, Block> RESTRICTION_TUBE = BLOCKS.register("restriction_tube",
             () -> new RestrictionTubeBlock(tube("restriction_tube")));
+    public static final DeferredHolder<Block, Block> MAG_TUBE = BLOCKS.register("mag_tube",
+            () -> new MagTubeBlock(tube("mag_tube")));
+    public static final DeferredHolder<Block, Block> ACCELERATOR = BLOCKS.register("accelerator",
+            () -> new AcceleratorBlock(tube("accelerator")));
     *///?} else {
     /*public static final RegistryObject<Block> PNEUMATIC_TUBE = BLOCKS.register("pneumatic_tube",
             () -> new PneumaticTubeBlock(TUBE));
@@ -550,6 +584,10 @@ public final class ModBlocks {
             () -> new RedstoneTubeBlock(TUBE));
     public static final RegistryObject<Block> RESTRICTION_TUBE = BLOCKS.register("restriction_tube",
             () -> new RestrictionTubeBlock(TUBE));
+    public static final RegistryObject<Block> MAG_TUBE = BLOCKS.register("mag_tube",
+            () -> new MagTubeBlock(TUBE));
+    public static final RegistryObject<Block> ACCELERATOR = BLOCKS.register("accelerator",
+            () -> new AcceleratorBlock(TUBE));
     *///?}
 
     private ModBlocks() {

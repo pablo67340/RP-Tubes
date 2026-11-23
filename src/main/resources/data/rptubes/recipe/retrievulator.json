@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "RHR",
+    "BBB"
+  ],
+  "key": {
+    "B": "#c:ingots/brass",
+    "C": "minecraft:comparator",
+    "R": "minecraft:redstone",
+    "H": "minecraft:hopper"
+  },
+  "result": {
+    "id": "rptubes:retrievulator"
+  }
+}

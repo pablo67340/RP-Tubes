@@ -14,6 +14,7 @@ import com.rptubes.menu.EjectorMenu;
 import com.rptubes.menu.FilterMenu;
 import com.rptubes.menu.ItemDetectorMenu;
 import com.rptubes.menu.RegulatorMenu;
+import com.rptubes.menu.RetrievulatorMenu;
 import com.rptubes.menu.RelayMenu;
 import com.rptubes.menu.RetrieverMenu;
 import com.rptubes.menu.SortingMachineMenu;
@@ -78,6 +79,8 @@ public final class ModMenus {
             register("retriever", new ExtendedScreenHandlerType<>(RetrieverMenu::new));
     public static final MenuType<RegulatorMenu> REGULATOR =
             register("regulator", new ExtendedScreenHandlerType<>(RegulatorMenu::new));
+    public static final MenuType<RetrievulatorMenu> RETRIEVULATOR =
+            register("retrievulator", new ExtendedScreenHandlerType<>(RetrievulatorMenu::new));
     public static final MenuType<SortingMachineMenu> SORTING_MACHINE =
             register("sorting_machine", new ExtendedScreenHandlerType<>(SortingMachineMenu::new));
     public static final MenuType<AutoCraftingTableMenu> AUTO_CRAFTING_TABLE =
@@ -113,6 +116,8 @@ public final class ModMenus {
             register("retriever", new ExtendedScreenHandlerType<>(RetrieverMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<RegulatorMenu> REGULATOR =
             register("regulator", new ExtendedScreenHandlerType<>(RegulatorMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<RetrievulatorMenu> RETRIEVULATOR =
+            register("retrievulator", new ExtendedScreenHandlerType<>(RetrievulatorMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<SortingMachineMenu> SORTING_MACHINE =
             register("sorting_machine", new ExtendedScreenHandlerType<>(SortingMachineMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<AutoCraftingTableMenu> AUTO_CRAFTING_TABLE =
@@ -148,6 +153,8 @@ public final class ModMenus {
             register("retriever", new ExtendedScreenHandlerType<>(RetrieverMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<RegulatorMenu> REGULATOR =
             register("regulator", new ExtendedScreenHandlerType<>(RegulatorMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<RetrievulatorMenu> RETRIEVULATOR =
+            register("retrievulator", new ExtendedScreenHandlerType<>(RetrievulatorMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<SortingMachineMenu> SORTING_MACHINE =
             register("sorting_machine", new ExtendedScreenHandlerType<>(SortingMachineMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<AutoCraftingTableMenu> AUTO_CRAFTING_TABLE =
@@ -184,6 +191,8 @@ public final class ModMenus {
             register("retriever", new ExtendedScreenHandlerType<>(RetrieverMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<RegulatorMenu> REGULATOR =
             register("regulator", new ExtendedScreenHandlerType<>(RegulatorMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<RetrievulatorMenu> RETRIEVULATOR =
+            register("retrievulator", new ExtendedScreenHandlerType<>(RetrievulatorMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<SortingMachineMenu> SORTING_MACHINE =
             register("sorting_machine", new ExtendedScreenHandlerType<>(SortingMachineMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<AutoCraftingTableMenu> AUTO_CRAFTING_TABLE =
@@ -219,6 +228,8 @@ public final class ModMenus {
             register("retriever", new ExtendedMenuType<>(RetrieverMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<RegulatorMenu> REGULATOR =
             register("regulator", new ExtendedMenuType<>(RegulatorMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<RetrievulatorMenu> RETRIEVULATOR =
+            register("retrievulator", new ExtendedMenuType<>(RetrievulatorMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<SortingMachineMenu> SORTING_MACHINE =
             register("sorting_machine", new ExtendedMenuType<>(SortingMachineMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<AutoCraftingTableMenu> AUTO_CRAFTING_TABLE =
@@ -257,6 +268,8 @@ public final class ModMenus {
             MENUS.register("retriever", () -> IMenuTypeExtension.create(RetrieverMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<RegulatorMenu>> REGULATOR =
             MENUS.register("regulator", () -> IMenuTypeExtension.create(RegulatorMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<RetrievulatorMenu>> RETRIEVULATOR =
+            MENUS.register("retrievulator", () -> IMenuTypeExtension.create(RetrievulatorMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<SortingMachineMenu>> SORTING_MACHINE =
             MENUS.register("sorting_machine", () -> IMenuTypeExtension.create(SortingMachineMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<AutoCraftingTableMenu>> AUTO_CRAFTING_TABLE =
@@ -287,6 +300,8 @@ public final class ModMenus {
             MENUS.register("retriever", () -> IForgeMenuType.create(RetrieverMenu::new));
     public static final RegistryObject<MenuType<RegulatorMenu>> REGULATOR =
             MENUS.register("regulator", () -> IForgeMenuType.create(RegulatorMenu::new));
+    public static final RegistryObject<MenuType<RetrievulatorMenu>> RETRIEVULATOR =
+            MENUS.register("retrievulator", () -> IForgeMenuType.create(RetrievulatorMenu::new));
     public static final RegistryObject<MenuType<SortingMachineMenu>> SORTING_MACHINE =
             MENUS.register("sorting_machine", () -> IForgeMenuType.create(SortingMachineMenu::new));
     public static final RegistryObject<MenuType<AutoCraftingTableMenu>> AUTO_CRAFTING_TABLE =

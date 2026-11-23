@@ -58,6 +58,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         }
 
         @Override
+        protected int speedLoss() {
+            return PneumaticTubeBlockEntity.this.itemSpeedLoss();
+        }
+
+        @Override
         public boolean schedule(TubeItem ti, TubeScheduleContext tsc) {
             ti.scheduled = true;
             ti.progress = 0;
@@ -275,6 +280,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     @Override
     public int tubeWeight(int side, int state) {
         return 0;
+    }
+
+    /** Speed an accelerated item loses each block it passes through this tube. */
+    protected int itemSpeedLoss() {
+        return 8;
     }
 
     @Override

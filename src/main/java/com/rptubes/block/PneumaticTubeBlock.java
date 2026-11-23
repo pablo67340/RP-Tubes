@@ -542,6 +542,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE, PneumaticTubeBlockEntity::tick);
         }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE, PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR, PneumaticTubeBlockEntity::tick);
+        }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE, PneumaticTubeBlockEntity::tick);
         }
@@ -608,6 +614,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE, PneumaticTubeBlockEntity::tick);
         }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE, PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR, PneumaticTubeBlockEntity::tick);
+        }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE, PneumaticTubeBlockEntity::tick);
         }
@@ -634,6 +646,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         // Resolve lazily after registry is ready via override in subclasses when needed
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR.get(), PneumaticTubeBlockEntity::tick);
         }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE.get(), PneumaticTubeBlockEntity::tick);
@@ -705,6 +723,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE, PneumaticTubeBlockEntity::tick);
         }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE, PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR, PneumaticTubeBlockEntity::tick);
+        }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE, PneumaticTubeBlockEntity::tick);
         }
@@ -731,6 +755,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         // Resolve lazily after registry is ready via override in subclasses when needed
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR.get(), PneumaticTubeBlockEntity::tick);
         }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE.get(), PneumaticTubeBlockEntity::tick);
@@ -861,6 +891,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE, PneumaticTubeBlockEntity::tick);
         }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE, PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR, PneumaticTubeBlockEntity::tick);
+        }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE, PneumaticTubeBlockEntity::tick);
         }
@@ -887,6 +923,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         // Resolve lazily after registry is ready via override in subclasses when needed
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR.get(), PneumaticTubeBlockEntity::tick);
         }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE.get(), PneumaticTubeBlockEntity::tick);
@@ -974,6 +1016,12 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
         // Resolve lazily after registry is ready via override in subclasses when needed
         if (this instanceof RestrictionTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.RESTRICTION_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof MagTubeBlock) {
+            return createTickerHelper(type, ModBlockEntities.MAG_TUBE.get(), PneumaticTubeBlockEntity::tick);
+        }
+        if (this instanceof AcceleratorBlock) {
+            return createTickerHelper(type, ModBlockEntities.ACCELERATOR.get(), PneumaticTubeBlockEntity::tick);
         }
         if (this instanceof RedstoneTubeBlock) {
             return createTickerHelper(type, ModBlockEntities.REDSTONE_TUBE.get(), PneumaticTubeBlockEntity::tick);

@@ -11,6 +11,7 @@
   "block.rptubes.relay": "Relay",
   "block.rptubes.retriever": "Retriever",
   "block.rptubes.regulator": "Regulator",
+  "block.rptubes.retrievulator": "Retrievulator",
   "block.rptubes.sorting_machine": "Sorting Machine",
   "block.rptubes.igniter": "Igniter",
   "block.rptubes.solar_panel": "Solar Panel",
@@ -21,6 +22,8 @@
   "block.rptubes.pneumatic_tube": "Pneumatic Tube",
   "block.rptubes.redstone_tube": "Redstone Tube",
   "block.rptubes.restriction_tube": "Restriction Tube",
+  "block.rptubes.mag_tube": "MagTube",
+  "block.rptubes.accelerator": "Accelerator",
   "block.rptubes.tin_ore": "Tin Ore",
   "item.rptubes.tin_ore": "Tin Ore",
   "item.rptubes.tin_ingot": "Tin Ingot",
@@ -38,6 +41,7 @@
   "item.rptubes.relay": "Relay",
   "item.rptubes.retriever": "Retriever",
   "item.rptubes.regulator": "Regulator",
+  "item.rptubes.retrievulator": "Retrievulator",
   "item.rptubes.sorting_machine": "Sorting Machine",
   "item.rptubes.igniter": "Igniter",
   "item.rptubes.solar_panel": "Solar Panel",
@@ -48,5 +52,7 @@
   "item.rptubes.pneumatic_tube": "Pneumatic Tube",
   "item.rptubes.redstone_tube": "Redstone Tube",
   "item.rptubes.restriction_tube": "Restriction Tube",
+  "item.rptubes.mag_tube": "MagTube",
+  "item.rptubes.accelerator": "Accelerator",
   "jei.rptubes.alloy_smelting": "Alloy Smelting"
 }

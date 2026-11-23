@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "rptubes:block/retrievulator_out",
+    "north": "rptubes:block/retrievulator_out",
+    "south": "rptubes:block/retrievulator_in",
+    "east": "rptubes:block/retrievulator_side",
+    "west": "rptubes:block/retrievulator_side",
+    "up": "rptubes:block/retrievulator_side",
+    "down": "rptubes:block/retrievulator_side"
+  }
+}

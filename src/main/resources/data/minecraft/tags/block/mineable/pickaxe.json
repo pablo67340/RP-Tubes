@@ -21,6 +21,9 @@
     "rptubes:act_mk2",
     "rptubes:pneumatic_tube",
     "rptubes:redstone_tube",
-    "rptubes:restriction_tube"
+    "rptubes:restriction_tube",
+    "rptubes:mag_tube",
+    "rptubes:accelerator",
+    "rptubes:retrievulator"
   ]
 }

@@ -20,8 +20,11 @@ import com.rptubes.blockentity.ItemDetectorBlockEntity;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.blockentity.RedstoneTubeBlockEntity;
 import com.rptubes.blockentity.RegulatorBlockEntity;
+import com.rptubes.blockentity.RetrievulatorBlockEntity;
 import com.rptubes.blockentity.RelayBlockEntity;
 import com.rptubes.blockentity.RestrictionTubeBlockEntity;
+import com.rptubes.blockentity.MagTubeBlockEntity;
+import com.rptubes.blockentity.AcceleratorBlockEntity;
 import com.rptubes.blockentity.RetrieverBlockEntity;
 import com.rptubes.blockentity.SortingMachineBlockEntity;
 import com.rptubes.blockentity.TransposerBlockEntity;
@@ -54,6 +57,8 @@ public final class ModBlockEntities {
             register("retriever", BlockEntityType.Builder.of(RetrieverBlockEntity::new, ModBlocks.RETRIEVER).build(null));
     public static final BlockEntityType<RegulatorBlockEntity> REGULATOR =
             register("regulator", BlockEntityType.Builder.of(RegulatorBlockEntity::new, ModBlocks.REGULATOR).build(null));
+    public static final BlockEntityType<RetrievulatorBlockEntity> RETRIEVULATOR =
+            register("retrievulator", BlockEntityType.Builder.of(RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR).build(null));
     public static final BlockEntityType<SortingMachineBlockEntity> SORTING_MACHINE =
             register("sorting_machine", BlockEntityType.Builder.of(SortingMachineBlockEntity::new, ModBlocks.SORTING_MACHINE).build(null));
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
@@ -74,6 +79,10 @@ public final class ModBlockEntities {
             register("redstone_tube", BlockEntityType.Builder.of(RedstoneTubeBlockEntity::new, ModBlocks.REDSTONE_TUBE).build(null));
     public static final BlockEntityType<RestrictionTubeBlockEntity> RESTRICTION_TUBE =
             register("restriction_tube", BlockEntityType.Builder.of(RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE).build(null));
+    public static final BlockEntityType<MagTubeBlockEntity> MAG_TUBE =
+            register("mag_tube", BlockEntityType.Builder.of(MagTubeBlockEntity::new, ModBlocks.MAG_TUBE).build(null));
+    public static final BlockEntityType<AcceleratorBlockEntity> ACCELERATOR =
+            register("accelerator", BlockEntityType.Builder.of(AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR).build(null));
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
             String name, BlockEntityType<T> type) {
@@ -114,6 +123,8 @@ public final class ModBlockEntities {
             register("retriever", new BlockEntityType<>(RetrieverBlockEntity::new, Set.of(ModBlocks.RETRIEVER)));
     public static final BlockEntityType<RegulatorBlockEntity> REGULATOR =
             register("regulator", new BlockEntityType<>(RegulatorBlockEntity::new, Set.of(ModBlocks.REGULATOR)));
+    public static final BlockEntityType<RetrievulatorBlockEntity> RETRIEVULATOR =
+            register("retrievulator", new BlockEntityType<>(RetrievulatorBlockEntity::new, Set.of(ModBlocks.RETRIEVULATOR)));
     public static final BlockEntityType<SortingMachineBlockEntity> SORTING_MACHINE =
             register("sorting_machine", new BlockEntityType<>(SortingMachineBlockEntity::new, Set.of(ModBlocks.SORTING_MACHINE)));
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
@@ -134,6 +145,10 @@ public final class ModBlockEntities {
             register("redstone_tube", new BlockEntityType<>(RedstoneTubeBlockEntity::new, Set.of(ModBlocks.REDSTONE_TUBE)));
     public static final BlockEntityType<RestrictionTubeBlockEntity> RESTRICTION_TUBE =
             register("restriction_tube", new BlockEntityType<>(RestrictionTubeBlockEntity::new, Set.of(ModBlocks.RESTRICTION_TUBE)));
+    public static final BlockEntityType<MagTubeBlockEntity> MAG_TUBE =
+            register("mag_tube", new BlockEntityType<>(MagTubeBlockEntity::new, Set.of(ModBlocks.MAG_TUBE)));
+    public static final BlockEntityType<AcceleratorBlockEntity> ACCELERATOR =
+            register("accelerator", new BlockEntityType<>(AcceleratorBlockEntity::new, Set.of(ModBlocks.ACCELERATOR)));
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
             String name, BlockEntityType<T> type) {
@@ -171,6 +186,8 @@ public final class ModBlockEntities {
             register("retriever", BlockEntityType.Builder.of(RetrieverBlockEntity::new, ModBlocks.RETRIEVER).build(null));
     public static final BlockEntityType<RegulatorBlockEntity> REGULATOR =
             register("regulator", BlockEntityType.Builder.of(RegulatorBlockEntity::new, ModBlocks.REGULATOR).build(null));
+    public static final BlockEntityType<RetrievulatorBlockEntity> RETRIEVULATOR =
+            register("retrievulator", BlockEntityType.Builder.of(RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR).build(null));
     public static final BlockEntityType<SortingMachineBlockEntity> SORTING_MACHINE =
             register("sorting_machine", BlockEntityType.Builder.of(SortingMachineBlockEntity::new, ModBlocks.SORTING_MACHINE).build(null));
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
@@ -191,6 +208,10 @@ public final class ModBlockEntities {
             register("redstone_tube", BlockEntityType.Builder.of(RedstoneTubeBlockEntity::new, ModBlocks.REDSTONE_TUBE).build(null));
     public static final BlockEntityType<RestrictionTubeBlockEntity> RESTRICTION_TUBE =
             register("restriction_tube", BlockEntityType.Builder.of(RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE).build(null));
+    public static final BlockEntityType<MagTubeBlockEntity> MAG_TUBE =
+            register("mag_tube", BlockEntityType.Builder.of(MagTubeBlockEntity::new, ModBlocks.MAG_TUBE).build(null));
+    public static final BlockEntityType<AcceleratorBlockEntity> ACCELERATOR =
+            register("accelerator", BlockEntityType.Builder.of(AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR).build(null));
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
             String name, BlockEntityType<T> type) {
@@ -251,6 +272,9 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RegulatorBlockEntity>> REGULATOR =
             BLOCK_ENTITIES.register("regulator",
                     () -> BlockEntityType.Builder.of(RegulatorBlockEntity::new, ModBlocks.REGULATOR.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RetrievulatorBlockEntity>> RETRIEVULATOR =
+            BLOCK_ENTITIES.register("retrievulator",
+                    () -> BlockEntityType.Builder.of(RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SortingMachineBlockEntity>> SORTING_MACHINE =
             BLOCK_ENTITIES.register("sorting_machine",
@@ -288,6 +312,12 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RestrictionTubeBlockEntity>> RESTRICTION_TUBE =
             BLOCK_ENTITIES.register("restriction_tube",
                     () -> BlockEntityType.Builder.of(RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MagTubeBlockEntity>> MAG_TUBE =
+            BLOCK_ENTITIES.register("mag_tube",
+                    () -> BlockEntityType.Builder.of(MagTubeBlockEntity::new, ModBlocks.MAG_TUBE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AcceleratorBlockEntity>> ACCELERATOR =
+            BLOCK_ENTITIES.register("accelerator",
+                    () -> BlockEntityType.Builder.of(AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR.get()).build(null));
 //?} else if fabric {
 /*import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
@@ -318,6 +348,8 @@ public final class ModBlockEntities {
             register("retriever", RetrieverBlockEntity::new, ModBlocks.RETRIEVER);
     public static final BlockEntityType<RegulatorBlockEntity> REGULATOR =
             register("regulator", RegulatorBlockEntity::new, ModBlocks.REGULATOR);
+    public static final BlockEntityType<RetrievulatorBlockEntity> RETRIEVULATOR =
+            register("retrievulator", RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR);
     public static final BlockEntityType<SortingMachineBlockEntity> SORTING_MACHINE =
             register("sorting_machine", SortingMachineBlockEntity::new, ModBlocks.SORTING_MACHINE);
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
@@ -338,6 +370,10 @@ public final class ModBlockEntities {
             register("redstone_tube", RedstoneTubeBlockEntity::new, ModBlocks.REDSTONE_TUBE);
     public static final BlockEntityType<RestrictionTubeBlockEntity> RESTRICTION_TUBE =
             register("restriction_tube", RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE);
+    public static final BlockEntityType<MagTubeBlockEntity> MAG_TUBE =
+            register("mag_tube", MagTubeBlockEntity::new, ModBlocks.MAG_TUBE);
+    public static final BlockEntityType<AcceleratorBlockEntity> ACCELERATOR =
+            register("accelerator", AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR);
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(
             String name, FabricBlockEntityTypeBuilder.Factory<? extends T> factory,
@@ -402,6 +438,9 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<RegulatorBlockEntity>> REGULATOR =
             BLOCK_ENTITIES.register("regulator",
                     () -> new BlockEntityType<>(RegulatorBlockEntity::new, java.util.Set.of(ModBlocks.REGULATOR.get())));
+    public static final RegistryObject<BlockEntityType<RetrievulatorBlockEntity>> RETRIEVULATOR =
+            BLOCK_ENTITIES.register("retrievulator",
+                    () -> new BlockEntityType<>(RetrievulatorBlockEntity::new, java.util.Set.of(ModBlocks.RETRIEVULATOR.get())));
 
     public static final RegistryObject<BlockEntityType<SortingMachineBlockEntity>> SORTING_MACHINE =
             BLOCK_ENTITIES.register("sorting_machine",
@@ -439,6 +478,12 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<RestrictionTubeBlockEntity>> RESTRICTION_TUBE =
             BLOCK_ENTITIES.register("restriction_tube",
                     () -> new BlockEntityType<>(RestrictionTubeBlockEntity::new, java.util.Set.of(ModBlocks.RESTRICTION_TUBE.get())));
+    public static final RegistryObject<BlockEntityType<MagTubeBlockEntity>> MAG_TUBE =
+            BLOCK_ENTITIES.register("mag_tube",
+                    () -> new BlockEntityType<>(MagTubeBlockEntity::new, java.util.Set.of(ModBlocks.MAG_TUBE.get())));
+    public static final RegistryObject<BlockEntityType<AcceleratorBlockEntity>> ACCELERATOR =
+            BLOCK_ENTITIES.register("accelerator",
+                    () -> new BlockEntityType<>(AcceleratorBlockEntity::new, java.util.Set.of(ModBlocks.ACCELERATOR.get())));
 *///?} else if >=1.21.11 {
 /*import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -492,6 +537,9 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RegulatorBlockEntity>> REGULATOR =
             BLOCK_ENTITIES.register("regulator",
                     () -> new BlockEntityType<>(RegulatorBlockEntity::new, java.util.Set.of(ModBlocks.REGULATOR.get())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RetrievulatorBlockEntity>> RETRIEVULATOR =
+            BLOCK_ENTITIES.register("retrievulator",
+                    () -> new BlockEntityType<>(RetrievulatorBlockEntity::new, java.util.Set.of(ModBlocks.RETRIEVULATOR.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SortingMachineBlockEntity>> SORTING_MACHINE =
             BLOCK_ENTITIES.register("sorting_machine",
@@ -529,6 +577,12 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RestrictionTubeBlockEntity>> RESTRICTION_TUBE =
             BLOCK_ENTITIES.register("restriction_tube",
                     () -> new BlockEntityType<>(RestrictionTubeBlockEntity::new, java.util.Set.of(ModBlocks.RESTRICTION_TUBE.get())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MagTubeBlockEntity>> MAG_TUBE =
+            BLOCK_ENTITIES.register("mag_tube",
+                    () -> new BlockEntityType<>(MagTubeBlockEntity::new, java.util.Set.of(ModBlocks.MAG_TUBE.get())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AcceleratorBlockEntity>> ACCELERATOR =
+            BLOCK_ENTITIES.register("accelerator",
+                    () -> new BlockEntityType<>(AcceleratorBlockEntity::new, java.util.Set.of(ModBlocks.ACCELERATOR.get())));
 *///?} else {
 /*import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -582,6 +636,9 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<RegulatorBlockEntity>> REGULATOR =
             BLOCK_ENTITIES.register("regulator",
                     () -> BlockEntityType.Builder.of(RegulatorBlockEntity::new, ModBlocks.REGULATOR.get()).build(null));
+    public static final RegistryObject<BlockEntityType<RetrievulatorBlockEntity>> RETRIEVULATOR =
+            BLOCK_ENTITIES.register("retrievulator",
+                    () -> BlockEntityType.Builder.of(RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<SortingMachineBlockEntity>> SORTING_MACHINE =
             BLOCK_ENTITIES.register("sorting_machine",
@@ -619,6 +676,12 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<RestrictionTubeBlockEntity>> RESTRICTION_TUBE =
             BLOCK_ENTITIES.register("restriction_tube",
                     () -> BlockEntityType.Builder.of(RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<MagTubeBlockEntity>> MAG_TUBE =
+            BLOCK_ENTITIES.register("mag_tube",
+                    () -> BlockEntityType.Builder.of(MagTubeBlockEntity::new, ModBlocks.MAG_TUBE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<AcceleratorBlockEntity>> ACCELERATOR =
+            BLOCK_ENTITIES.register("accelerator",
+                    () -> BlockEntityType.Builder.of(AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR.get()).build(null));
 *///?}
 
     private ModBlockEntities() {

@@ -79,22 +79,26 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     private boolean active;
     private int tickCooldown;
     //? if fabric && >=1.21.1 && <1.21.11 {
-    /*private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    /*private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlerDown;
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
     *///?} else if fabric && >=1.21.1 && <26.1.2 {
     /*private IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
     *///?} else if neoforge && >=1.21.11 && <26.1.2 {
-    /*private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    /*private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlerDown;
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     *///?} else if neoforge && >=26.2 {
     /*private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
@@ -104,27 +108,31 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     }
     *///?} else if fabric && <1.21.1 {
     /*private final IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
     *///?} else if neoforge && <1.21.11 {
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
 
-    private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlerDown;
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     //?} else if !forge {
     /*private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
-    private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    private final IItemHandler[] handlers = java.util.Arrays.stream(Direction.values())
+            .map(dir -> (IItemHandler) new SidedInvWrapper(this, dir))
+            .toArray(IItemHandler[]::new);
 
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlerDown;
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     *///?} else {
     /*private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
     *///?}
 
@@ -580,7 +588,7 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     /*@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -596,20 +604,20 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     @Override
     *///?} else if <1.20.6 {
     /*public IItemHandler getItemHandler(Direction side) {
-        return this.handlers[0];
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
 
     @Override
     *///?} else if fabric && <1.21.1 {
 
     /*public IItemHandler getItemHandler(Direction side) {
-        return this.handlers[0];
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
 
     @Override
@@ -648,7 +656,7 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
 
     /*@Override
     public IItemHandler getItemHandler(Direction side) {
-        return this.handlers[0];
+        return this.handlers[side == null ? 0 : side.ordinal()];
     }
     *///?}
 }

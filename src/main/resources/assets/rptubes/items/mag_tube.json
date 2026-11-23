@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "rptubes:item/mag_tube",
+    "tints": [
+      {
+        "type": "rptubes:paint"
+      }
+    ]
+  }
+}

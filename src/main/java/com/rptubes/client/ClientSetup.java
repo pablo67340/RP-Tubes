@@ -217,6 +217,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
+        MenuScreens.register(ModMenus.RETRIEVULATOR, RetrievulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
         MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE, AutoCraftingTableScreen::new);
         MenuScreens.register(ModMenus.ACT_MK2, AutoCraftingTableMk2Screen::new);
@@ -224,10 +225,12 @@ public final class ClientSetup {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PNEUMATIC_TUBE, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REDSTONE_TUBE, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RESTRICTION_TUBE, RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MAG_TUBE, RenderType.cutout());
 
         BlockEntityRendererRegistry.register(ModBlockEntities.PNEUMATIC_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.REDSTONE_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.RESTRICTION_TUBE, TubeItemRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.MAG_TUBE, TubeItemRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tint) -> {
             if (world == null || pos == null) {
@@ -238,10 +241,10 @@ public final class ClientSetup {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE);
+        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE, ModBlocks.MAG_TUBE);
 
         ColorProviderRegistry.ITEM.register((stack, tint) -> PaintColors.rgb(DyeHelper.readPaint(stack)),
-                ModItems.PNEUMATIC_TUBE, ModItems.REDSTONE_TUBE, ModItems.RESTRICTION_TUBE);
+                ModItems.PNEUMATIC_TUBE, ModItems.REDSTONE_TUBE, ModItems.RESTRICTION_TUBE, ModItems.MAG_TUBE);
     }
     *///?} else if fabric && >=1.21.11 && <26.1.2 {
     /*public static void init() {
@@ -255,6 +258,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
+        MenuScreens.register(ModMenus.RETRIEVULATOR, RetrievulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
         MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE, AutoCraftingTableScreen::new);
         MenuScreens.register(ModMenus.ACT_MK2, AutoCraftingTableMk2Screen::new);
@@ -264,6 +268,7 @@ public final class ClientSetup {
         BlockEntityRendererRegistry.register(ModBlockEntities.PNEUMATIC_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.REDSTONE_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.RESTRICTION_TUBE, TubeItemRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.MAG_TUBE, TubeItemRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tint) -> {
             if (world == null || pos == null) {
@@ -274,7 +279,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(((PneumaticTubeBlockEntity) te).getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE);
+        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE, ModBlocks.MAG_TUBE);
 
         net.minecraft.client.color.item.ItemTintSources.ID_MAPPER.put(
                 net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.rptubes.RPTubes.MOD_ID, "tube_paint"),
@@ -294,6 +299,7 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+            MenuScreens.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
             MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
             MenuScreens.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
@@ -306,6 +312,7 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
@@ -319,7 +326,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
         // Forge has no item tint source event; this fires before item models load.
         net.minecraft.client.color.item.ItemTintSources.ID_MAPPER.put(
                 net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "tube_paint"),
@@ -338,6 +345,7 @@ public final class ClientSetup {
         event.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
         event.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
         event.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+        event.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
         event.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
         event.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
         event.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
@@ -348,6 +356,7 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
@@ -361,7 +370,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent
@@ -382,12 +391,14 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+            MenuScreens.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
             MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
             MenuScreens.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.PNEUMATIC_TUBE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.REDSTONE_TUBE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.RESTRICTION_TUBE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.MAG_TUBE.get(), RenderType.cutout());
         });
     }
 
@@ -396,6 +407,7 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
@@ -409,7 +421,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent
@@ -419,7 +431,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(stack.getTag().getByte("pCol"));
             }
             return 0xFFFFFF;
-        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get());
+        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get(), ModItems.MAG_TUBE.get());
     }
     *///?} else if fabric && <1.21.11 {
     /*public static void init() {
@@ -433,6 +445,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
+        MenuScreens.register(ModMenus.RETRIEVULATOR, RetrievulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
         MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE, AutoCraftingTableScreen::new);
         MenuScreens.register(ModMenus.ACT_MK2, AutoCraftingTableMk2Screen::new);
@@ -440,10 +453,12 @@ public final class ClientSetup {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PNEUMATIC_TUBE, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REDSTONE_TUBE, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RESTRICTION_TUBE, RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MAG_TUBE, RenderType.cutout());
 
         BlockEntityRendererRegistry.register(ModBlockEntities.PNEUMATIC_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.REDSTONE_TUBE, TubeItemRenderer::new);
         BlockEntityRendererRegistry.register(ModBlockEntities.RESTRICTION_TUBE, TubeItemRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.MAG_TUBE, TubeItemRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tint) -> {
             if (world == null || pos == null) {
@@ -454,10 +469,10 @@ public final class ClientSetup {
                 return PaintColors.rgb(((PneumaticTubeBlockEntity) te).getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE);
+        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE, ModBlocks.MAG_TUBE);
 
         ColorProviderRegistry.ITEM.register((stack, tint) -> PaintColors.rgb(DyeHelper.readPaint(stack)),
-                ModItems.PNEUMATIC_TUBE, ModItems.REDSTONE_TUBE, ModItems.RESTRICTION_TUBE);
+                ModItems.PNEUMATIC_TUBE, ModItems.REDSTONE_TUBE, ModItems.RESTRICTION_TUBE, ModItems.MAG_TUBE);
     }
     *///?} else if forge && <1.21.11 {
     /*@SubscribeEvent
@@ -473,12 +488,14 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+            MenuScreens.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
             MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
             MenuScreens.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.PNEUMATIC_TUBE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.REDSTONE_TUBE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.RESTRICTION_TUBE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.MAG_TUBE.get(), RenderType.cutout());
         });
     }
 
@@ -487,6 +504,7 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
@@ -500,7 +518,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent
@@ -508,7 +526,7 @@ public final class ClientSetup {
         event.register((stack, tint) -> {
             CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
             return PaintColors.rgb(data.copyTag().getByte("pCol"));
-        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get());
+        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get(), ModItems.MAG_TUBE.get());
     }
     *///?} else if <1.21.11 {
     @SubscribeEvent
@@ -523,6 +541,7 @@ public final class ClientSetup {
         event.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
         event.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
         event.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+        event.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
         event.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
         event.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
         event.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
@@ -534,6 +553,7 @@ public final class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.PNEUMATIC_TUBE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.REDSTONE_TUBE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.RESTRICTION_TUBE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.MAG_TUBE.get(), RenderType.cutout());
         });
     }
 
@@ -542,6 +562,7 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
@@ -555,7 +576,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent
@@ -566,7 +587,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(data.copyTag().getByte("pCol"));
             }
             return 0xFFFFFF;
-        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get());
+        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get(), ModItems.MAG_TUBE.get());
     }
     //?} else if fabric {
     /*public static void init() {
@@ -580,6 +601,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
+        MenuScreens.register(ModMenus.RETRIEVULATOR, RetrievulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
         MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE, AutoCraftingTableScreen::new);
         MenuScreens.register(ModMenus.ACT_MK2, AutoCraftingTableMk2Screen::new);
@@ -587,6 +609,7 @@ public final class ClientSetup {
         BlockEntityRenderers.register(ModBlockEntities.PNEUMATIC_TUBE, TubeItemRenderer::new);
         BlockEntityRenderers.register(ModBlockEntities.REDSTONE_TUBE, TubeItemRenderer::new);
         BlockEntityRenderers.register(ModBlockEntities.RESTRICTION_TUBE, TubeItemRenderer::new);
+        BlockEntityRenderers.register(ModBlockEntities.MAG_TUBE, TubeItemRenderer::new);
 
         BlockColorRegistry.register((state, level, pos, tintValues) -> {
             int rgb = 0xFFFFFF;
@@ -597,7 +620,7 @@ public final class ClientSetup {
                 }
             }
             tintValues.add(0xFF000000 | rgb);
-        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE);
+        }, ModBlocks.PNEUMATIC_TUBE, ModBlocks.REDSTONE_TUBE, ModBlocks.RESTRICTION_TUBE, ModBlocks.MAG_TUBE);
 
         net.minecraft.client.color.item.ItemTintSources.ID_MAPPER.put(
                 net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.rptubes.RPTubes.MOD_ID, "tube_paint"),
@@ -617,6 +640,7 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+            MenuScreens.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
             MenuScreens.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
             MenuScreens.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
@@ -629,12 +653,13 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
     public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
         event.register(java.util.List.of(TubePaintBlockTint.INSTANCE),
-                ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+                ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
         // Forge has no item tint source event; this fires before item models load.
         net.minecraft.client.color.item.ItemTintSources.ID_MAPPER.put(
                 net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "tube_paint"),
@@ -653,6 +678,7 @@ public final class ClientSetup {
         event.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
         event.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
         event.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
+        event.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
         event.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
         event.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
         event.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
@@ -663,12 +689,13 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
     }
 
     @SubscribeEvent
     public static void onBlockTintSources(RegisterColorHandlersEvent.BlockTintSources event) {
         event.register(List.of(TubePaintBlockTint.INSTANCE),
-                ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+                ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(), ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent

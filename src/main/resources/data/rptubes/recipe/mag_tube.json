@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "TCT",
+    "TTT"
+  ],
+  "key": {
+    "T": "rptubes:pneumatic_tube",
+    "C": "#c:ingots/copper"
+  },
+  "result": {
+    "id": "rptubes:mag_tube",
+    "count": 8
+  }
+}

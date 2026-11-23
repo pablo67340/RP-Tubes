@@ -303,6 +303,7 @@ public final class EnergyBridge {
 *///?} else {
 /*import com.rptubes.blockentity.FilterBlockEntity;
 import com.rptubes.blockentity.SortingMachineBlockEntity;
+import com.rptubes.blockentity.AcceleratorBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 /^*
@@ -339,6 +340,9 @@ public final class EnergyBridge {
         }
         if (be instanceof SortingMachineBlockEntity sorter) {
             return sorter.getEnergy().receive(amount, false);
+        }
+        if (be instanceof AcceleratorBlockEntity accelerator) {
+            return accelerator.getEnergy().receive(amount, false);
         }
         return 0;
     }

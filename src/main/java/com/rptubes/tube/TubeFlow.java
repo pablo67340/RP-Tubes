@@ -42,6 +42,11 @@ public abstract class TubeFlow {
 
     public abstract BlockEntity getParent();
 
+    /** Speed an item loses each time it reaches the end of this block. MagTubes lose none. */
+    protected int speedLoss() {
+        return 8;
+    }
+
     public boolean update() {
         boolean changed = false;
         if (this.contents.isEmpty()) {
@@ -60,7 +65,7 @@ public abstract class TubeFlow {
                 continue;
             }
             if (ti.power > 0) {
-                ti.power = (short) (ti.power - 1);
+                ti.power = (short) Math.max(0, ti.power - this.speedLoss());
             }
             changed = true;
             if (!ti.scheduled) {

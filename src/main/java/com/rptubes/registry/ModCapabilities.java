@@ -62,6 +62,8 @@ public final class ModCapabilities {
                 (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
                 (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.ACCELERATOR.get(),
+                (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
                 (be, side) -> be.getEnergyStorage(side));
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.THERMOPILE.get(),
@@ -95,6 +97,8 @@ public final class ModCapabilities {
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
                 (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.ACCELERATOR.get(),
+                (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
                 (be, side) -> be.getEnergy(side));
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.THERMOPILE.get(),
@@ -127,6 +131,8 @@ public final class ModCapabilities {
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.RETRIEVER.get(),
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
+                (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.ACCELERATOR.get(),
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
                 (be, side) -> be.getEnergy(side));
@@ -215,6 +221,8 @@ public final class ModCapabilities {
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.RETRIEVER.get(),
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
+                (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.ACCELERATOR.get(),
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
                 (be, side) -> be.getEnergy(side));
