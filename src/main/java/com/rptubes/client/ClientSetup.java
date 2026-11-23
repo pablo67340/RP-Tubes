@@ -178,6 +178,7 @@ import com.rptubes.registry.ModMenus;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -316,6 +317,10 @@ public final class ClientSetup {
             }
             return 0xFFFFFF;
         }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        // Forge has no item tint source event; this fires before item models load.
+        net.minecraft.client.color.item.ItemTintSources.ID_MAPPER.put(
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "tube_paint"),
+                TubePaintTintSource.MAP_CODEC);
     }
     *///?} else if >=1.21.11 && <26.1.2 {
     /*@SubscribeEvent
@@ -614,6 +619,16 @@ public final class ClientSetup {
         event.registerBlockEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register(java.util.List.of(TubePaintBlockTint.INSTANCE),
+                ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        // Forge has no item tint source event; this fires before item models load.
+        net.minecraft.client.color.item.ItemTintSources.ID_MAPPER.put(
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "tube_paint"),
+                TubePaintTintSource.MAP_CODEC);
     }
     *///?} else {
     /*@SubscribeEvent

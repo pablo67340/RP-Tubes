@@ -1,4 +1,4 @@
-//? if neoforge && >=26.1.2 {
+//? if forgelike && >=26.1.2 {
 /*package com.rptubes.client;
 
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;

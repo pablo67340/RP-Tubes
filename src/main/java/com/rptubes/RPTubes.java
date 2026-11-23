@@ -6,8 +6,7 @@ package com.rptubes;
 /*import com.rptubes.item.ScrewdriverItem;
 import com.rptubes.network.ModNetworking;
 *///?} else if fabric {
-/*import com.rptubes.compat.ProjectECompat;
-import com.rptubes.item.ScrewdriverItem;
+/*import com.rptubes.item.ScrewdriverItem;
 import com.rptubes.network.ModNetworking;
 *///?}
 import com.rptubes.registry.ModBlockEntities;
@@ -157,8 +156,6 @@ public class RPTubes {
             }
             return InteractionResult.PASS;
         });
-
-        ProjectECompat.tryRegister();
     *///?} else if <1.20.6 {
 
     /*/^*
@@ -236,8 +233,6 @@ public class RPTubes {
             }
             return InteractionResult.PASS;
         });
-
-        ProjectECompat.tryRegister();
     *///?} else if forge && <1.21.1 {
 
     /*/^*
@@ -322,8 +317,6 @@ public class RPTubes {
             }
             return InteractionResult.PASS;
         });
-
-        ProjectECompat.tryRegister();
     *///?} else if forge && <1.21.11 {
 
     /*/^*
@@ -457,8 +450,6 @@ public class RPTubes {
             }
             return InteractionResult.PASS;
         });
-
-        ProjectECompat.tryRegister();
     *///?} else if forge {
 
     /*/^*

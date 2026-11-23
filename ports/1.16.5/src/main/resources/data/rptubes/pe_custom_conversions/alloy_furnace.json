@@ -1,0 +1,20 @@
+{
+  "comment": "Alloy Furnace recipes. ProjectE only reads vanilla recipe types, so brass and red alloy, and every machine made from them, have no EMC without these.",
+  "groups": {
+    "alloy_furnace": {
+      "comment": "Same inputs and outputs as the rptubes:alloy_smelting recipes.",
+      "conversions": [
+        {
+          "count": 4,
+          "ingredients": { "#forge:ingots/copper": 3, "#forge:ingots/tin": 1 },
+          "output": "rptubes:brass_ingot"
+        },
+        {
+          "ingredients": { "minecraft:redstone": 4, "#forge:ingots/iron": 1 },
+          "output": "#forge:ingots/red_alloy",
+          "propagateTags": true
+        }
+      ]
+    }
+  }
+}

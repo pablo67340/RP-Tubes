@@ -147,6 +147,7 @@ fun Project.collectJar(target: RPTubesTarget, jar: Any) {
 
 private fun finishResources(dir: File, t: RPTubesTarget) {
     val files = dir.walkTopDown().filter { it.isFile }.toList()
+    val aliased = sortedSetOf<String>()
     for (file in files) {
         val rel = file.relativeTo(dir).invariantSeparatorsPath
         if (!keepResource(rel, t)) {
@@ -155,7 +156,7 @@ private fun finishResources(dir: File, t: RPTubesTarget) {
         }
         if (rel.endsWith(".json") && rel != "fabric.mod.json") {
             val original = copyJson(JsonSlurper().parse(file))
-            val data = transformJson(rel, copyJson(original), t)
+            val data = transformJson(rel, copyJson(original), t, aliased)
             if (data != original) {
                 writeJson(file, data)
             }
@@ -166,6 +167,11 @@ private fun finishResources(dir: File, t: RPTubesTarget) {
             moved.parentFile.mkdirs()
             check(file.renameTo(moved)) { "could not move $rel to $dest" }
         }
+    }
+    for (tag in aliased) {
+        val out = File(dir, resourcePath("data/${t.modId}/tags/item/$tag.json", t))
+        out.parentFile.mkdirs()
+        writeJson(out, mapOf("replace" to false, "values" to tagAliases(tag, t).map { mapOf("id" to "#$it", "required" to false) }))
     }
     dir.walkBottomUp().filter { it.isDirectory && it != dir && it.list()?.isEmpty() == true }.forEach { it.delete() }
 
@@ -195,6 +201,8 @@ private fun keepResource(rel: String, t: RPTubesTarget): Boolean = when {
     // Fabric API only ships c:ingots/iron from 26.1.
     rel == "data/c/tags/item/ingots/iron.json" -> t.loader == "fabric" && !t.atLeast("26.1")
     rel.startsWith("data/rptubes/neoforge/") -> t.forgeLike
+    // ProjectE has never had a Fabric release.
+    rel.startsWith("data/rptubes/pe_custom_conversions/") -> t.forgeLike
     else -> true
 }
 
@@ -215,7 +223,7 @@ private fun resourcePath(rel: String, t: RPTubesTarget): String {
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun transformJson(rel: String, data: Any?, t: RPTubesTarget): Any? {
+private fun transformJson(rel: String, data: Any?, t: RPTubesTarget, aliased: MutableSet<String>): Any? {
     if (data !is MutableMap<*, *>) return data
     val map = data as MutableMap<String, Any?>
     when {
@@ -226,21 +234,75 @@ private fun transformJson(rel: String, data: Any?, t: RPTubesTarget): Any? {
         rel.startsWith("assets/rptubes/items/") -> {
             val model = map["model"] as? MutableMap<String, Any?>
             val tints = model?.get("tints") as? List<Any?>
-            if (model != null && tints != null) {
-                when (t.loader) {
-                    // Forge has no item tint source registry.
-                    "forge" -> model.remove("tints")
-                    "fabric" -> model["tints"] = tints.map { (it as Map<String, Any?>) + ("type" to "rptubes:tube_paint") }
-                }
+            if (model != null && tints != null && t.loader != "neoforge") {
+                model["tints"] = tints.map { (it as Map<String, Any?>) + ("type" to "rptubes:tube_paint") }
             }
         }
         rel.startsWith("data/rptubes/neoforge/biome_modifier/") && t.loader == "forge" -> {
             map["type"] = (map["type"] as String).replace("neoforge:", "forge:")
         }
         rel.startsWith("data/c/tags/") && t.loader == "forge" && !t.atLeast("26.1") -> return forgeTags(map)
-        rel.startsWith("data/rptubes/recipe/") -> return recipe(map, t)
+        rel.startsWith("data/rptubes/recipe/") -> return recipe(map, t, aliased)
+        rel.startsWith("data/rptubes/pe_custom_conversions/") -> {
+            var r: Any? = map
+            if (t.loader == "forge" && !t.atLeast("26.1")) r = forgeTags(r)
+            // ProjectE for 1.20.1 and older wrote ingredients as {"#tag": amount} and outputs as plain strings.
+            if (!t.atLeast("1.20.5")) r = legacyConversions(r as Map<String, Any?>)
+            return r
+        }
     }
     return map
+}
+
+@Suppress("UNCHECKED_CAST")
+private fun legacyConversions(file: Map<String, Any?>): Map<String, Any?> {
+    fun stack(x: Any?): String = (x as Map<String, Any?>).let { if ("tag" in it) "#" + it["tag"] else it["id"] as String }
+    fun conversion(c: Any?): Map<String, Any?> {
+        val source = c as Map<String, Any?>
+        val out = LinkedHashMap<String, Any?>()
+        source["count"]?.let { out["count"] = it }
+        out["ingredients"] = (source["ingredients"] as List<Any?>).associate { stack(it) to ((it as Map<String, Any?>)["amount"] ?: 1) }
+        out["output"] = stack(source["output"])
+        source["propagateTags"]?.let { out["propagateTags"] = it }
+        return out
+    }
+    val out = LinkedHashMap(file)
+    (file["groups"] as? Map<String, Any?>)?.let { groups ->
+        out["groups"] = groups.mapValuesTo(LinkedHashMap()) { (_, g) ->
+            val group = LinkedHashMap(g as Map<String, Any?>)
+            group["conversions"] = (group["conversions"] as List<Any?>).map { conversion(it) }
+            group
+        }
+    }
+    (file["values"] as? Map<String, Any?>)?.let { values ->
+        val v = LinkedHashMap(values)
+        (v["conversion"] as? List<Any?>)?.let { list -> v["conversion"] = list.map { conversion(it) } }
+        out["values"] = v
+    }
+    return out
+}
+
+/**
+ * Where two tag conventions coexist (Forge before 26.1 has forge: and c:, Fabric before 1.20.5
+ * has c:ingots/tin and c:tin_ingots), recipes read a rptubes: tag that pulls in both. Pointing
+ * forge: and c: at each other instead would loop, since Forge 1.21 already links c: to forge:.
+ */
+private fun needsTagAliases(t: RPTubesTarget): Boolean =
+    (t.loader == "forge" && !t.atLeast("26.1")) || (t.loader == "fabric" && !t.atLeast("1.20.5"))
+
+private fun tagAliases(tag: String, t: RPTubesTarget): List<String> {
+    val (kind, material) = tag.split('/', limit = 2)
+    return if (t.loader == "forge") listOf("forge:$tag", "c:$tag") else listOf("c:$tag", "c:${material}_$kind")
+}
+
+private fun aliasTags(x: Any?, modId: String, aliased: MutableSet<String>): Any? = when (x) {
+    is Map<*, *> -> x.entries.associateTo(LinkedHashMap<String, Any?>()) { (k, v) -> k as String to aliasTags(v, modId, aliased) }
+    is List<*> -> x.map { aliasTags(it, modId, aliased) }
+    is String -> if (x.startsWith("#c:") && '/' in x) {
+        aliased += x.removePrefix("#c:")
+        "#$modId:" + x.removePrefix("#c:")
+    } else x
+    else -> x
 }
 
 /** Forge used its own forge: tag namespace until 26.1. */
@@ -261,7 +323,7 @@ private fun ingredientObject(x: Any?): Any? = when (x) {
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun recipe(source: MutableMap<String, Any?>, t: RPTubesTarget): Any? {
+private fun recipe(source: MutableMap<String, Any?>, t: RPTubesTarget, aliased: MutableSet<String>): Any? {
     var r: MutableMap<String, Any?> = source
     val conditions = r.remove("neoforge:conditions") as List<Map<String, Any?>>?
     if (conditions != null) {
@@ -274,8 +336,8 @@ private fun recipe(source: MutableMap<String, Any?>, t: RPTubesTarget): Any? {
             else -> r["fabric:load_conditions"] = conditions.map { fabricCondition(it) }
         }
     }
-    if (t.loader == "forge" && !t.atLeast("26.1")) {
-        r = forgeTags(r) as MutableMap<String, Any?>
+    if (needsTagAliases(t)) {
+        r = aliasTags(r, t.modId, aliased) as MutableMap<String, Any?>
     }
     if (!t.atLeast("1.21.2")) {
         (r["key"] as? Map<String, Any?>)?.let { key -> r["key"] = key.mapValuesTo(LinkedHashMap()) { ingredientObject(it.value) } }

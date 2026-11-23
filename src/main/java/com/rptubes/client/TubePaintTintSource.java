@@ -1,4 +1,4 @@
-//? if !forge && >=1.21.11 {
+//? if >=1.21.11 {
 /*package com.rptubes.client;
 
 import com.mojang.serialization.MapCodec;
@@ -8,7 +8,7 @@ import com.mojang.serialization.MapCodec;
 import com.rptubes.tube.PaintColors;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
-//? if neoforge {
+//? if forgelike {
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.ARGB;
 //?}

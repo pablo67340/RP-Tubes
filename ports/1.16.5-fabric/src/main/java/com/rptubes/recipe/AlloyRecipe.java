@@ -67,9 +67,6 @@ public class AlloyRecipe implements Recipe<Container> {
                 remaining[i] -= used;
                 left -= used;
             }
-            if (left > 0) {
-                return false;
-            }
         }
         for (int need : remaining) {
             if (need > 0) {

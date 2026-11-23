@@ -1,6 +1,5 @@
 package com.rptubes;
 
-import com.rptubes.compat.ProjectECompat;
 import com.rptubes.item.ScrewdriverItem;
 import com.rptubes.network.ModNetworking;
 import com.rptubes.registry.ModBlockEntities;
@@ -53,8 +52,6 @@ public class RPTubes implements ModInitializer {
             }
             return InteractionResult.PASS;
         });
-
-        ProjectECompat.tryRegister();
         LOGGER.info("RP Tubes loading — RedPower tube logic rides again.");
     }
 }

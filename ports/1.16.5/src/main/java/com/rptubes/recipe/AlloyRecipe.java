@@ -68,9 +68,6 @@ public class AlloyRecipe implements IRecipe<IInventory> {
                 remaining[i] -= used;
                 left -= used;
             }
-            if (left > 0) {
-                return false;
-            }
         }
         for (int need : remaining) {
             if (need > 0) {
