@@ -8,8 +8,13 @@ Prerequisites:
      -> put it in the CURSEFORGE_TOKEN environment variable (or --token)
   3. Jars built: `gradlew build collectJar` puts the 1.19.2+ jars in
      build/libs/<mod_version>/ as rptubes-<mc>-<loader>-<mod_version>.jar, and the
-     legacy ports (1.7.10, 1.12.2, 1.16.5) go in releases/<mod_version>/ as
-     rptubes-<mc>-<mod_version>.jar (Forge) or rptubes-<mc>-<loader>-<mod_version>.jar.
+     legacy ports (1.7.10, 1.12.2, 1.16.5) build into ports/<port>/build/libs/.
+     `gradlew -p universal build` then packs them all into
+     universal/build/libs/rptubes-<mod_version>.jar.
+
+By default the one universal jar is uploaded, tagged with every version, loader
+and Java in PORTS. --per-version uploads the separate jars instead, one file per
+port. Only the newest section of the changelog file is sent.
 
 The project ID defaults to RP-Tubes' own (1650052); pass --project-id only
 if you are uploading somewhere else.
@@ -17,8 +22,8 @@ if you are uploading somewhere else.
 Usage, from the project root:
   python scripts/upload_curseforge.py
   python scripts/upload_curseforge.py --dry-run
-  python scripts/upload_curseforge.py --loaders neoforge,fabric
-  python scripts/upload_curseforge.py --only 1.20.1-neoforge,1.20.1-fabric
+  python scripts/upload_curseforge.py --per-version --loaders neoforge,fabric
+  python scripts/upload_curseforge.py --per-version --only 1.20.1-neoforge,1.20.1-fabric
 """
 
 import argparse
@@ -85,6 +90,23 @@ def find_jar(port: dict, mod_version: str) -> Path | None:
     return None
 
 
+def latest_section(changelog: str) -> str:
+    """The changelog up to the second top-level heading."""
+    parts = re.split(r"^(?=# )", changelog, flags=re.M)
+    sections = [p for p in parts if p.startswith("# ")]
+    return sections[0].strip() + "\n" if sections else changelog
+
+
+def find_port_jar(port: dict, mod_version: str) -> Path | None:
+    """Legacy ports build into ports/<mc>[-fabric]/build/libs/."""
+    folder = port["mc"] + ("-fabric" if port["loader"] == "Fabric" else "")
+    libs = PROJECT_ROOT / "ports" / folder / "build" / "libs"
+    for name in (f"rptubes-{folder}-{mod_version}.jar", f"rptubes-{port['mc']}-{mod_version}.jar"):
+        if (libs / name).is_file():
+            return libs / name
+    return None
+
+
 def read_mod_version() -> str:
     text = (PROJECT_ROOT / "stonecutter.properties.toml").read_text(encoding="utf-8")
     match = re.search(r'^mod\.version\s*=\s*"([^"]+)"', text, re.M)
@@ -143,6 +165,53 @@ def resolve_tags(tags: list, version_ids: dict) -> list:
     return resolved
 
 
+def upload(args, jar: Path, display_name: str, tags: list, version_ids: dict,
+           changelog: str) -> int | None:
+    game_versions = resolve_tags(tags, version_ids)
+    metadata = {
+        "changelog": changelog,
+        "changelogType": "markdown",
+        "displayName": display_name,
+        "gameVersions": game_versions,
+        "releaseType": args.release_type,
+    }
+    print(f"\n{jar.name}  ({display_name})")
+    print(f"  tags: {', '.join(n for _, n in tags)}  ->  ids {game_versions}")
+    if args.dry_run:
+        return None
+    with open(jar, "rb") as fh:
+        resp = requests.post(
+            f"{UPLOAD_API}/projects/{args.project_id}/upload-file",
+            headers={"X-Api-Token": args.token},
+            data={"metadata": json.dumps(metadata)},
+            files={"file": (jar.name, fh, "application/java-archive")},
+            timeout=300,
+        )
+    if resp.status_code != 200:
+        sys.exit(f"  UPLOAD FAILED ({resp.status_code}): {resp.text}")
+    file_id = resp.json()["id"]
+    print(f"  uploaded -> file id {file_id}")
+    return file_id
+
+
+def upload_universal(args, mod_version: str, changelog: str) -> None:
+    jar = PROJECT_ROOT / "universal" / "build" / "libs" / f"rptubes-{mod_version}.jar"
+    if not jar.is_file():
+        sys.exit(f"Missing {jar}\nRun `gradlew -p universal build` first.")
+    tags = []
+    for port in PORTS:
+        for tag in [("minecraft", port["mc"]), ("java", port["java"])] + \
+                   [("modloader", l) for l in [port["loader"]] + port.get("also", [])]:
+            if tag not in tags:
+                tags.append(tag)
+    tags += ENV_TAGS
+    print("Resolving CurseForge game version IDs...")
+    version_ids = fetch_version_ids(args.token)
+    upload(args, jar, f"RP-Tubes {mod_version}", tags, version_ids, changelog)
+    print("\nDry run complete - nothing uploaded." if args.dry_run else
+          "\nDone. The file appears once CurseForge approval finishes.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--project-id", default=DEFAULT_PROJECT_ID,
@@ -154,10 +223,12 @@ def main() -> None:
     parser.add_argument("--changelog-file", default=str(PROJECT_ROOT / "CHANGELOG.md"))
     parser.add_argument("--release-type", default="release",
                         choices=["release", "beta", "alpha"])
+    parser.add_argument("--per-version", action="store_true",
+                        help="upload one jar per port instead of the universal jar")
     parser.add_argument("--only", default=None,
-                        help="comma-separated keys (1.20.1 or 1.20.1-neoforge). Default: all")
+                        help="with --per-version: comma-separated keys (1.20.1 or 1.20.1-neoforge)")
     parser.add_argument("--loaders", default=None,
-                        help="comma-separated loaders to include (forge,neoforge,fabric)")
+                        help="with --per-version: comma-separated loaders (forge,neoforge,fabric)")
     parser.add_argument("--dry-run", action="store_true",
                         help="resolve everything and show what would be uploaded")
     args = parser.parse_args()
@@ -168,10 +239,14 @@ def main() -> None:
         sys.exit("No project id: set CURSEFORGE_PROJECT_ID or pass --project-id")
 
     mod_version = args.mod_version or read_mod_version()
-    changelog = Path(args.changelog_file).read_text(encoding="utf-8")
+    changelog = latest_section(Path(args.changelog_file).read_text(encoding="utf-8"))
     only = {s.strip().lower() for s in args.only.split(",")} if args.only else None
     loaders = ({s.strip().lower() for s in args.loaders.split(",")}
                if args.loaders else None)
+
+    if not args.per_version:
+        upload_universal(args, mod_version, changelog)
+        return
 
     ports = []
     for port in PORTS:
@@ -187,7 +262,7 @@ def main() -> None:
 
     # Verify all jars exist before touching the network
     for port in ports:
-        port["jar"] = find_jar(port, mod_version)
+        port["jar"] = find_jar(port, mod_version) or find_port_jar(port, mod_version)
         if port["jar"] is None:
             sys.exit(f"Missing jar for {port_key(port)} {mod_version}\n"
                      f"Build and collect the release jars first.")
@@ -201,32 +276,10 @@ def main() -> None:
                 ("java", port["java"])]
         tags += [("modloader", l) for l in [port["loader"]] + port.get("also", [])]
         tags += ENV_TAGS
-        game_versions = resolve_tags(tags, version_ids)
-        metadata = {
-            "changelog": changelog,
-            "changelogType": "markdown",
-            "displayName": f"RP-Tubes {mod_version} (MC {port['mc']} {port['loader']})",
-            "gameVersions": game_versions,
-            "releaseType": args.release_type,
-        }
-        print(f"\n{port['jar'].name}")
-        print(f"  tags: {', '.join(n for _, n in tags)}  ->  ids {game_versions}")
-        if args.dry_run:
-            continue
-
-        with open(port["jar"], "rb") as fh:
-            resp = requests.post(
-                f"{UPLOAD_API}/projects/{args.project_id}/upload-file",
-                headers={"X-Api-Token": args.token},
-                data={"metadata": json.dumps(metadata)},
-                files={"file": (port["jar"].name, fh, "application/java-archive")},
-                timeout=300,
-            )
-        if resp.status_code != 200:
-            sys.exit(f"  UPLOAD FAILED ({resp.status_code}): {resp.text}")
-        file_id = resp.json()["id"]
-        uploaded.append((port_key(port), file_id))
-        print(f"  uploaded -> file id {file_id}")
+        file_id = upload(args, port["jar"], f"RP-Tubes {mod_version} (MC {port['mc']} {port['loader']})",
+                         tags, version_ids, changelog)
+        if file_id is not None:
+            uploaded.append((port_key(port), file_id))
 
     if args.dry_run:
         print("\nDry run complete - nothing uploaded.")

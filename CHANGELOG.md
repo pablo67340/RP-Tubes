@@ -1,3 +1,51 @@
+# RP-Tubes 1.4.0
+
+## One jar for every version
+
+There is now a single file, `rptubes-1.4.0.jar`, that works on every
+supported Minecraft version and loader. Drop it in your mods folder and it
+loads the build that matches your game. Remove any older `rptubes-*.jar`
+first.
+
+- Forge: 1.7.10, 1.12.2, 1.16.5, 1.19.2, 1.20.1, 1.20.6, 1.21.1, 1.21.11,
+  26.1.2, 26.2
+- NeoForge: 1.20.1, 1.20.6, 1.21.1, 1.21.11, 26.1.2, 26.2
+- Fabric: 1.16.5, 1.20.1, 1.20.6, 1.21.1, 1.21.11, 26.1.2, 26.2 (needs
+  Fabric API; 1.16.5 needs Java 17)
+
+On Forge and NeoForge the matching build is unpacked to your system's temp
+folder the first time the game starts.
+
+## New (Forge, NeoForge and Fabric, 1.19.2 and newer)
+
+- **Solar Panel.** Makes 20 FE/t in daylight while it can see the sky.
+- **Thermopile.** Makes power from the temperature difference between the
+  blocks around it, such as lava on one side and water or ice on the other.
+  Like the RedPower 2 original, a hot side can melt nearby ice and snow.
+- **Battery Box.** Stores 600,000 FE and moves up to 1,000 FE/t. Put a
+  Battery in the top slot to charge it or in the bottom slot to empty it into
+  the box.
+- **Battery.** A portable 150,000 FE cell for the Battery Box.
+
+These feed the Sorting Machine, Filter and Retriever, and any other mod that
+uses Forge Energy (Team Reborn Energy on Fabric).
+
+## Fixed
+
+- **The Alloy Furnace works with more than the exact amount.** Each
+  ingredient now only needs at least its recipe count, as in RedPower 2, and
+  the extra items stay in the grid. Before, a recipe only crafted when the
+  stacks matched exactly. (All versions.)
+- **Tin, copper and brass from other mods work in RP Tubes recipes.** Forge
+  before 26.1 and Fabric 1.20.1 recipes now accept both common tag styles, so
+  tin from mods like IC2 is recognised.
+- **ProjectE gives EMC to tin, brass and the RP Tubes machines.** Values come
+  from a ProjectE conversion file for the Alloy Furnace recipes, which works
+  with current ProjectE versions. The 1.7.10 build calls the ProjectE API in
+  the form that version expects.
+- **Painted tubes show their color in the inventory on Forge 1.21.11 and
+  26.x,** and placed painted tubes show it on Forge 26.x.
+
 # RP-Tubes 1.3.1
 
 ## New (all 1.12.2+ ports, all loaders)
