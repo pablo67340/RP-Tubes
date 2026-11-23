@@ -1,0 +1,186 @@
+import groovy.json.JsonOutput
+
+import java.security.MessageDigest
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
+
+// The universal jar: every RP Tubes build in one file, plus the small loader hooks in src/ that
+// pick the one matching the running game. Build the version jars first:
+//   gradlew build collectJar          (root, the Stonecutter versions)
+//   gradlew build                     (each of ports/1.7.10, 1.12.2, 1.16.5, 1.16.5-fabric)
+// then: gradlew -p universal build
+
+plugins {
+    id 'java'
+}
+
+def root = file('..')
+def modVersion = (new File(root, 'stonecutter.properties.toml').text =~ /(?m)^mod\.version\s*=\s*"([^"]+)"/)[0][1]
+version = modVersion
+
+repositories {
+    maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://maven.neoforged.net/releases/' }
+    maven { url = 'https://libraries.minecraft.net/' }
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    // The hooks run on Java 8 (Forge 1.7.10 to 1.16.5) while the loader APIs they compile against
+    // are published for newer Java
+    disableAutoTargetJvm()
+}
+
+dependencies {
+    // Forge 1.16.5's mod locator interface; 1.17 and later keep the same signatures for the methods called here
+    compileOnly('net.minecraftforge:forgespi:3.2.0') { transitive = false }
+    compileOnly 'org.apache.commons:commons-lang3:3.12.0'
+    // NeoForge's mod file locator interface, unchanged from FML 3 (NeoForge 20.6) to FML 11 (26.2)
+    compileOnly('net.neoforged.fancymodloader:loader:4.0.41') { transitive = false }
+    compileOnly('cpw.mods:securejarhandler:2.1.10') { transitive = false }
+    compileOnly('net.minecraft:launchwrapper:1.12') { transitive = false }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 8
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint:-options'
+}
+
+// Forge and NeoForge builds, with the Minecraft range they declare; Fabric builds go in as nested jars
+def stonecutterNodes = new File(root, 'versions').listFiles().findAll { it.isDirectory() }*.name.sort()
+def builds = [
+        [loader: 'legacy', file: new File(root, "ports/1.7.10/build/libs/rptubes-1.7.10-${modVersion}.jar"), min: '1.7.10', max: '1.7.11'],
+        [loader: 'legacy', file: new File(root, "ports/1.12.2/build/libs/rptubes-1.12.2-${modVersion}.jar"), min: '1.12.2', max: '1.13'],
+        [loader: 'forge', file: new File(root, "ports/1.16.5/build/libs/rptubes-1.16.5-${modVersion}.jar")],
+        [loader: 'fabric', mc: '1.16.5', file: new File(root, "ports/1.16.5-fabric/build/libs/rptubes-1.16.5-fabric-${modVersion}.jar")],
+] + stonecutterNodes.collect { node ->
+    def (mc, loader) = node.split('-')
+    [loader: loader, mc: mc, file: new File(root, "build/libs/${modVersion}/rptubes-${node}-${modVersion}.jar")]
+}
+
+/** The minecraft dependency range from a Forge or NeoForge build's mods.toml, as [min, maxExclusive]. */
+def tomlRange = { File jar ->
+    new ZipFile(jar).withCloseable { zip ->
+        for (name in ['META-INF/neoforge.mods.toml', 'META-INF/mods.toml']) {
+            def entry = zip.getEntry(name)
+            if (entry == null) {
+                continue
+            }
+            def m = zip.getInputStream(entry).getText('UTF-8') =~ /modId\s*=\s*"minecraft"[\s\S]*?versionRange\s*=\s*"\[([^,\]]+),([^)\]]+)\)"/
+            if (m.find()) {
+                return [m.group(1).trim(), m.group(2).trim()]
+            }
+        }
+        throw new GradleException("No minecraft [min,max) range in ${jar.name}")
+    }
+}
+
+def sha1 = { File f ->
+    def digest = MessageDigest.getInstance('SHA-1')
+    f.withInputStream { s -> byte[] buf = new byte[65536]; int n; while ((n = s.read(buf)) > 0) digest.update(buf, 0, n) }
+    digest.digest().encodeHex().toString()
+}
+
+/**
+ * Copies a Fabric build, giving it a version of its own so Fabric sees each build as a separate
+ * candidate, and a Minecraft range that no other build overlaps. Fabric ignores the +mc suffix when
+ * comparing versions, so overlapping ranges would let it pick any of the matching builds.
+ */
+def copyFabric = { File from, File to, String fabricVersion, String mcRange ->
+    to.parentFile.mkdirs()
+    new ZipFile(from).withCloseable { zip ->
+        to.withOutputStream { os ->
+            new ZipOutputStream(os).withCloseable { out ->
+                zip.entries().each { ZipEntry e ->
+                    out.putNextEntry(new ZipEntry(e.name))
+                    if (!e.isDirectory()) {
+                        byte[] data = zip.getInputStream(e).bytes
+                        if (e.name == 'fabric.mod.json') {
+                            def text = new String(data, 'UTF-8')
+                            def replaced = text.replaceFirst(/"version"\s*:\s*"[^"]*"/, "\"version\": \"${fabricVersion}\"")
+                            if (replaced == text) {
+                                throw new GradleException("No version in ${from.name}'s fabric.mod.json")
+                            }
+                            def ranged = replaced.replaceFirst(/"minecraft"\s*:\s*"[^"]*"/, "\"minecraft\": \"${mcRange}\"")
+                            if (ranged == replaced) {
+                                throw new GradleException("No minecraft dependency in ${from.name}'s fabric.mod.json")
+                            }
+                            replaced = ranged
+                            data = replaced.getBytes('UTF-8')
+                        }
+                        out.write(data)
+                    }
+                    out.closeEntry()
+                }
+            }
+        }
+    }
+}
+
+def staging = layout.buildDirectory.dir('universal')
+
+def stageBuilds = tasks.register('stageBuilds') {
+    inputs.files(builds*.file)
+    outputs.dir(staging)
+    doLast {
+        def out = staging.get().asFile
+        project.delete(out)
+        def index = new StringBuilder('# loader minInclusive maxExclusive size checksum file\n')
+        def fabricJars = []
+        def maxFor = [:]
+        builds.each { b ->
+            if (!b.file.isFile()) {
+                throw new GradleException("Missing ${b.file}; build the version jars first")
+            }
+        }
+        builds.findAll { it.loader != 'fabric' }.each { b ->
+            def target = new File(out, "META-INF/rptubes/${b.file.name}")
+            target.parentFile.mkdirs()
+            target.bytes = b.file.bytes
+            def range = b.min ? [b.min, b.max] : tomlRange(b.file)
+            maxFor[range[0]] = range[1]
+            index << "${b.loader} ${range[0]} ${range[1]} ${target.length()} ${sha1(target).take(16)} ${b.file.name}\n"
+        }
+        builds.findAll { it.loader == 'fabric' }.each { b ->
+            if (!maxFor[b.mc]) {
+                throw new GradleException("No Forge or NeoForge build for ${b.mc} to take the Fabric range from")
+            }
+            def path = "META-INF/jars/${b.file.name}"
+            copyFabric(b.file, new File(out, path), "${modVersion}+mc${b.mc}", ">=${b.mc} <${maxFor[b.mc]}")
+            fabricJars << [file: path]
+        }
+        new File(out, 'META-INF/rptubes/index.txt').setText(index.toString(), 'UTF-8')
+        new File(out, 'fabric.mod.json').setText(JsonOutput.prettyPrint(JsonOutput.toJson([
+                schemaVersion: 1,
+                id           : 'rptubes_universal',
+                version      : modVersion,
+                name         : 'RP Tubes (universal jar)',
+                description  : 'Holds RP Tubes for every supported Minecraft version and loads the one that matches.',
+                license      : 'MIT',
+                environment  : '*',
+                jars         : fabricJars,
+                depends      : [rptubes: '*'],
+                custom       : [modmenu: [parent: 'rptubes', badges: ['library']]],
+        ])), 'UTF-8')
+    }
+}
+
+tasks.named('jar', Jar) {
+    dependsOn stageBuilds
+    from(staging)
+    archiveFileName = "rptubes-${modVersion}.jar"
+    manifest {
+        attributes(
+                'TweakClass': 'com.rptubes.universal.LegacyTweaker',
+                'TweakOrder': '0',
+                'Automatic-Module-Name': 'rptubes.universal',
+                'Implementation-Title': 'RP Tubes',
+                'Implementation-Version': modVersion,
+        )
+    }
+}
