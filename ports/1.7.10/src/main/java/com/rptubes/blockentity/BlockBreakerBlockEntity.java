@@ -19,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.List;
 
 /** Port of TileBreaker — pulse breaks the front block and ejects drops into tubes. */
-public class BlockBreakerBlockEntity extends CompatTileEntity implements ITubeConnectable {
+public class BlockBreakerBlockEntity extends CompatTileEntity implements DropsContents, ITubeConnectable {
     private final TubeBuffer buffer = new TubeBuffer();
     private boolean powered;
     private boolean active;
@@ -172,6 +172,7 @@ public class BlockBreakerBlockEntity extends CompatTileEntity implements ITubeCo
         this.active = tag.getBoolean("Active");
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
     }

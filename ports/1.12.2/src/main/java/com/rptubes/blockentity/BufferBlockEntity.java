@@ -22,7 +22,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 /** Port of TileBufferChest — 20-slot storage accessible from all sides. */
-public class BufferBlockEntity extends TileEntity implements ISidedInventory, InvDefaults {
+public class BufferBlockEntity extends TileEntity implements DropsContents, ISidedInventory, InvDefaults {
     private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
     private final IItemHandler handler = new InvWrapper(this);
     private static final int[] ALL_SLOTS = new int[20];
@@ -138,6 +138,7 @@ public class BufferBlockEntity extends TileEntity implements ISidedInventory, In
         return super.getCapability(cap, side);
     }
 
+    @Override
     public void dropContents() {
         if (this.world != null) {
             net.minecraft.inventory.InventoryHelper.dropInventoryItems(this.world, this.pos, this);

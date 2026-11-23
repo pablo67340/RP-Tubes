@@ -892,7 +892,7 @@ public class AutoCraftingTableMk2BlockEntity extends BlockEntity implements Cont
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             // Drop output + input storage, but never the ghost recipe templates
     *///?} else if fabric && <1.21.1 {
 
@@ -902,7 +902,7 @@ public class AutoCraftingTableMk2BlockEntity extends BlockEntity implements Cont
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             // Drop output + input storage, but never the ghost recipe templates
     *///?} else if fabric && <1.21.11 {
 
@@ -910,7 +910,7 @@ public class AutoCraftingTableMk2BlockEntity extends BlockEntity implements Cont
 
     /*@Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             // Drop output + input storage, but never the ghost recipe templates
     *///?} else if fabric && <26.1.2 {
 
@@ -923,7 +923,7 @@ public class AutoCraftingTableMk2BlockEntity extends BlockEntity implements Cont
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             // Drop output + input storage, but never the ghost recipe templates
     //?} else if forge && >=1.21.11 {
     /*@Override
@@ -974,7 +974,7 @@ public class AutoCraftingTableMk2BlockEntity extends BlockEntity implements Cont
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             // Drop output + input storage, but never the ghost recipe templates
     *///?} else {
     /*@Override

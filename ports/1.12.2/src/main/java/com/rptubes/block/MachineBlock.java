@@ -49,4 +49,13 @@ public abstract class MachineBlock extends Block {
         return this.getDefaultState().withProperty(FACING,
                 EnumFacing.getDirectionFromEntityLiving(pos, placer).getOpposite());
     }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        net.minecraft.tileentity.TileEntity be = world.getTileEntity(pos);
+        if (be instanceof com.rptubes.blockentity.DropsContents) {
+            ((com.rptubes.blockentity.DropsContents) be).dropContents();
+        }
+        super.breakBlock(world, pos, state);
+    }
 }

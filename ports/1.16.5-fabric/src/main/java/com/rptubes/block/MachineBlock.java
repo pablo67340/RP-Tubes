@@ -38,4 +38,16 @@ public abstract class MachineBlock extends Block {
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
+
+    @Override
+    public void onRemove(BlockState state, net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos,
+                         BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            net.minecraft.world.level.block.entity.BlockEntity be = level.getBlockEntity(pos);
+            if (be != null) {
+                com.rptubes.blockentity.Removal.markBroken(be);
+            }
+        }
+        super.onRemove(state, level, pos, newState, isMoving);
+    }
 }

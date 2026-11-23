@@ -489,7 +489,7 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             this.channelBuffers[i].onRemove(this);
         }
         for (ItemStack stack : this.filterSlots) {
-            if (!stack.isEmpty() && this.level != null) {
+            if (!stack.isEmpty() && this.level != null && Removal.isBroken(this)) {
                 net.minecraft.world.Containers.dropItemStack(this.level,
                         this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), stack);
             }

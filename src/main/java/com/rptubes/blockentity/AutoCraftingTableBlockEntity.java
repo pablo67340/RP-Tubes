@@ -846,7 +846,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
     *///?} else if fabric && <1.21.1 {
@@ -863,7 +863,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
     *///?} else if fabric && <1.21.11 {
@@ -878,7 +878,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
     *///?} else if fabric && <26.1.2 {
@@ -921,7 +921,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
     *///?} else if forge && <1.21.11 {
@@ -953,7 +953,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
     *///?} else if <1.21.11 {
@@ -966,7 +966,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
     //?} else if forge {

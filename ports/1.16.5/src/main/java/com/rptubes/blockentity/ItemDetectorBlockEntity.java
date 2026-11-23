@@ -339,7 +339,7 @@ public class ItemDetectorBlockEntity extends TileEntity implements net.minecraft
     public void setRemoved() {
         this.buffer.onRemove(this);
         for (ItemStack stack : this.filterSlots) {
-            if (!stack.isEmpty() && this.level != null) {
+            if (!stack.isEmpty() && this.level != null && Removal.isBroken(this)) {
                 net.minecraft.inventory.InventoryHelper.dropItemStack(this.level,
                         this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), stack);
             }

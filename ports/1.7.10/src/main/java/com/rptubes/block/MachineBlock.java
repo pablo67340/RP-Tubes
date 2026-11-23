@@ -97,4 +97,13 @@ public abstract class MachineBlock extends Block {
         int toward = BlockPistonBase.determineOrientation(world, x, y, z, placer);
         world.setBlockMetadataWithNotify(x, y, z, toward ^ 1, 2);
     }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        net.minecraft.tileentity.TileEntity be = world.getTileEntity(x, y, z);
+        if (be instanceof com.rptubes.blockentity.DropsContents) {
+            ((com.rptubes.blockentity.DropsContents) be).dropContents();
+        }
+        super.breakBlock(world, x, y, z, block, meta);
+    }
 }

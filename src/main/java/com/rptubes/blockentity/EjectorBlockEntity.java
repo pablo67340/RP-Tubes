@@ -548,7 +548,7 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
     public void setRemoved() {
         this.buffer.onRemove(this);
         //? if <1.21.11 {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();
@@ -557,6 +557,14 @@ public class EjectorBlockEntity extends BlockEntity implements WorldlyContainer,
         super.setRemoved();
         *///?}
     }
+
+    //? if >=1.21.11 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        Removal.markBroken(this);
+        super.preRemoveSideEffects(pos, state);
+    }
+    *///?}
     //? if fabric && >=1.21.11 && <26.1.2 {
 
     /*@Override

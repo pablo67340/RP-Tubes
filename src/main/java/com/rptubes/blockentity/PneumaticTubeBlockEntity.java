@@ -536,4 +536,12 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         this.flow.onRemove();
         super.setRemoved();
     }
+
+    //? if >=1.21.11 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        Removal.markBroken(this);
+        super.preRemoveSideEffects(pos, state);
+    }
+    *///?}
 }

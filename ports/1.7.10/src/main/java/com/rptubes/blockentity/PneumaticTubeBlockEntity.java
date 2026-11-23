@@ -20,7 +20,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * Port of eloraam.machine.TileTube — routes items to the nearest valid destination.
  */
-public class PneumaticTubeBlockEntity extends CompatTileEntity implements ITubeFlow {
+public class PneumaticTubeBlockEntity extends CompatTileEntity implements DropsContents, ITubeFlow {
     private byte lastDir = 0;
 
     private final TubeFlow flow = new TubeFlow() {
@@ -272,6 +272,7 @@ public class PneumaticTubeBlockEntity extends CompatTileEntity implements ITubeF
         this.flow.contents.add(inc);
     }
 
+    @Override
     public void dropContents() {
         this.flow.onRemove();
     }

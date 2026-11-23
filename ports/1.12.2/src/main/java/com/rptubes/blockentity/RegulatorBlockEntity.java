@@ -31,7 +31,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 /**
  * Port of TileRegulator — input filter / buffer / output template (27 slots).
  */
-public class RegulatorBlockEntity extends TileEntity implements net.minecraft.util.ITickable, ITubeConnectable, ISidedInventory, InvDefaults {
+public class RegulatorBlockEntity extends TileEntity implements DropsContents, net.minecraft.util.ITickable, ITubeConnectable, ISidedInventory, InvDefaults {
     public static final int SIZE = 27;
     private final TubeBuffer buffer = new TubeBuffer();
     private NonNullList<ItemStack> items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
@@ -451,6 +451,7 @@ public class RegulatorBlockEntity extends TileEntity implements net.minecraft.ut
         return super.getCapability(cap, side);
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
         if (this.world != null) {

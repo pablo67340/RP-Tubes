@@ -1,5 +1,6 @@
 package com.rptubes.tube;
 
+import com.rptubes.blockentity.Removal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -143,7 +144,7 @@ public abstract class TubeFlow {
     public void onRemove() {
         BlockEntity te = this.getParent();
         Level level = te.getLevel();
-        if (level == null) {
+        if (level == null || !Removal.isBroken(te)) {
             return;
         }
         BlockPos pos = te.getBlockPos();

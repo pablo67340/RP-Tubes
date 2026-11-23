@@ -22,7 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 
 /** Port of TileItemDetect — pass-through tube machine that emits redstone when items pass. */
-public class ItemDetectorBlockEntity extends CompatTileEntity implements ITubeConnectable, ISidedInventory, InvDefaults {
+public class ItemDetectorBlockEntity extends CompatTileEntity implements DropsContents, ITubeConnectable, ISidedInventory, InvDefaults {
     private final TubeBuffer buffer = new TubeBuffer();
     private ItemStack[] filterSlots = new ItemStack[9];
     private MachineLib.FilterMap filterMap;
@@ -324,6 +324,7 @@ public class ItemDetectorBlockEntity extends CompatTileEntity implements ITubeCo
         this.filterMap = null;
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
         for (ItemStack stack : this.filterSlots) {

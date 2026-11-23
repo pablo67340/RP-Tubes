@@ -17,7 +17,7 @@ import com.rptubes.util.inv.IItemHandler;
 import com.rptubes.util.inv.InvWrapper;
 
 /** Port of TileBufferChest — 20-slot storage accessible from all sides. */
-public class BufferBlockEntity extends CompatTileEntity implements ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class BufferBlockEntity extends CompatTileEntity implements DropsContents, ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     private ItemStack[] items = new ItemStack[20];
     private final IItemHandler handler = new InvWrapper(this);
     private static final int[] ALL_SLOTS = new int[20];
@@ -118,6 +118,7 @@ public class BufferBlockEntity extends CompatTileEntity implements ISidedInvento
         return this.handler;
     }
 
+    @Override
     public void dropContents() {
         if (this.getWorld() != null) {
             com.rptubes.util.Stacks.dropInventory(this.getWorld(), this.xCoord, this.yCoord, this.zCoord, this);

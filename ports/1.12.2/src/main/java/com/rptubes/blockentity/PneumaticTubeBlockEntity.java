@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 /**
  * Port of eloraam.machine.TileTube — routes items to the nearest valid destination.
  */
-public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraft.util.ITickable, ITubeFlow {
+public class PneumaticTubeBlockEntity extends TileEntity implements DropsContents, net.minecraft.util.ITickable, ITubeFlow {
     private byte lastDir = 0;
     /** OG paintColor: 0 = unpainted, 1-16 = dye. Used for sorter color routing. */
     private byte paintColor = 0;
@@ -312,6 +312,7 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         this.flow.contents.add(inc);
     }
 
+    @Override
     public void dropContents() {
         this.flow.onRemove();
     }

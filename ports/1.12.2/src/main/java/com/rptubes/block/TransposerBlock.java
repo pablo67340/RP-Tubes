@@ -31,13 +31,4 @@ public class TransposerBlock extends MachineBlock {
             transposer.onNeighborChange();
         }
     }
-
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntity be = world.getTileEntity(pos);
-        if (be instanceof TransposerBlockEntity) {
-            ((TransposerBlockEntity) be).dropContents();
-        }
-        super.breakBlock(world, pos, state);
-    }
 }

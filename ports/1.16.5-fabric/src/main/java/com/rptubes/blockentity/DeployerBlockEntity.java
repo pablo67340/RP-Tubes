@@ -241,7 +241,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();

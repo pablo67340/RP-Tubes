@@ -316,4 +316,12 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
         this.buffer.onRemove(this);
         super.setRemoved();
     }
+
+    //? if >=1.21.11 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        Removal.markBroken(this);
+        super.preRemoveSideEffects(pos, state);
+    }
+    *///?}
 }

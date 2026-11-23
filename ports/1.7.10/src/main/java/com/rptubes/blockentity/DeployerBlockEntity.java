@@ -21,7 +21,7 @@ import com.rptubes.util.inv.IItemHandler;
 import com.rptubes.util.inv.SidedInvWrapper;
 
 /** Port of TileDeploy — pulse places/uses items toward FACING. */
-public class DeployerBlockEntity extends CompatTileEntity implements ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class DeployerBlockEntity extends CompatTileEntity implements DropsContents, ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     private ItemStack[] items = new ItemStack[9];
     private boolean powered;
     private boolean active;
@@ -208,6 +208,7 @@ public class DeployerBlockEntity extends CompatTileEntity implements ISidedInven
         return this.handler;
     }
 
+    @Override
     public void dropContents() {
         if (this.getWorld() != null) {
             com.rptubes.util.Stacks.dropInventory(this.getWorld(), this.xCoord, this.yCoord, this.zCoord, this);

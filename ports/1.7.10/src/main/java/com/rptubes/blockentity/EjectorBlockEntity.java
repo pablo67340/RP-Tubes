@@ -24,7 +24,7 @@ import com.rptubes.util.inv.IItemHandler;
 import com.rptubes.util.inv.SidedInvWrapper;
 
 /** Port of TileEject — redstone pulse ejects one item from internal buffer into a tube. */
-public class EjectorBlockEntity extends CompatTileEntity implements ISidedInventory, InvDefaults, ITubeConnectable, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class EjectorBlockEntity extends CompatTileEntity implements DropsContents, ISidedInventory, InvDefaults, ITubeConnectable, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     protected final TubeBuffer buffer = new TubeBuffer();
     protected ItemStack[] items = new ItemStack[9];
     protected boolean powered;
@@ -284,6 +284,7 @@ public class EjectorBlockEntity extends CompatTileEntity implements ISidedInvent
         return new SidedInvWrapper(this, side);
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
         if (this.getWorld() != null) {

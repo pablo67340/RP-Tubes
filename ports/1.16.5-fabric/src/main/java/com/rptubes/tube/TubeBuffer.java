@@ -1,5 +1,6 @@
 package com.rptubes.tube;
 
+import com.rptubes.blockentity.Removal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -72,7 +73,7 @@ public class TubeBuffer {
     }
 
     public void onRemove(BlockEntity te) {
-        if (this.buffer == null) {
+        if (this.buffer == null || !Removal.isBroken(te)) {
             return;
         }
         Level level = te.getLevel();

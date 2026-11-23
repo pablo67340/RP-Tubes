@@ -34,7 +34,7 @@ import java.util.Optional;
  * normal crafting table and may consume the grid entirely. IInventory items
  * (buckets etc.) are returned where the ingredient came from.
  */
-public class AutoCraftingTableBlockEntity extends CompatTileEntity implements IInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class AutoCraftingTableBlockEntity extends CompatTileEntity implements DropsContents, IInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     /** InventoryCrafting demands a menu; recipe lookups never touch it. */
     private static final Container DUMMY_MENU = new Container() {
         @Override
@@ -411,6 +411,7 @@ public class AutoCraftingTableBlockEntity extends CompatTileEntity implements II
         return this.handler;
     }
 
+    @Override
     public void dropContents() {
         if (this.getWorld() != null) {
             com.rptubes.util.Stacks.dropInventory(this.getWorld(), this.xCoord, this.yCoord, this.zCoord, this);

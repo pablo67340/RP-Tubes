@@ -26,7 +26,7 @@ import com.rptubes.util.inv.SidedInvWrapper;
 /**
  * Port of TileRegulator — input filter / buffer / output template (27 slots).
  */
-public class RegulatorBlockEntity extends CompatTileEntity implements ITubeConnectable, ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class RegulatorBlockEntity extends CompatTileEntity implements DropsContents, ITubeConnectable, ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     public static final int SIZE = 27;
     private final TubeBuffer buffer = new TubeBuffer();
     private ItemStack[] items = new ItemStack[SIZE];
@@ -428,6 +428,7 @@ public class RegulatorBlockEntity extends CompatTileEntity implements ITubeConne
         return this.handler;
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
         if (this.getWorld() != null) {

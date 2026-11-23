@@ -405,7 +405,7 @@ public class AutoCraftingTableMk2BlockEntity extends BlockEntity implements net.
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             // Drop output + input storage, but never the ghost recipe templates
             for (int i = 0; i < INV_SIZE; i++) {
                 if (i >= START_RECIPE && i < START_RECIPE + SIZE_RECIPE) {

@@ -206,4 +206,12 @@ public class BlockBreakerBlockEntity extends BlockEntity implements ITubeConnect
         this.buffer.onRemove(this);
         super.setRemoved();
     }
+
+    //? if >=1.21.11 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        Removal.markBroken(this);
+        super.preRemoveSideEffects(pos, state);
+    }
+    *///?}
 }

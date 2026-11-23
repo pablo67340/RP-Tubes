@@ -433,7 +433,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();

@@ -239,7 +239,7 @@ public class DeployerBlockEntity extends TileEntity implements ISidedInventory, 
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             net.minecraft.inventory.InventoryHelper.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();

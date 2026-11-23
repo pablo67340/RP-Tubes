@@ -29,7 +29,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 /** Port of TileEject — redstone pulse ejects one item from internal buffer into a tube. */
-public class EjectorBlockEntity extends TileEntity implements net.minecraft.util.ITickable, ISidedInventory, InvDefaults, ITubeConnectable {
+public class EjectorBlockEntity extends TileEntity implements DropsContents, net.minecraft.util.ITickable, ISidedInventory, InvDefaults, ITubeConnectable {
     protected final TubeBuffer buffer = new TubeBuffer();
     protected NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
     protected boolean powered;
@@ -308,6 +308,7 @@ public class EjectorBlockEntity extends TileEntity implements net.minecraft.util
         return super.getCapability(cap, side);
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
         if (this.world != null) {

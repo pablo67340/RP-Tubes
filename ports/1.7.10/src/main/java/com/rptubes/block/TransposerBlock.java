@@ -29,14 +29,4 @@ public class TransposerBlock extends MachineBlock {
             transposer.onNeighborChange();
         }
     }
-
-    @Override
-    public void breakBlock(World world, int x, int y, int z, net.minecraft.block.Block block, int meta) {
-        BlockPos pos = new BlockPos(x, y, z);
-        TileEntity be = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-        if (be instanceof TransposerBlockEntity) {
-            ((TransposerBlockEntity) be).dropContents();
-        }
-        super.breakBlock(world, x, y, z, block, meta);
-    }
 }

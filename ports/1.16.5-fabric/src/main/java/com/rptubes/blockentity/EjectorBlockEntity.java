@@ -312,7 +312,7 @@ public class EjectorBlockEntity extends BlockEntity implements net.minecraft.wor
     @Override
     public void setRemoved() {
         this.buffer.onRemove(this);
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();

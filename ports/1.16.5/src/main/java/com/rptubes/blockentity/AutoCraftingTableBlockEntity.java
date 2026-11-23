@@ -443,7 +443,7 @@ public class AutoCraftingTableBlockEntity extends TileEntity implements IInvento
 
     @Override
     public void setRemoved() {
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             InventoryHelper.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();

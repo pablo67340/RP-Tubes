@@ -339,7 +339,7 @@ public class ItemDetectorBlockEntity extends BlockEntity implements net.minecraf
     public void setRemoved() {
         this.buffer.onRemove(this);
         for (ItemStack stack : this.filterSlots) {
-            if (!stack.isEmpty() && this.level != null) {
+            if (!stack.isEmpty() && this.level != null && Removal.isBroken(this)) {
                 net.minecraft.world.Containers.dropItemStack(this.level,
                         this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), stack);
             }

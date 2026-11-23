@@ -20,7 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 /**
  * Port of TileTranspose — redstone pulse pulls 1 item (or vacuum items) into tubes.
  */
-public class TransposerBlockEntity extends CompatTileEntity implements ITubeConnectable {
+public class TransposerBlockEntity extends CompatTileEntity implements DropsContents, ITubeConnectable {
     protected final TubeBuffer buffer = new TubeBuffer();
     protected boolean powered;
     protected boolean active;
@@ -251,6 +251,7 @@ public class TransposerBlockEntity extends CompatTileEntity implements ITubeConn
         this.active = tag.getBoolean("Active");
     }
 
+    @Override
     public void dropContents() {
         this.buffer.onRemove(this);
     }

@@ -1,7 +1,7 @@
 mod.id = "rptubes"
 mod.name = "RP Tubes"
 mod.group = "com.rptubes"
-mod.version = "1.4.0"
+mod.version = "1.4.1"
 mod.authors = "Bryce"
 mod.license = "All Rights Reserved"
 mod.description = "RedPower2 pneumatic tubes and related machines revived for {loader}.\nBrass, Alloy Furnace, Filters, Transposers, and authentic tube routing."

@@ -268,7 +268,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     @Override
     public void setRemoved() {
         for (ItemStack stack : this.filterSlots) {
-            if (!stack.isEmpty() && this.level != null) {
+            if (!stack.isEmpty() && this.level != null && Removal.isBroken(this)) {
                 net.minecraft.inventory.InventoryHelper.dropItemStack(this.level,
                         this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), stack);
             }

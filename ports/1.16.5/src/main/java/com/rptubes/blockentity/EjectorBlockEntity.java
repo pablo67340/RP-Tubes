@@ -323,7 +323,7 @@ public class EjectorBlockEntity extends TileEntity implements net.minecraft.tile
     @Override
     public void setRemoved() {
         this.buffer.onRemove(this);
-        if (this.level != null) {
+        if (this.level != null && Removal.isBroken(this)) {
             net.minecraft.inventory.InventoryHelper.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();

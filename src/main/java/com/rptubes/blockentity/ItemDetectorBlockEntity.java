@@ -378,7 +378,7 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
         this.buffer.onRemove(this);
         //? if <1.21.11 {
         for (ItemStack stack : this.filterSlots) {
-            if (!stack.isEmpty() && this.level != null) {
+            if (!stack.isEmpty() && this.level != null && Removal.isBroken(this)) {
                 net.minecraft.world.Containers.dropItemStack(this.level,
                         this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), stack);
             }
@@ -389,4 +389,12 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
         super.setRemoved();
         *///?}
     }
+
+    //? if >=1.21.11 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        Removal.markBroken(this);
+        super.preRemoveSideEffects(pos, state);
+    }
+    *///?}
 }

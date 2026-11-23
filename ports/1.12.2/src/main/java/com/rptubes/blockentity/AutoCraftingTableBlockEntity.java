@@ -40,7 +40,7 @@ import java.util.Optional;
  * normal crafting table and may consume the grid entirely. IInventory items
  * (buckets etc.) are returned where the ingredient came from.
  */
-public class AutoCraftingTableBlockEntity extends TileEntity implements IInventory, InvDefaults {
+public class AutoCraftingTableBlockEntity extends TileEntity implements DropsContents, IInventory, InvDefaults {
     /** InventoryCrafting demands a menu; recipe lookups never touch it. */
     private static final Container DUMMY_MENU = new Container() {
         @Override
@@ -430,6 +430,7 @@ public class AutoCraftingTableBlockEntity extends TileEntity implements IInvento
         return super.getCapability(cap, side);
     }
 
+    @Override
     public void dropContents() {
         if (this.world != null) {
             InventoryHelper.dropInventoryItems(this.world, this.pos, this);

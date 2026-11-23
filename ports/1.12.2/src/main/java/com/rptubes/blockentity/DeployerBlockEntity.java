@@ -28,7 +28,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 /** Port of TileDeploy — pulse places/uses items toward FACING. */
-public class DeployerBlockEntity extends TileEntity implements ISidedInventory, InvDefaults {
+public class DeployerBlockEntity extends TileEntity implements DropsContents, ISidedInventory, InvDefaults {
     private NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
     private boolean powered;
     private boolean active;
@@ -227,6 +227,7 @@ public class DeployerBlockEntity extends TileEntity implements ISidedInventory, 
         return super.getCapability(cap, side);
     }
 
+    @Override
     public void dropContents() {
         if (this.world != null) {
             net.minecraft.inventory.InventoryHelper.dropInventoryItems(this.world, this.pos, this);

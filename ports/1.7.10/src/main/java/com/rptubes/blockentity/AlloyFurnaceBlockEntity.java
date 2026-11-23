@@ -24,7 +24,7 @@ import com.rptubes.util.inv.SidedInvWrapper;
 /**
  * Port of eloraam.base.TileAlloyFurnace — 3x3 alloy grid, fuel, output.
  */
-public class AlloyFurnaceBlockEntity extends CompatTileEntity implements ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class AlloyFurnaceBlockEntity extends CompatTileEntity implements DropsContents, ISidedInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     public static final int SLOT_INPUT_START = 0;
     public static final int SLOT_INPUT_COUNT = 9;
     public static final int SLOT_FUEL = 9;
@@ -278,6 +278,7 @@ public class AlloyFurnaceBlockEntity extends CompatTileEntity implements ISidedI
         return this.handlerSide;
     }
 
+    @Override
     public void dropContents() {
         if (this.getWorld() != null) {
             com.rptubes.util.Stacks.dropInventory(this.getWorld(), this.xCoord, this.yCoord, this.zCoord, this);

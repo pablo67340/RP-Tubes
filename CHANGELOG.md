@@ -1,3 +1,27 @@
+# RP-Tubes 1.4.1
+
+Bug fix release. Replace `rptubes-1.4.0.jar` with `rptubes-1.4.1.jar`.
+
+## Fixed
+
+- **Item duplication when a chunk unloads.** Machines and tubes dropped
+  their contents on the ground whenever their chunk unloaded, even though the
+  same items were also saved inside the block. Walking away and coming back
+  doubled everything in Ejectors, Buffers, Regulators, Filters, Sorting
+  Machines, Item Detectors, Deployers, Auto Crafting Tables and tubes. Now
+  contents only drop when the block is actually broken. Affected every
+  version from 1.16.5 up.
+- **Contents lost when breaking a machine on 1.7.10 and 1.12.2.** Breaking
+  an Ejector, Deployer, Regulator, Item Detector, Block Breaker, Auto
+  Crafting Table or tube dropped only the block, and the items inside were
+  deleted. They now drop like they do on newer versions.
+- **Ejectors, Filters, Regulators and Deployers on Fabric 1.16.5.** These
+  failed to create their block entity, so they could not be placed with
+  contents or used by tubes and hoppers.
+- **Sided inventories now follow the block's facing.** On Fabric, a machine
+  turned with the Screwdriver kept using its old sides for hoppers and other
+  mods' pipes.
+
 # RP-Tubes 1.4.0
 
 ## One jar for every version

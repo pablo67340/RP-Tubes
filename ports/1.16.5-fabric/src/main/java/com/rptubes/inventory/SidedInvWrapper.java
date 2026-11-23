@@ -7,12 +7,14 @@ import net.minecraft.core.Direction;
 public class SidedInvWrapper implements IItemHandler {
     private final WorldlyContainer inv;
     private final Direction side;
-    private final int[] slots;
 
     public SidedInvWrapper(WorldlyContainer inv, Direction side) {
         this.inv = inv;
         this.side = side;
-        this.slots = inv.getSlotsForFace(side);
+    }
+
+    private int[] slots() {
+        return this.inv.getSlotsForFace(this.side);
     }
 
     public static IItemHandler[] create(WorldlyContainer inv, Direction... sides) {
@@ -28,15 +30,16 @@ public class SidedInvWrapper implements IItemHandler {
     }
 
     public int mapSlot(int slot) {
-        if (slot < 0 || slot >= this.slots.length) {
+        int[] slots = this.slots();
+        if (slot < 0 || slot >= slots.length) {
             return -1;
         }
-        return this.slots[slot];
+        return slots[slot];
     }
 
     @Override
     public int getSlots() {
-        return this.slots.length;
+        return this.slots().length;
     }
 
     @Override

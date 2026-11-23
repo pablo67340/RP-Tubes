@@ -1,5 +1,6 @@
 package com.rptubes.tube;
 
+import com.rptubes.blockentity.Removal;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -72,7 +73,7 @@ public class TubeBuffer {
     }
 
     public void onRemove(TileEntity te) {
-        if (this.buffer == null) {
+        if (this.buffer == null || !Removal.isBroken(te)) {
             return;
         }
         World level = te.getLevel();

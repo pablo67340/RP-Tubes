@@ -38,13 +38,4 @@ public class BufferBlock extends MachineBlock {
         }
         return true;
     }
-
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntity be = world.getTileEntity(pos);
-        if (be instanceof BufferBlockEntity) {
-            ((BufferBlockEntity) be).dropContents();
-        }
-        super.breakBlock(world, pos, state);
-    }
 }

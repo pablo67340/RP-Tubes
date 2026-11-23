@@ -31,7 +31,7 @@ import com.rptubes.util.inv.IItemHandler;
  * are located anywhere in the input storage, consumed, and the result placed
  * in the output. Automation pushes ingredients in and pulls the output out.
  */
-public class AutoCraftingTableMk2BlockEntity extends CompatTileEntity implements IInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
+public class AutoCraftingTableMk2BlockEntity extends CompatTileEntity implements DropsContents, IInventory, InvDefaults, com.rptubes.util.inv.Handlers.IItemHandlerProvider {
     public static final int SLOT_OUTPUT = 0;
     public static final int START_RECIPE = 1;
     public static final int SIZE_RECIPE = 9;
@@ -391,6 +391,7 @@ public class AutoCraftingTableMk2BlockEntity extends CompatTileEntity implements
         return this.handler;
     }
 
+    @Override
     public void dropContents() {
         if (this.getWorld() != null) {
             // Drop output + input storage, but never the ghost recipe templates

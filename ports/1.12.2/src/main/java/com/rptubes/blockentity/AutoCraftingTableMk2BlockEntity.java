@@ -37,7 +37,7 @@ import net.minecraftforge.items.IItemHandler;
  * are located anywhere in the input storage, consumed, and the result placed
  * in the output. Automation pushes ingredients in and pulls the output out.
  */
-public class AutoCraftingTableMk2BlockEntity extends TileEntity implements net.minecraft.util.ITickable, IInventory, InvDefaults {
+public class AutoCraftingTableMk2BlockEntity extends TileEntity implements DropsContents, net.minecraft.util.ITickable, IInventory, InvDefaults {
     public static final int SLOT_OUTPUT = 0;
     public static final int START_RECIPE = 1;
     public static final int SIZE_RECIPE = 9;
@@ -403,6 +403,7 @@ public class AutoCraftingTableMk2BlockEntity extends TileEntity implements net.m
         return super.getCapability(cap, side);
     }
 
+    @Override
     public void dropContents() {
         if (this.world != null) {
             // Drop output + input storage, but never the ghost recipe templates

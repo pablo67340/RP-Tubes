@@ -48,4 +48,16 @@ public class AutoCraftingTableBlock extends Block {
         }
         return ActionResultType.sidedSuccess(level.isClientSide);
     }
+
+    @Override
+    public void onRemove(BlockState state, net.minecraft.world.World level, net.minecraft.util.math.BlockPos pos,
+                         BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            net.minecraft.tileentity.TileEntity be = level.getBlockEntity(pos);
+            if (be != null) {
+                com.rptubes.blockentity.Removal.markBroken(be);
+            }
+        }
+        super.onRemove(state, level, pos, newState, isMoving);
+    }
 }
