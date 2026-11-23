@@ -20,6 +20,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+//? if forge {
+/*import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+*///?} else if neoforge && <1.21.11 {
+import net.neoforged.neoforge.energy.IEnergyStorage;
+//?}
 
 /**
  * Port of TileSorter — 8×5 filter columns, per-column paint colors, 5 modes,
@@ -38,16 +44,79 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
     private byte draining = -1;
     private final TubeBuffer[] channelBuffers = new TubeBuffer[8];
     private MachineLib.FilterMap filterMap;
+    private final MachineEnergy energy = new MachineEnergy();
+
+    //? if forge {
+    /*public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.SORTING_MACHINE.get(), pos, state);
+    *///?} else if fabric {
+    /*public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.SORTING_MACHINE, pos, state);
+    *///?} else if <1.21.11 {
+    public IEnergyStorage getEnergyStorage() {
+        return this.energy;
+    }
 
     public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SORTING_MACHINE.get(), pos, state);
+    //?} else {
+    /*public MachineEnergy getEnergy() {
+        return this.energy;
+    }
+
+    public SortingMachineBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.SORTING_MACHINE.get(), pos, state);
+    *///?}
         for (int i = 0; i < 8; i++) {
             this.channelBuffers[i] = new TubeBuffer();
         }
     }
+    //? if forge {
+
+    /*private void regenFilterMap() {
+        this.filterMap = MachineLib.makeFilterMap(this.filterSlots.toArray(ItemStack[]::new));
+    }
+
+    @Override
+    *///?} else if fabric && >=1.20.6 {
+
+
+    /*@Override
+    *///?} else {
+
+    @Override
+    //?}
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
+    //? if fabric {
+    /*}
+
+    public MachineEnergy getEnergy() {
+        return this.energy;
+    }
 
     private void regenFilterMap() {
         this.filterMap = MachineLib.makeFilterMap(this.filterSlots.toArray(ItemStack[]::new));
+    *///?} else if neoforge {
+    }
+
+    private void regenFilterMap() {
+        this.filterMap = MachineLib.makeFilterMap(this.filterSlots.toArray(ItemStack[]::new));
+    //?}
     }
 
     private MachineLib.FilterMap map() {
@@ -417,25 +486,54 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.filterSlots);
         tag.putByteArray("colors", this.colors.clone());
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.filterSlots, registries);
+        tag.putByteArray("colors", this.colors.clone());
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, this.filterSlots);
+        int[] colorsOut = new int[this.colors.length];
+        for (int i = 0; i < this.colors.length; i++) {
+            colorsOut[i] = this.colors[i];
+        }
+        tag.putIntArray("colors", colorsOut);
+    *///?}
         tag.putByte("column", this.column);
         tag.putByte("mode", this.mode);
         tag.putByte("drain", this.draining);
         tag.putByte("defc", this.defcolor);
+        //? if <1.21.11 {
         ListTag bufs = new ListTag();
+        //?} else {
+        /*net.minecraft.core.HolderLookup.Provider registries = this.level != null ? this.level.registryAccess() : null;
+        net.minecraft.world.level.storage.ValueOutput.TypedOutputList<CompoundTag> bufs = tag.list("buffers", CompoundTag.CODEC);
+        *///?}
         for (int i = 0; i < 8; i++) {
             CompoundTag buf = new CompoundTag();
-            this.channelBuffers[i].writeToNBT(buf);
+            //? if <1.20.6 {
+            /*this.channelBuffers[i].writeToNBT(buf);
+            *///?} else {
+            this.channelBuffers[i].writeToNBT(buf, registries);
+            //?}
             bufs.add(buf);
         }
+        //? if <1.21.11 {
         tag.put("buffers", bufs);
+        //?}
+        this.energy.write(tag);
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.filterSlots = NonNullList.withSize(FILTER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.filterSlots);
@@ -450,15 +548,97 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
         ListTag bufs = tag.getList("buffers", Tag.TAG_COMPOUND);
         for (int i = 0; i < bufs.size() && i < 8; i++) {
             this.channelBuffers[i].readFromNBT(bufs.getCompound(i));
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.filterSlots = NonNullList.withSize(FILTER_SIZE, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.filterSlots, registries);
+        byte[] loaded = tag.getByteArray("colors");
+        for (int i = 0; i < 8; i++) {
+            this.colors[i] = i < loaded.length ? loaded[i] : 0;
+        }
+        this.column = tag.getByte("column");
+        this.mode = tag.getByte("mode");
+        this.draining = tag.getByte("drain");
+        this.defcolor = tag.getByte("defc");
+        ListTag bufs = tag.getList("buffers", Tag.TAG_COMPOUND);
+        for (int i = 0; i < bufs.size() && i < 8; i++) {
+            this.channelBuffers[i].readFromNBT(bufs.getCompound(i), registries);
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.filterSlots = NonNullList.withSize(FILTER_SIZE, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.filterSlots);
+        int[] loaded = tag.getIntArray("colors").orElse(new int[0]);
+        for (int i = 0; i < 8; i++) {
+            this.colors[i] = i < loaded.length ? (byte) loaded[i] : 0;
+        }
+        this.column = tag.getByteOr("column", (byte) 0);
+        this.mode = tag.getByteOr("mode", (byte) 0);
+        this.draining = tag.getByteOr("drain", (byte) 0);
+        this.defcolor = tag.getByteOr("defc", (byte) 0);
+        int i = 0;
+        for (CompoundTag buf : tag.listOrEmpty("buffers", CompoundTag.CODEC)) {
+            if (i >= 8) {
+                break;
+            }
+            this.channelBuffers[i++].readFromNBT(buf, tag.lookup());
+    *///?}
         }
         this.filterMap = null;
+        this.energy.read(tag);
+    //? if (forge && >=1.21.11) || (forge && <1.20.6) {
+    /*}
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && this.energy.isEnergyCap(cap)) {
+            return this.energy.cast(cap, side);
+        }
+        return super.getCapability(cap, side);
     }
 
     @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.energy.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.energy.revive();
+    *///?}
+    }
+
+    @Override
+    //? if forge && >=1.20.6 && <1.21.11 {
+    /*public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && this.energy.isEnergyCap(cap)) {
+            return this.energy.cast(cap, side);
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.energy.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.energy.revive();
+    }
+
+    @Override
+    *///?}
     public void setRemoved() {
         for (int i = 0; i < 8; i++) {
             this.channelBuffers[i].onRemove(this);
         }
+        //? if <1.21.11 {
         for (ItemStack stack : this.filterSlots) {
             if (!stack.isEmpty() && this.level != null) {
                 net.minecraft.world.Containers.dropItemStack(this.level,
@@ -466,5 +646,9 @@ public class SortingMachineBlockEntity extends TransposerBlockEntity implements 
             }
         }
         super.setRemoved();
+        //?} else {
+        /*// Filter slot drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+        *///?}
     }
 }

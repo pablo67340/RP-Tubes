@@ -1,8 +1,23 @@
 package com.rptubes.blockentity;
+//? if fabric && >=1.20.6 && <1.21.1 {
+
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import com.rptubes.inventory.InvWrapper;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?}
 
 import com.rptubes.menu.AutoCraftingTableMenu;
 import com.rptubes.registry.ModBlockEntities;
+//? if forgelike || >=1.21.11 {
 import com.rptubes.tube.ITubeConnectable;
+//?} else if <1.21.1 {
+/*import com.rptubes.tube.ITubeConnectable;
+import com.rptubes.tube.MachineLib;
+*///?} else {
+/*import com.rptubes.tube.MachineLib;
+import com.rptubes.tube.ITubeConnectable;
+*///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -15,18 +30,70 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+//? if <1.21.1 {
+/*import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+*///?} else if <1.21.11 {
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+//?} else {
+/*import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+*///?}
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
+//? if fabric && <1.20.6 {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+*///?} else if fabric && <1.21.1 {
+/*import org.jetbrains.annotations.NotNull;
+*///?} else if fabric && >=1.21.11 && <26.1.2 {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import com.rptubes.tube.MachineLib;
+import org.jetbrains.annotations.NotNull;
+*///?} else if neoforge && >=1.21.11 && <26.1.2 {
+/*import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+*///?} else if neoforge && >=1.21.11 && <26.2 {
+/*import com.rptubes.registry.ModCapabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+*///?} else if neoforge && >=1.21.11 {
+/*import com.rptubes.registry.LegacyItemResourceHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jetbrains.annotations.NotNull;
+*///?} else if neoforge {
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+//?} else if fabric {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerProvider;
+import com.rptubes.inventory.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+*///?} else {
+/*import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
+*///?}
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +110,141 @@ import java.util.Optional;
  * normal crafting table and may consume the grid entirely. Container items
  * (buckets etc.) are returned where the ingredient came from.
  */
+//? if fabric && >=1.21.1 && <1.21.11 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider, ItemHandlerProvider {
+    /^* CraftingContainer demands a menu; recipe lookups never touch it. ^/
+    private static final AbstractContainerMenu DUMMY_MENU = new AbstractContainerMenu(null, -1) {
+        @Override
+        public ItemStack quickMoveStack(Player player, int index) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean stillValid(Player player) {
+            return false;
+        }
+    };
+
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE, pos, state);
+*///?} else if fabric && >=1.21.1 && <26.1.2 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider, com.rptubes.inventory.ItemHandlerProvider{
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE, pos, state);
+*///?} else if neoforge && >=1.21.11 && <26.1.2 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider {
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final AutoCraftHandler handler = new AutoCraftHandler();
+
+    public ResourceHandler<ItemResource> getResourceHandler(Direction side) {
+        return this.handler;
+    }
+
+    public IItemHandler getItemHandler(Direction side) {
+        return IItemHandler.of(this.handler);
+    }
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE.get(), pos, state);
+*///?} else if neoforge && >=1.21.11 && <26.2 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider {
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE.get(), pos, state);
+*///?} else if neoforge && >=1.21.11 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider {
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public ResourceHandler<ItemResource> getItemHandler(Direction side) {
+        return new LegacyItemResourceHandler(this.handler, this.grid);
+    }
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE.get(), pos, state);
+*///?} else if fabric && <1.21.1 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider, com.rptubes.inventory.ItemHandlerProvider {
+    /^* CraftingContainer demands a menu; recipe lookups never touch it. ^/
+    private static final AbstractContainerMenu DUMMY_MENU = new AbstractContainerMenu(null, -1) {
+        @Override
+        public ItemStack quickMoveStack(Player player, int index) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean stillValid(Player player) {
+            return false;
+        }
+    };
+
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE, pos, state);
+*///?} else if neoforge {
 public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider {
     /** CraftingContainer demands a menu; recipe lookups never touch it. */
+    private static final AbstractContainerMenu DUMMY_MENU = new AbstractContainerMenu(null, -1) {
+        @Override
+        public ItemStack quickMoveStack(Player player, int index) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean stillValid(Player player) {
+            return false;
+        }
+    };
+
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+
+
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE.get(), pos, state);
+//?} else if fabric {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements ItemHandlerProvider, Container, MenuProvider {
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private final IItemHandler handler = new AutoCraftHandler();
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE, pos, state);
+*///?} else if >=1.21.11 {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider {
+    private NonNullList<ItemStack> grid = NonNullList.withSize(9, ItemStack.EMPTY);
+    private LazyOptional<IItemHandler> handler = LazyOptional.of(AutoCraftHandler::new);
+
+    public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.AUTO_CRAFTING_TABLE.get(), pos, state);
+*///?} else {
+/*public class AutoCraftingTableBlockEntity extends BlockEntity implements Container, MenuProvider {
+    /^* CraftingContainer demands a menu; recipe lookups never touch it. ^/
     private static final AbstractContainerMenu DUMMY_MENU = new AbstractContainerMenu(null, -1) {
         @Override
         public ItemStack quickMoveStack(Player player, int index) {
@@ -62,19 +262,64 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
     public AutoCraftingTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.AUTO_CRAFTING_TABLE.get(), pos, state);
+*///?}
     }
 
     /** What the current grid would craft, without consuming anything. */
     public ItemStack findRecipe() {
+        //? if <1.21.11 {
         if (this.level == null) {
+        //?} else {
+        /*if (this.level == null || this.level.getServer() == null) {
+        *///?}
             return ItemStack.EMPTY;
         }
-        CraftingContainer matrix = new CraftingContainer(DUMMY_MENU, 3, 3);
+        //? if <1.20.1 {
+        /*CraftingContainer matrix = new CraftingContainer(DUMMY_MENU, 3, 3);
         for (int i = 0; i < 9; i++) {
             matrix.setItem(i, this.grid.get(i).copy());
         }
         return this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, matrix, this.level)
                 .map(r -> r.assemble(matrix))
+        *///?} else if <1.20.6 {
+        /*CraftingContainer matrix = new net.minecraft.world.inventory.TransientCraftingContainer(DUMMY_MENU, 3, 3);
+        for (int i = 0; i < 9; i++) {
+            matrix.setItem(i, this.grid.get(i).copy());
+        }
+        return this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, matrix, this.level)
+                .map(r -> r.assemble(matrix, this.level.registryAccess()))
+        *///?} else if <1.21.1 {
+        /*CraftingContainer matrix = new net.minecraft.world.inventory.TransientCraftingContainer(DUMMY_MENU, 3, 3);
+        for (int i = 0; i < 9; i++) {
+            matrix.setItem(i, this.grid.get(i).copy());
+        }
+        return this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, matrix, this.level)
+                .map(r -> r.value().assemble(matrix, this.level.registryAccess()))
+        *///?} else if <1.21.11 {
+        CraftingContainer matrix = new net.minecraft.world.inventory.TransientCraftingContainer(DUMMY_MENU, 3, 3);
+        for (int i = 0; i < 9; i++) {
+            matrix.setItem(i, this.grid.get(i).copy());
+        }
+        CraftingInput input = matrix.asCraftInput();
+        return this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, this.level)
+                .map(r -> r.value().assemble(input, this.level.registryAccess()))
+        //?} else if <26.1.2 {
+        /*List<ItemStack> items = new ArrayList<>(9);
+        for (int i = 0; i < 9; i++) {
+            items.add(this.grid.get(i).copy());
+        }
+        CraftingInput input = CraftingInput.of(3, 3, items);
+        return this.level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, this.level)
+                .map(r -> r.value().assemble(input, this.level.registryAccess()))
+        *///?} else {
+        /*List<ItemStack> items = new ArrayList<>(9);
+        for (int i = 0; i < 9; i++) {
+            items.add(this.grid.get(i).copy());
+        }
+        CraftingInput input = CraftingInput.of(3, 3, items);
+        return this.level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, this.level)
+                .map(r -> r.value().assemble(input))
+        *///?}
                 .orElse(ItemStack.EMPTY);
     }
 
@@ -86,10 +331,20 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
      * doRemove=false simulates: ingredients are taken then rolled back.
      */
     public ItemStack craftOne(boolean doRemove, boolean removeRecipe) {
+        //? if <1.21.11 {
         if (this.level == null || this.level.isClientSide) {
+        //?} else {
+        /*if (this.level == null || this.level.isClientSide()) {
+        *///?}
             return ItemStack.EMPTY;
         }
-        CraftingContainer matrix = new CraftingContainer(DUMMY_MENU, 3, 3);
+        //? if <1.20.1 {
+        /*CraftingContainer matrix = new CraftingContainer(DUMMY_MENU, 3, 3);
+        *///?} else if <1.21.11 {
+        CraftingContainer matrix = new net.minecraft.world.inventory.TransientCraftingContainer(DUMMY_MENU, 3, 3);
+        //?} else {
+        /*NonNullList<ItemStack> matrixItems = NonNullList.withSize(9, ItemStack.EMPTY);
+        *///?}
         List<StackPointer> pointers = new ArrayList<>();
         StackPointer[] byMatrixSlot = new StackPointer[9];
         int itemsToLeave = removeRecipe ? 0 : 1;
@@ -112,26 +367,88 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
             }
             pointers.add(pointer);
             byMatrixSlot[i] = pointer;
+            //? if <1.21.11 {
             matrix.setItem(i, pointer.taken.copy());
+            //?} else {
+            /*matrixItems.set(i, pointer.taken.copy());
+            *///?}
         }
 
-        Optional<CraftingRecipe> recipe =
+        //? if <1.20.6 {
+        /*Optional<CraftingRecipe> recipe =
                 this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, matrix, this.level);
+        *///?} else if <1.21.1 {
+        /*Optional<net.minecraft.world.item.crafting.RecipeHolder<CraftingRecipe>> recipe =
+                this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, matrix, this.level);
+        *///?} else if <1.21.11 {
+        // 1.21: recipes take CraftingInput. Keep the positioned offsets so the
+        // trimmed remainder list can be mapped back to real 3x3 matrix slots.
+        CraftingInput.Positioned positioned = matrix.asPositionedCraftInput();
+        CraftingInput input = positioned.input();
+        Optional<net.minecraft.world.item.crafting.RecipeHolder<CraftingRecipe>> recipe =
+                this.level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, this.level);
+        //?} else {
+        /*CraftingInput.Positioned positioned = CraftingInput.ofPositioned(3, 3, matrixItems);
+        CraftingInput input = positioned.input();
+        Optional<net.minecraft.world.item.crafting.RecipeHolder<CraftingRecipe>> recipe =
+                this.level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, this.level);
+        *///?}
         if (recipe.isEmpty()) {
             this.rollback(pointers);
             return ItemStack.EMPTY;
         }
-        ItemStack result = recipe.get().assemble(matrix);
+        //? if <1.20.1 {
+        /*ItemStack result = recipe.get().assemble(matrix);
+        *///?} else if <1.20.6 {
+        /*ItemStack result = recipe.get().assemble(matrix, this.level.registryAccess());
+        *///?} else if <1.21.1 {
+        /*ItemStack result = recipe.get().value().assemble(matrix, this.level.registryAccess());
+        *///?} else if <26.1.2 {
+        ItemStack result = recipe.get().value().assemble(input, this.level.registryAccess());
+        //?} else {
+        /*ItemStack result = recipe.get().value().assemble(input);
+        *///?}
         if (result.isEmpty() || !doRemove) {
             this.rollback(pointers);
             return result;
         }
 
-        NonNullList<ItemStack> remaining = recipe.get().getRemainingItems(matrix);
+        //? if <1.20.6 {
+        /*NonNullList<ItemStack> remaining = recipe.get().getRemainingItems(matrix);
         for (int i = 0; i < 9; i++) {
             ItemStack remainder = remaining.get(i);
             if (!remainder.isEmpty() && byMatrixSlot[i] != null) {
                 this.returnRemainder(byMatrixSlot[i], remainder);
+        *///?} else if <1.21.1 {
+        /*NonNullList<ItemStack> remaining = recipe.get().value().getRemainingItems(matrix);
+        for (int i = 0; i < 9; i++) {
+            ItemStack remainder = remaining.get(i);
+            if (!remainder.isEmpty() && byMatrixSlot[i] != null) {
+                this.returnRemainder(byMatrixSlot[i], remainder);
+        *///?} else if <1.21.11 {
+        NonNullList<ItemStack> remaining = recipe.get().value().getRemainingItems(input);
+        for (int j = 0; j < remaining.size(); j++) {
+            ItemStack remainder = remaining.get(j);
+            if (remainder.isEmpty()) {
+                continue;
+            }
+            int slot = (positioned.top() + j / input.width()) * 3 + positioned.left() + j % input.width();
+            if (byMatrixSlot[slot] != null) {
+                this.returnRemainder(byMatrixSlot[slot], remainder);
+        //?} else {
+        /*NonNullList<ItemStack> remaining = recipe.get().value().getRemainingItems(input);
+        // CraftingInput trims empty edges; map trimmed indices back to the 3x3 grid
+        for (int i = 0; i < remaining.size(); i++) {
+            ItemStack remainder = remaining.get(i);
+            if (remainder.isEmpty()) {
+                continue;
+            }
+            int row = i / input.width() + positioned.top();
+            int col = i % input.width() + positioned.left();
+            int gridIndex = row * 3 + col;
+            if (gridIndex < 9 && byMatrixSlot[gridIndex] != null) {
+                this.returnRemainder(byMatrixSlot[gridIndex], remainder);
+        *///?}
             }
         }
         this.setChanged();
@@ -149,20 +466,52 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
             if (nbe == null || nbe instanceof ITubeConnectable || nbe instanceof AutoCraftingTableBlockEntity) {
                 continue;
             }
+            //? if fabric && >=1.20.6 && <1.21.1 {
+            /*IItemHandler neighbor = MachineLib.getHandler(this.level, npos, dir.getOpposite());
+            *///?} else if fabric && >=1.21.11 && <26.1.2 {
+            /*IItemHandler neighbor =
+                    MachineLib.getHandler(this.level, this.worldPosition.relative(dir), dir.getOpposite());
+            *///?} else if neoforge && >=1.21.11 && <26.1.2 {
+            /*var neighborHandler = this.level.getCapability(Capabilities.Item.BLOCK, npos, dir.getOpposite());
+            IItemHandler neighbor = neighborHandler == null ? null : IItemHandler.of(neighborHandler);
+            *///?} else if neoforge && >=1.21.11 && <26.2 {
+            /*IItemHandler neighbor = ModCapabilities.query(this.level, npos, dir.getOpposite());
+            *///?} else if neoforge && >=1.21.11 {
+            /*var cap = this.level.getCapability(Capabilities.Item.BLOCK, npos, dir.getOpposite());
+            IItemHandler neighbor = cap == null ? null : IItemHandler.of(cap);
+            *///?} else if fabric && <1.21.11 {
+            /*IItemHandler neighbor =
+                    MachineLib.getHandler(this.level, npos, dir.getOpposite());
+            *///?} else if neoforge {
             IItemHandler neighbor =
+                    this.level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                            npos, dir.getOpposite());
+            //?} else if fabric {
+            /*IItemHandler neighbor = com.rptubes.tube.MachineLib.getHandler(this.level, npos, dir.getOpposite());
+            *///?} else {
+            /*IItemHandler neighbor =
                     nbe.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).orElse(null);
+            *///?}
             if (neighbor == null) {
                 continue;
             }
             for (int s = 0; s < neighbor.getSlots(); s++) {
-                if (!ItemStack.isSameItemSameTags(neighbor.getStackInSlot(s), want)) {
+                //? if <1.20.6 {
+                /*if (!ItemStack.isSameItemSameTags(neighbor.getStackInSlot(s), want)) {
+                *///?} else {
+                if (!ItemStack.isSameItemSameComponents(neighbor.getStackInSlot(s), want)) {
+                //?}
                     continue;
                 }
                 ItemStack taken = neighbor.extractItem(s, 1, false);
                 if (taken.isEmpty()) {
                     continue;
                 }
-                if (!ItemStack.isSameItemSameTags(taken, want)) {
+                //? if <1.20.6 {
+                /*if (!ItemStack.isSameItemSameTags(taken, want)) {
+                *///?} else {
+                if (!ItemStack.isSameItemSameComponents(taken, want)) {
+                //?}
                     ItemHandlerHelper.insertItem(neighbor, taken, false);
                     continue;
                 }
@@ -201,7 +550,11 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
                 this.grid.set(p.index, remainder);
                 return;
             }
-            if (ItemStack.isSameItemSameTags(current, remainder)
+            //? if <1.20.6 {
+            /*if (ItemStack.isSameItemSameTags(current, remainder)
+            *///?} else {
+            if (ItemStack.isSameItemSameComponents(current, remainder)
+            //?}
                     && current.getCount() + remainder.getCount() <= current.getMaxStackSize()) {
                 current.grow(remainder.getCount());
                 return;
@@ -234,7 +587,11 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
         }
         int space = 0;
         for (ItemStack g : this.grid) {
-            if (!g.isEmpty() && ItemStack.isSameItemSameTags(g, stack)) {
+            //? if <1.20.6 {
+            /*if (!g.isEmpty() && ItemStack.isSameItemSameTags(g, stack)) {
+            *///?} else {
+            if (!g.isEmpty() && ItemStack.isSameItemSameComponents(g, stack)) {
+            //?}
                 space += g.getMaxStackSize() - g.getCount();
             }
         }
@@ -248,7 +605,11 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
                 int minCount = Integer.MAX_VALUE;
                 for (int i = 0; i < 9; i++) {
                     ItemStack g = this.grid.get(i);
-                    if (g.isEmpty() || !ItemStack.isSameItemSameTags(g, stack)
+                    //? if <1.20.6 {
+                    /*if (g.isEmpty() || !ItemStack.isSameItemSameTags(g, stack)
+                    *///?} else {
+                    if (g.isEmpty() || !ItemStack.isSameItemSameComponents(g, stack)
+                    //?}
                             || g.getCount() >= g.getMaxStackSize()) {
                         continue;
                     }
@@ -276,23 +637,42 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
      * Automation view: one virtual slot showing the craft result. Extracting
      * performs a craft (recipe-preserving); inserting refills the grid.
      */
+    //? if neoforge && >=1.21.11 && <26.1.2 {
+    /*public class AutoCraftHandler extends SnapshotJournal<NonNullList<ItemStack>> implements ResourceHandler<ItemResource> {
+        @Override
+        public int size() {
+    *///?} else {
     public class AutoCraftHandler implements IItemHandler {
         @Override
         public int getSlots() {
+    //?}
             return 1;
         }
 
         @Override
+        //? if neoforge && >=1.21.11 && <26.1.2 {
+        /*public ItemResource getResource(int index) {
+            return ItemResource.of(AutoCraftingTableBlockEntity.this.findRecipe());
+        *///?} else {
         public @NotNull ItemStack getStackInSlot(int slot) {
             return AutoCraftingTableBlockEntity.this.findRecipe();
+        //?}
         }
 
         @Override
+        //? if neoforge && >=1.21.11 && <26.1.2 {
+        /*public long getAmountAsLong(int index) {
+            return AutoCraftingTableBlockEntity.this.findRecipe().getCount();
+        *///?} else {
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return AutoCraftingTableBlockEntity.this.insertBalanced(stack, simulate);
+        //?}
         }
 
         @Override
+        //? if neoforge && >=1.21.11 && <26.1.2 {
+        /*public long getCapacityAsLong(int index, ItemResource resource) {
+        *///?} else {
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             if (amount <= 0) {
                 return ItemStack.EMPTY;
@@ -307,17 +687,67 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
 
         @Override
         public int getSlotLimit(int slot) {
+        //?}
             return 64;
         }
 
         @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+        //? if <1.20.6 {
+        /*public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             for (ItemStack g : AutoCraftingTableBlockEntity.this.grid) {
                 if (!g.isEmpty() && ItemStack.isSameItemSameTags(g, stack)) {
+        *///?} else if neoforge && >=1.21.11 && <26.1.2 {
+        /*public boolean isValid(int index, ItemResource resource) {
+            ItemStack stack = resource.toStack();
+            for (ItemStack g : AutoCraftingTableBlockEntity.this.grid) {
+                if (!g.isEmpty() && ItemStack.isSameItemSameComponents(g, stack)) {
+        *///?} else {
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            for (ItemStack g : AutoCraftingTableBlockEntity.this.grid) {
+                if (!g.isEmpty() && ItemStack.isSameItemSameComponents(g, stack)) {
+        //?}
                     return true;
                 }
             }
             return false;
+        //? if neoforge && >=1.21.11 && <26.1.2 {
+        /*}
+
+        @Override
+        public int insert(int index, ItemResource resource, int amount, TransactionContext transaction) {
+            this.updateSnapshots(transaction);
+            ItemStack leftover = AutoCraftingTableBlockEntity.this.insertBalanced(resource.toStack(amount), false);
+            return amount - leftover.getCount();
+        }
+
+        @Override
+        public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+            if (amount <= 0) {
+                return 0;
+            }
+            ItemStack preview = AutoCraftingTableBlockEntity.this.findRecipe();
+            if (preview.isEmpty() || preview.getCount() > amount || !resource.equals(ItemResource.of(preview))) {
+                return 0;
+            }
+            this.updateSnapshots(transaction);
+            return AutoCraftingTableBlockEntity.this.craftOne(true, false).getCount();
+        }
+
+        @Override
+        protected NonNullList<ItemStack> createSnapshot() {
+            NonNullList<ItemStack> copy = NonNullList.withSize(9, ItemStack.EMPTY);
+            for (int i = 0; i < 9; i++) {
+                copy.set(i, AutoCraftingTableBlockEntity.this.grid.get(i).copy());
+            }
+            return copy;
+        }
+
+        @Override
+        protected void revertToSnapshot(NonNullList<ItemStack> snapshot) {
+            for (int i = 0; i < 9; i++) {
+                AutoCraftingTableBlockEntity.this.grid.set(i, snapshot.get(i));
+            }
+        *///?}
         }
     }
 
@@ -387,13 +817,83 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
     // ---- persistence / caps ----
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.grid);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.grid, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, this.grid);
+    *///?}
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if fabric && <1.20.6 {
+    /*public void load(CompoundTag tag) {
+        super.load(tag);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid);
+    }
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            Containers.dropContents(this.level, this.worldPosition, this);
+        }
+    *///?} else if fabric && <1.21.1 {
+    /*protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid, registries);
+    }
+
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            Containers.dropContents(this.level, this.worldPosition, this);
+        }
+    *///?} else if fabric && <1.21.11 {
+    /*protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid, registries);
+    }
+
+
+
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            Containers.dropContents(this.level, this.worldPosition, this);
+        }
+    *///?} else if fabric && <26.1.2 {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid);
+    }
+
+
+    @Override
+    public void setRemoved() {
+        // Grid drops handled by the default preRemoveSideEffects (Container)
+    *///?} else if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.grid);
@@ -424,6 +924,99 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
         if (this.level != null) {
             Containers.dropContents(this.level, this.worldPosition, this);
         }
+    *///?} else if forge && <1.21.11 {
+    /*protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid, registries);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
+            return this.handler.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.handler.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.handler = LazyOptional.of(AutoCraftHandler::new);
+    }
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            Containers.dropContents(this.level, this.worldPosition, this);
+        }
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid, registries);
+    }
+
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            Containers.dropContents(this.level, this.worldPosition, this);
+        }
+    //?} else if forge {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
+            return this.handler.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.handler.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.handler = LazyOptional.of(AutoCraftHandler::new);
+    }
+
+    @Override
+    public void setRemoved() {
+        // Grid drops handled by the default preRemoveSideEffects (Container)
+    *///?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.grid = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.grid);
+    }
+
+    @Override
+    public void setRemoved() {
+        // Grid drops handled by the default preRemoveSideEffects (Container)
+    *///?}
         super.setRemoved();
     }
+    //? if fabric && >=1.21.11 && <26.1.2 {
+
+    /*@Override
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+    *///?}
 }

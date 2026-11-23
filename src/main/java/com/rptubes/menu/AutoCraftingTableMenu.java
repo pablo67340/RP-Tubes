@@ -4,7 +4,9 @@ import com.rptubes.blockentity.AutoCraftingTableBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,12 +26,21 @@ public class AutoCraftingTableMenu extends AbstractContainerMenu {
     private final ResultContainer result = new ResultContainer();
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public AutoCraftingTableMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getTable(playerInv, pos));
+    *///?} else {
     public AutoCraftingTableMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getTable(playerInv, buf));
+    //?}
     }
 
     public AutoCraftingTableMenu(int id, Inventory playerInv, AutoCraftingTableBlockEntity table) {
+        //? if forgelike {
         super(ModMenus.AUTO_CRAFTING_TABLE.get(), id);
+        //?} else {
+        /*super(ModMenus.AUTO_CRAFTING_TABLE, id);
+        *///?}
         this.table = table;
         this.access = ContainerLevelAccess.create(table.getLevel(), table.getBlockPos());
 
@@ -50,9 +61,18 @@ public class AutoCraftingTableMenu extends AbstractContainerMenu {
         this.refreshResult();
     }
 
+    //? if <1.20.1 {
+    /*private static AutoCraftingTableBlockEntity getTable(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static AutoCraftingTableBlockEntity getTable(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static AutoCraftingTableBlockEntity getTable(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof AutoCraftingTableBlockEntity table) {
             return table;
         }
@@ -73,7 +93,11 @@ public class AutoCraftingTableMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.AUTO_CRAFTING_TABLE.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.AUTO_CRAFTING_TABLE);
+        *///?}
     }
 
     @Override
@@ -121,6 +145,12 @@ public class AutoCraftingTableMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPickup(Player player) {
+            //? if >=1.21.11 {
+            /*// Clients can't resolve recipes in 1.21.2+; trust the synced slot there
+            if (player.level().isClientSide()) {
+                return this.hasItem();
+            }
+            *///?}
             return !AutoCraftingTableMenu.this.table.findRecipe().isEmpty();
         }
 

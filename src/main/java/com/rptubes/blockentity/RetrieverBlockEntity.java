@@ -27,7 +27,11 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
     public byte select;
 
     public RetrieverBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.RETRIEVER.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.RETRIEVER, pos, state);
+        *///?}
     }
 
     private MachineLib.FilterMap map() {
@@ -151,17 +155,37 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(net.minecraft.nbt.CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(net.minecraft.nbt.CompoundTag tag) {
         super.saveAdditional(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+    *///?}
         tag.putByte("mode", this.mode);
         tag.putByte("sel", this.select);
     }
 
     @Override
-    public void load(net.minecraft.nbt.CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(net.minecraft.nbt.CompoundTag tag) {
         super.load(tag);
         this.mode = tag.getByte("mode");
         this.select = tag.getByte("sel");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.mode = tag.getByte("mode");
+        this.select = tag.getByte("sel");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.mode = tag.getByteOr("mode", (byte) 0);
+        this.select = tag.getByteOr("sel", (byte) 0);
+    *///?}
     }
 
     @Override

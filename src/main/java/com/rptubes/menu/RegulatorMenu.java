@@ -4,7 +4,9 @@ import com.rptubes.blockentity.RegulatorBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,12 +20,21 @@ public class RegulatorMenu extends AbstractContainerMenu {
     private final RegulatorBlockEntity regulator;
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public RegulatorMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getRegulator(playerInv, pos));
+    *///?} else {
     public RegulatorMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getRegulator(playerInv, buf));
+    //?}
     }
 
     public RegulatorMenu(int id, Inventory playerInv, RegulatorBlockEntity regulator) {
+        //? if forgelike {
         super(ModMenus.REGULATOR.get(), id);
+        //?} else {
+        /*super(ModMenus.REGULATOR, id);
+        *///?}
         this.regulator = regulator;
         this.access = ContainerLevelAccess.create(regulator.getLevel(), regulator.getBlockPos());
 
@@ -98,9 +109,18 @@ public class RegulatorMenu extends AbstractContainerMenu {
         return true;
     }
 
+    //? if <1.20.1 {
+    /*private static RegulatorBlockEntity getRegulator(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static RegulatorBlockEntity getRegulator(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static RegulatorBlockEntity getRegulator(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof RegulatorBlockEntity regulator) {
             return regulator;
         }
@@ -109,7 +129,11 @@ public class RegulatorMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.REGULATOR.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.REGULATOR);
+        *///?}
     }
 
     @Override

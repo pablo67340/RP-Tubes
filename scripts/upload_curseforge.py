@@ -6,10 +6,10 @@ Prerequisites:
   1. pip install -r requirements.txt          (just `requests`)
   2. An API token from https://authors.curseforge.com/account/api-tokens
      -> put it in the CURSEFORGE_TOKEN environment variable (or --token)
-  3. Jars collected in releases/<mod_version>/:
-       Forge:     rptubes-<mc>-<mod_version>.jar
-       NeoForge:  rptubes-<mc>-neoforge-<mod_version>.jar
-       Fabric:    rptubes-<mc>-fabric-<mod_version>.jar
+  3. Jars built: `gradlew build collectJar` puts the 1.19.2+ jars in
+     build/libs/<mod_version>/ as rptubes-<mc>-<loader>-<mod_version>.jar, and the
+     legacy ports (1.7.10, 1.12.2, 1.16.5) go in releases/<mod_version>/ as
+     rptubes-<mc>-<mod_version>.jar (Forge) or rptubes-<mc>-<loader>-<mod_version>.jar.
 
 The project ID defaults to RP-Tubes' own (1650052); pass --project-id only
 if you are uploading somewhere else.
@@ -38,15 +38,16 @@ UPLOAD_API = "https://minecraft.curseforge.com/api"
 DEFAULT_PROJECT_ID = "1650052"
 
 # Minecraft version + loader + Java the jar targets. Client + server for all.
-# `loader` must match the CurseForge Modloader tag name exactly.
+# `loader` must match the CurseForge Modloader tag name exactly; `also` lists other
+# loaders the same jar runs on.
 PORTS = [
     {"mc": "1.7.10",  "loader": "Forge",    "java": "Java 8"},
     {"mc": "1.12.2",  "loader": "Forge",    "java": "Java 8"},
     {"mc": "1.16.5",  "loader": "Forge",    "java": "Java 8"},
     {"mc": "1.16.5",  "loader": "Fabric",   "java": "Java 17"},
     {"mc": "1.19.2",  "loader": "Forge",    "java": "Java 17"},
-    {"mc": "1.20.1",  "loader": "Forge",    "java": "Java 17"},
-    {"mc": "1.20.1",  "loader": "NeoForge", "java": "Java 17"},
+    # NeoForge 1.20.1 forked from Forge 47.1 and loads Forge 1.20.1 mods.
+    {"mc": "1.20.1",  "loader": "Forge",    "java": "Java 17", "also": ["NeoForge"]},
     {"mc": "1.20.1",  "loader": "Fabric",   "java": "Java 17"},
     {"mc": "1.20.6",  "loader": "Forge",    "java": "Java 21"},
     {"mc": "1.20.6",  "loader": "NeoForge", "java": "Java 21"},
@@ -72,17 +73,24 @@ def port_key(port: dict) -> str:
     return f"{port['mc']}-{port['loader'].lower()}"
 
 
-def jar_filename(port: dict, mod_version: str) -> str:
+def find_jar(port: dict, mod_version: str) -> Path | None:
+    loader = port["loader"].lower()
+    names = [f"rptubes-{port['mc']}-{loader}-{mod_version}.jar"]
     if port["loader"] == "Forge":
-        return f"rptubes-{port['mc']}-{mod_version}.jar"
-    return f"rptubes-{port['mc']}-{port['loader'].lower()}-{mod_version}.jar"
+        names.append(f"rptubes-{port['mc']}-{mod_version}.jar")
+    for folder in (PROJECT_ROOT / "build" / "libs" / mod_version, PROJECT_ROOT / "releases" / mod_version):
+        for name in names:
+            if (folder / name).is_file():
+                return folder / name
+    return None
 
 
 def read_mod_version() -> str:
-    for line in (PROJECT_ROOT / "gradle.properties").read_text().splitlines():
-        if line.strip().startswith("mod_version="):
-            return line.split("=", 1)[1].strip()
-    sys.exit("mod_version not found in gradle.properties")
+    text = (PROJECT_ROOT / "stonecutter.properties.toml").read_text(encoding="utf-8")
+    match = re.search(r'^mod\.version\s*=\s*"([^"]+)"', text, re.M)
+    if not match:
+        sys.exit("mod.version not found in stonecutter.properties.toml")
+    return match.group(1)
 
 
 def fetch_version_ids(token: str) -> dict:
@@ -142,7 +150,7 @@ def main() -> None:
     parser.add_argument("--token", default=os.environ.get("CURSEFORGE_TOKEN"),
                         help="CurseForge author API token")
     parser.add_argument("--mod-version", default=None,
-                        help="defaults to mod_version from gradle.properties")
+                        help="defaults to mod.version from stonecutter.properties.toml")
     parser.add_argument("--changelog-file", default=str(PROJECT_ROOT / "CHANGELOG.md"))
     parser.add_argument("--release-type", default="release",
                         choices=["release", "beta", "alpha"])
@@ -165,7 +173,6 @@ def main() -> None:
     loaders = ({s.strip().lower() for s in args.loaders.split(",")}
                if args.loaders else None)
 
-    release_dir = PROJECT_ROOT / "releases" / mod_version
     ports = []
     for port in PORTS:
         if loaders is not None and port["loader"].lower() not in loaders:
@@ -180,9 +187,9 @@ def main() -> None:
 
     # Verify all jars exist before touching the network
     for port in ports:
-        port["jar"] = release_dir / jar_filename(port, mod_version)
-        if not port["jar"].is_file():
-            sys.exit(f"Missing jar: {port['jar']}\n"
+        port["jar"] = find_jar(port, mod_version)
+        if port["jar"] is None:
+            sys.exit(f"Missing jar for {port_key(port)} {mod_version}\n"
                      f"Build and collect the release jars first.")
 
     print(f"Resolving CurseForge game version IDs...")
@@ -191,8 +198,9 @@ def main() -> None:
     uploaded = []
     for port in ports:
         tags = [("minecraft", port["mc"]),
-                ("java", port["java"]),
-                ("modloader", port["loader"])] + ENV_TAGS
+                ("java", port["java"])]
+        tags += [("modloader", l) for l in [port["loader"]] + port.get("also", [])]
+        tags += ENV_TAGS
         game_versions = resolve_tags(tags, version_ids)
         metadata = {
             "changelog": changelog,

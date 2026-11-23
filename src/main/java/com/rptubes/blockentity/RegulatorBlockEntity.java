@@ -1,4 +1,11 @@
 package com.rptubes.blockentity;
+//? if fabric && >=1.20.6 && <1.21.1 {
+
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import com.rptubes.inventory.InvWrapper;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?}
 
 import com.rptubes.block.MachineBlock;
 import com.rptubes.menu.RegulatorMenu;
@@ -23,16 +30,42 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
+//? if forge {
+/*import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+*///?} else if neoforge && <26.2 {
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+//?} else if <1.20.6 || (>=1.21.11 && <26.1.2) {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?} else if neoforge {
+/*import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+*///?} else if >=1.21.1 {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerProvider;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?}
 
 /**
  * Port of TileRegulator — input filter / buffer / output template (27 slots).
  */
+//? if forgelike {
 public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectable, WorldlyContainer, MenuProvider {
+//?} else if <1.21.1 {
+/*public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectable, WorldlyContainer, MenuProvider, com.rptubes.inventory.ItemHandlerProvider {
+*///?} else if <1.21.11 {
+/*public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectable, WorldlyContainer, MenuProvider, ItemHandlerProvider {
+*///?} else if <26.1.2 {
+/*public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectable, WorldlyContainer, MenuProvider, com.rptubes.inventory.ItemHandlerProvider{
+*///?} else {
+/*public class RegulatorBlockEntity extends BlockEntity implements ItemHandlerProvider, ITubeConnectable, WorldlyContainer, MenuProvider {
+*///?}
     public static final int SIZE = 27;
     private final TubeBuffer buffer = new TubeBuffer();
     private NonNullList<ItemStack> items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
@@ -45,12 +78,62 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     private boolean powered;
     private boolean active;
     private int tickCooldown;
-    private LazyOptional<? extends IItemHandler>[] handlers =
+    //? if fabric && >=1.21.1 && <1.21.11 {
+    /*private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handlerDown;
+    }
+    private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+    *///?} else if fabric && >=1.21.1 && <26.1.2 {
+    /*private IItemHandler[] handlers =
             SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+    *///?} else if neoforge && >=1.21.11 && <26.1.2 {
+    /*private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+    private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handlerDown;
+    }
+    *///?} else if neoforge && >=26.2 {
+    /*private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+
+    public ResourceHandler<ItemResource> getItemHandler(Direction side) {
+        return new WorldlyContainerWrapper(this, side);
+    }
+    *///?} else if fabric && <1.21.1 {
+    /*private final IItemHandler[] handlers =
+            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+    private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+    *///?} else if neoforge && <1.21.11 {
+    private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+
+
+    private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handlerDown;
+    }
+    //?} else if !forge {
+    /*private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+    private final IItemHandler handlerDown = new SidedInvWrapper(this, Direction.DOWN);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handlerDown;
+    }
+    *///?} else {
+    /*private LazyOptional<? extends IItemHandler>[] handlers =
+            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+    private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
+    *///?}
 
     public RegulatorBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.REGULATOR.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.REGULATOR, pos, state);
+        *///?}
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, RegulatorBlockEntity be) {
@@ -74,7 +157,11 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     }
 
     public void onNeighborChange() {
+        //? if <1.21.11 {
         if (this.level == null || this.level.isClientSide) {
+        //?} else {
+        /*if (this.level == null || this.level.isClientSide()) {
+        *///?}
             return;
         }
         boolean signal = this.level.hasNeighborSignal(this.worldPosition);
@@ -114,7 +201,11 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
         int total = 0;
         for (int i = 9; i < 18; i++) {
             ItemStack stack = this.items.get(i);
-            if (!stack.isEmpty() && ItemStack.isSameItemSameTags(match, stack)) {
+            //? if <1.20.6 {
+            /*if (!stack.isEmpty() && ItemStack.isSameItemSameTags(match, stack)) {
+            *///?} else {
+            if (!stack.isEmpty() && ItemStack.isSameItemSameComponents(match, stack)) {
+            //?}
                 total += stack.getCount();
             }
         }
@@ -131,7 +222,11 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
         }
         int allowed = 0;
         for (ItemStack filter : map.getFilter()) {
-            if (filter != null && !filter.isEmpty() && ItemStack.isSameItemSameTags(filter, stack)) {
+            //? if <1.20.6 {
+            /*if (filter != null && !filter.isEmpty() && ItemStack.isSameItemSameTags(filter, stack)) {
+            *///?} else {
+            if (filter != null && !filter.isEmpty() && ItemStack.isSameItemSameComponents(filter, stack)) {
+            //?}
                 allowed += filter.getCount();
             }
         }
@@ -153,7 +248,11 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
                 this.setChanged();
                 return stack.isEmpty();
             }
-            if (ItemStack.isSameItemSameTags(slot, toInsert) && slot.getCount() < slot.getMaxStackSize()) {
+            //? if <1.20.6 {
+            /*if (ItemStack.isSameItemSameTags(slot, toInsert) && slot.getCount() < slot.getMaxStackSize()) {
+            *///?} else {
+            if (ItemStack.isSameItemSameComponents(slot, toInsert) && slot.getCount() < slot.getMaxStackSize()) {
+            //?}
                 int move = Math.min(toInsert.getCount(), slot.getMaxStackSize() - slot.getCount());
                 slot.grow(move);
                 stack.shrink(move);
@@ -214,7 +313,11 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
                 int need = filter.getCount();
                 for (int i = 9; i < 18 && need > 0; i++) {
                     ItemStack slot = this.items.get(i);
-                    if (slot.isEmpty() || !ItemStack.isSameItemSameTags(filter, slot)) {
+                    //? if <1.20.6 {
+                    /*if (slot.isEmpty() || !ItemStack.isSameItemSameTags(filter, slot)) {
+                    *///?} else {
+                    if (slot.isEmpty() || !ItemStack.isSameItemSameComponents(filter, slot)) {
+                    //?}
                         continue;
                     }
                     int take = Math.min(need, slot.getCount());
@@ -415,10 +518,22 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.items);
         this.buffer.writeToNBT(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.items, registries);
+        this.buffer.writeToNBT(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, this.items);
+        this.buffer.writeToNBT(tag, this.level != null ? this.level.registryAccess() : null);
+    *///?}
         tag.putBoolean("Powered", this.powered);
         tag.putBoolean("Active", this.active);
         tag.putByte("mode", this.mode);
@@ -426,7 +541,8 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.items);
@@ -435,11 +551,33 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
         this.active = tag.getBoolean("Active");
         this.mode = tag.getByte("mode");
         this.color = tag.getByte("col");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
+        this.buffer.readFromNBT(tag, registries);
+        this.powered = tag.getBoolean("Powered");
+        this.active = tag.getBoolean("Active");
+        this.mode = tag.getByte("mode");
+        this.color = tag.getByte("col");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items);
+        this.buffer.readFromNBT(tag);
+        this.powered = tag.getBooleanOr("Powered", false);
+        this.active = tag.getBooleanOr("Active", false);
+        this.mode = tag.getByteOr("mode", (byte) 0);
+        this.color = tag.getByteOr("col", (byte) 0);
+    *///?}
         this.inputMap = null;
         this.outputMap = null;
     }
 
-    @Override
+    //? if forge {
+    /*@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
             return handlers[0].cast();
@@ -462,11 +600,47 @@ public class RegulatorBlockEntity extends BlockEntity implements ITubeConnectabl
     }
 
     @Override
+    *///?} else if <1.20.6 {
+    /*public IItemHandler getItemHandler(Direction side) {
+        return this.handlers[0];
+    }
+
+    @Override
+    *///?} else if fabric && <1.21.1 {
+
+    /*public IItemHandler getItemHandler(Direction side) {
+        return this.handlers[0];
+    }
+
+    @Override
+    *///?} else if fabric && <1.21.11 {
+
+
+
+    /*@Override
+    *///?} else if fabric || <1.21.11 || (>=26.1.2 && <26.2) {
+
+    @Override
+    //?} else {
+    /*@Override
+    *///?}
     public void setRemoved() {
         this.buffer.onRemove(this);
+        //? if <1.21.11 {
         if (this.level != null) {
             net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
         }
         super.setRemoved();
+        //?} else {
+        /*// Item drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+        *///?}
     }
+    //? if fabric && >=1.21.11 && <26.1.2 {
+
+    /*@Override
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handlers[0];
+    }
+    *///?}
 }

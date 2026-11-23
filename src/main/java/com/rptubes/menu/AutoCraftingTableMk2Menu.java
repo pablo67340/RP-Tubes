@@ -5,11 +5,17 @@ import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+//? if <26.1.2 {
 import net.minecraft.world.inventory.ClickType;
+//?} else {
+/*import net.minecraft.world.inventory.ContainerInput;
+*///?}
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -34,16 +40,53 @@ public class AutoCraftingTableMk2Menu extends AbstractContainerMenu {
     private final AutoCraftingTableMk2BlockEntity table;
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 && <1.21.11 {
+    /*// Ghost-template fingerprint so the GUI preview only re-resolves on change
+    private final NonNullList<ItemStack> previewGhost = NonNullList.withSize(9, ItemStack.EMPTY);
+    private ItemStack previewResult = ItemStack.EMPTY;
+
+    public AutoCraftingTableMk2Menu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getTable(playerInv, pos));
+    *///?} else if <1.21.11 {
     // Ghost-template fingerprint so the GUI preview only re-resolves on change
     private final NonNullList<ItemStack> previewGhost = NonNullList.withSize(9, ItemStack.EMPTY);
     private ItemStack previewResult = ItemStack.EMPTY;
 
     public AutoCraftingTableMk2Menu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getTable(playerInv, buf));
+    //?} else if fabric {
+    /*// 1.21.2+ clients can't resolve recipes; the preview is computed
+    // server-side and synced through a hidden off-screen slot.
+    private final net.minecraft.world.inventory.ResultContainer previewContainer =
+            new net.minecraft.world.inventory.ResultContainer();
+    private final Slot previewSlot;
+
+    // Ghost-template fingerprint so the preview only re-resolves on change
+    private final NonNullList<ItemStack> previewGhost = NonNullList.withSize(9, ItemStack.EMPTY);
+
+    public AutoCraftingTableMk2Menu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getTable(playerInv, pos));
+    *///?} else {
+    /*// 1.21.2+ clients can't resolve recipes; the preview is computed
+    // server-side and synced through a hidden off-screen slot.
+    private final net.minecraft.world.inventory.ResultContainer previewContainer =
+            new net.minecraft.world.inventory.ResultContainer();
+    private final Slot previewSlot;
+
+    // Ghost-template fingerprint so the preview only re-resolves on change
+    private final NonNullList<ItemStack> previewGhost = NonNullList.withSize(9, ItemStack.EMPTY);
+
+    public AutoCraftingTableMk2Menu(int id, Inventory playerInv, FriendlyByteBuf buf) {
+        this(id, playerInv, getTable(playerInv, buf));
+    *///?}
     }
 
     public AutoCraftingTableMk2Menu(int id, Inventory playerInv, AutoCraftingTableMk2BlockEntity table) {
+        //? if forgelike {
         super(ModMenus.ACT_MK2.get(), id);
+        //?} else {
+        /*super(ModMenus.ACT_MK2, id);
+        *///?}
         this.table = table;
         this.access = ContainerLevelAccess.create(table.getLevel(), table.getBlockPos());
 
@@ -66,11 +109,33 @@ public class AutoCraftingTableMk2Menu extends AbstractContainerMenu {
         for (int x = 0; x < 9; x++) {
             this.addSlot(new Slot(playerInv, x, 13 + x * 18, 226));
         }
+        //? if >=1.21.11 {
+        /*this.previewSlot = this.addSlot(new Slot(this.previewContainer, 0, -10000, -10000) {
+            @Override
+            public boolean mayPickup(Player player) {
+                return false;
+            }
+
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return false;
+            }
+        });
+        *///?}
     }
 
+    //? if <1.20.1 {
+    /*private static AutoCraftingTableMk2BlockEntity getTable(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static AutoCraftingTableMk2BlockEntity getTable(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static AutoCraftingTableMk2BlockEntity getTable(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof AutoCraftingTableMk2BlockEntity table) {
             return table;
         }
@@ -79,11 +144,26 @@ public class AutoCraftingTableMk2Menu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.ACT_MK2.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.ACT_MK2);
+        *///?}
     }
 
+    //? if <1.21.11 {
     /** Client-side: what the ghost template would craft (for the faded preview). */
     public ItemStack getResultPreview() {
+    //?} else {
+    /*/^* What the ghost template would craft (for the faded preview); synced from the server. ^/
+    public ItemStack getResultPreview() {
+        return this.previewSlot.getItem();
+    }
+
+    @Override
+    public void broadcastChanges() {
+        // Server-side: keep the synced preview current with the ghost template
+    *///?}
         boolean dirty = false;
         for (int k = 0; k < 9; k++) {
             ItemStack ghost = this.table.getItem(k + START_RECIPE);
@@ -93,13 +173,23 @@ public class AutoCraftingTableMk2Menu extends AbstractContainerMenu {
             }
         }
         if (dirty) {
+            //? if <1.21.11 {
             this.previewResult = this.table.findRecipe();
         }
         return this.previewResult;
+            //?} else {
+            /*this.previewContainer.setItem(0, this.table.findRecipe());
+        }
+        super.broadcastChanges();
+            *///?}
     }
 
     @Override
+    //? if <26.1.2 {
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
+    //?} else {
+    /*public void clicked(int slotId, int button, ContainerInput clickType, Player player) {
+    *///?}
         // Ghost recipe slots: paint a single-item template copy, never move real items
         if (slotId >= 1 && slotId < 1 + 9) {
             Slot slot = this.slots.get(slotId);

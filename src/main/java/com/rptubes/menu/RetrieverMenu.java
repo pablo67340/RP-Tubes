@@ -4,7 +4,9 @@ import com.rptubes.blockentity.RetrieverBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,12 +20,21 @@ public class RetrieverMenu extends AbstractContainerMenu {
     private final RetrieverBlockEntity retriever;
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public RetrieverMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getRetriever(playerInv, pos));
+    *///?} else {
     public RetrieverMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getRetriever(playerInv, buf));
+    //?}
     }
 
     public RetrieverMenu(int id, Inventory playerInv, RetrieverBlockEntity retriever) {
+        //? if forgelike {
         super(ModMenus.RETRIEVER.get(), id);
+        //?} else {
+        /*super(ModMenus.RETRIEVER, id);
+        *///?}
         this.retriever = retriever;
         this.access = ContainerLevelAccess.create(retriever.getLevel(), retriever.getBlockPos());
 
@@ -109,9 +120,18 @@ public class RetrieverMenu extends AbstractContainerMenu {
         return true;
     }
 
+    //? if <1.20.1 {
+    /*private static RetrieverBlockEntity getRetriever(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static RetrieverBlockEntity getRetriever(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static RetrieverBlockEntity getRetriever(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof RetrieverBlockEntity retriever) {
             return retriever;
         }
@@ -120,7 +140,11 @@ public class RetrieverMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.RETRIEVER.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.RETRIEVER);
+        *///?}
     }
 
     @Override

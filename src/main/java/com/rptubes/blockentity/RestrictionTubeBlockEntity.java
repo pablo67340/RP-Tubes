@@ -7,7 +7,17 @@ import net.minecraft.world.level.block.state.BlockState;
 /** Port of TileRestrictTube — massive routing weight so items avoid this path. */
 public class RestrictionTubeBlockEntity extends PneumaticTubeBlockEntity {
     public RestrictionTubeBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.RESTRICTION_TUBE.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.RESTRICTION_TUBE, pos, state);
+        *///?}
+    }
+
+    @Override
+    public int getTubeConClass() {
+        int paint = this.getPaintColor() & 0xFF;
+        return paint == 0 ? 17 : 18 + paint;
     }
 
     @Override

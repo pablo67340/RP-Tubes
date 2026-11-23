@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "rptubes:block/act_mk2" }
+    "": {
+      "model": "rptubes:block/act_mk2"
+    }
   }
 }

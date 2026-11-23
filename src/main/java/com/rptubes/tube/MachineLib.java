@@ -8,20 +8,52 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+//? if forge {
+/*import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+*///?} else if fabric {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import com.rptubes.inventory.ItemHandlerProvider;
+import com.rptubes.inventory.StorageItemHandler;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+*///?} else if >=26.1.2 && <26.2 {
+/*import com.rptubes.registry.ModCapabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+*///?} else {
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+//?}
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//? if fabric && >=1.20.6 && <1.21.1 {
+/*/^*
+ * Modern inventory helpers replacing eloraam.core.MachineLib.
+ * Uses Fabric Transfer API / IItemHandler for universal mod compatibility.
+ ^/
+public final class MachineLib {
+*///?} else if neoforge && >=1.21.11 && <26.1.2 {
+/*/^*
+ * Modern inventory helpers replacing eloraam.core.MachineLib.
+ * Uses NeoForge ITEM_HANDLER for universal mod compatibility.
+ ^/
+public final class MachineLib {
+*///?} else {
 /**
  * Modern inventory helpers replacing eloraam.core.MachineLib.
  * Uses Forge ITEM_HANDLER for universal mod compatibility.
  */
 public final class MachineLib {
+//?}
     private MachineLib() {
     }
 
@@ -30,7 +62,22 @@ public final class MachineLib {
         if (be == null) {
             return null;
         }
-        return be.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElse(null);
+        //? if forge {
+        /*return be.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElse(null);
+        *///?} else if fabric {
+        /*if (be instanceof ItemHandlerProvider provider) {
+            return provider.getItemHandler(side);
+        }
+        Storage<ItemVariant> storage = ItemStorage.SIDED.find(level, pos, side);
+        return storage == null ? null : new StorageItemHandler(storage);
+        *///?} else if <1.21.11 {
+        return level.getCapability(Capabilities.ItemHandler.BLOCK, pos, side);
+        //?} else if >=26.1.2 && <26.2 {
+        /*return ModCapabilities.query(level, pos, side);
+        *///?} else {
+        /*var handler = level.getCapability(Capabilities.Item.BLOCK, pos, side);
+        return handler == null ? null : IItemHandler.of(handler);
+        *///?}
     }
 
     public static boolean canInsert(Level level, BlockPos pos, Direction side, ItemStack stack) {
@@ -101,7 +148,11 @@ public final class MachineLib {
             if (preview.isEmpty()) {
                 return ItemStack.EMPTY;
             }
-            if (match.isEmpty() || ItemStack.isSameItemSameTags(preview, match)) {
+            //? if <1.20.6 {
+            /*if (match.isEmpty() || ItemStack.isSameItemSameTags(preview, match)) {
+            *///?} else {
+            if (match.isEmpty() || ItemStack.isSameItemSameComponents(preview, match)) {
+            //?}
                 return act.craftOne(true, false);
             }
             return ItemStack.EMPTY;
@@ -123,7 +174,11 @@ public final class MachineLib {
         ItemStack result = ItemStack.EMPTY;
         for (int i = 0; i < handler.getSlots() && need > 0; i++) {
             ItemStack stack = handler.getStackInSlot(i);
-            if (stack.isEmpty() || !ItemStack.isSameItemSameTags(match, stack)) {
+            //? if <1.20.6 {
+            /*if (stack.isEmpty() || !ItemStack.isSameItemSameTags(match, stack)) {
+            *///?} else {
+            if (stack.isEmpty() || !ItemStack.isSameItemSameComponents(match, stack)) {
+            //?}
                 continue;
             }
             ItemStack took = handler.extractItem(i, need, false);
@@ -210,7 +265,11 @@ public final class MachineLib {
             int have = 0;
             for (int i = 0; i < handler.getSlots(); i++) {
                 ItemStack stack = handler.getStackInSlot(i);
-                if (!stack.isEmpty() && ItemStack.isSameItemSameTags(want, stack)) {
+                //? if <1.20.6 {
+                /*if (!stack.isEmpty() && ItemStack.isSameItemSameTags(want, stack)) {
+                *///?} else {
+                if (!stack.isEmpty() && ItemStack.isSameItemSameComponents(want, stack)) {
+                //?}
                     have += stack.getCount();
                 }
             }
@@ -309,7 +368,11 @@ public final class MachineLib {
         }
 
         private static String keyOf(ItemStack stack) {
-            return stack.getItem().toString() + "|" + (stack.hasTag() ? stack.getTag().toString() : "");
+            //? if <1.20.6 {
+            /*return stack.getItem().toString() + "|" + (stack.hasTag() ? stack.getTag().toString() : "");
+            *///?} else {
+            return stack.getItem().toString() + "|" + stack.getComponentsPatch().toString();
+            //?}
         }
     }
 }

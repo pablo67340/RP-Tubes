@@ -9,14 +9,18 @@
           "predicate_type": "minecraft:tag_match",
           "tag": "minecraft:stone_ore_replaceables"
         },
-        "state": { "Name": "rptubes:tin_ore" }
+        "state": {
+          "Name": "rptubes:tin_ore"
+        }
       },
       {
         "target": {
           "predicate_type": "minecraft:tag_match",
           "tag": "minecraft:deepslate_ore_replaceables"
         },
-        "state": { "Name": "rptubes:tin_ore" }
+        "state": {
+          "Name": "rptubes:tin_ore"
+        }
       }
     ]
   }

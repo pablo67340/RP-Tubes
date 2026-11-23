@@ -4,7 +4,9 @@ import com.rptubes.blockentity.BufferBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,12 +18,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class BufferMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public BufferMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getBuffer(playerInv, pos));
+    *///?} else {
     public BufferMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getBuffer(playerInv, buf));
+    //?}
     }
 
     public BufferMenu(int id, Inventory playerInv, BufferBlockEntity buffer) {
+        //? if forgelike {
         super(ModMenus.BUFFER.get(), id);
+        //?} else {
+        /*super(ModMenus.BUFFER, id);
+        *///?}
         this.access = ContainerLevelAccess.create(buffer.getLevel(), buffer.getBlockPos());
 
         // OG ContainerBufferChest: 5 columns x 4 rows, column-major slot indices
@@ -40,9 +51,18 @@ public class BufferMenu extends AbstractContainerMenu {
         }
     }
 
+    //? if <1.20.1 {
+    /*private static BufferBlockEntity getBuffer(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static BufferBlockEntity getBuffer(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static BufferBlockEntity getBuffer(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof BufferBlockEntity buffer) {
             return buffer;
         }
@@ -51,7 +71,11 @@ public class BufferMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.BUFFER.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.BUFFER);
+        *///?}
     }
 
     @Override

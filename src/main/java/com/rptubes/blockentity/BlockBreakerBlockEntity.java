@@ -27,7 +27,11 @@ public class BlockBreakerBlockEntity extends BlockEntity implements ITubeConnect
     private int tickCooldown;
 
     public BlockBreakerBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.BLOCK_BREAKER.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.BLOCK_BREAKER, pos, state);
+        *///?}
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, BlockBreakerBlockEntity be) {
@@ -45,7 +49,11 @@ public class BlockBreakerBlockEntity extends BlockEntity implements ITubeConnect
     }
 
     public void onNeighborChange() {
+        //? if <1.21.11 {
         if (this.level == null || this.level.isClientSide) {
+        //?} else {
+        /*if (this.level == null || this.level.isClientSide()) {
+        *///?}
             return;
         }
         boolean signal = this.level.hasNeighborSignal(this.worldPosition);
@@ -154,19 +162,43 @@ public class BlockBreakerBlockEntity extends BlockEntity implements ITubeConnect
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         this.buffer.writeToNBT(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        this.buffer.writeToNBT(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        this.buffer.writeToNBT(tag, this.level != null ? this.level.registryAccess() : null);
+    *///?}
         tag.putBoolean("Powered", this.powered);
         tag.putBoolean("Active", this.active);
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.buffer.readFromNBT(tag);
         this.powered = tag.getBoolean("Powered");
         this.active = tag.getBoolean("Active");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.buffer.readFromNBT(tag, registries);
+        this.powered = tag.getBoolean("Powered");
+        this.active = tag.getBoolean("Active");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.buffer.readFromNBT(tag);
+        this.powered = tag.getBooleanOr("Powered", false);
+        this.active = tag.getBooleanOr("Active", false);
+    *///?}
     }
 
     @Override

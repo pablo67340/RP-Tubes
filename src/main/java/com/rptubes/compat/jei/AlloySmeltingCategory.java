@@ -1,3 +1,4 @@
+//? if <1.21.11 {
 package com.rptubes.compat.jei;
 
 import com.rptubes.RPTubes;
@@ -20,7 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlloySmeltingCategory implements IRecipeCategory<AlloyRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(RPTubes.MOD_ID, "alloy_smelting");
+    //? if <1.21.1 {
+    /*public static final ResourceLocation UID = new ResourceLocation(RPTubes.MOD_ID, "alloy_smelting");
+    *///?} else {
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "alloy_smelting");
+    //?}
     public static final RecipeType<AlloyRecipe> RECIPE_TYPE =
             RecipeType.create(RPTubes.MOD_ID, "alloy_smelting", AlloyRecipe.class);
 
@@ -28,10 +33,18 @@ public class AlloySmeltingCategory implements IRecipeCategory<AlloyRecipe> {
     private final IDrawable icon;
 
     public AlloySmeltingCategory(IGuiHelper guiHelper) {
-        ResourceLocation gui = new ResourceLocation(RPTubes.MOD_ID, "textures/gui/alloy_furnace.png");
+        //? if <1.21.1 {
+        /*ResourceLocation gui = new ResourceLocation(RPTubes.MOD_ID, "textures/gui/alloy_furnace.png");
+        *///?} else {
+        ResourceLocation gui = ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "textures/gui/alloy_furnace.png");
+        //?}
         this.background = guiHelper.createDrawable(gui, 45, 16, 116, 54);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
+                //? if forgelike {
                 new ItemStack(ModBlocks.ALLOY_FURNACE.get()));
+                //?} else {
+                /*new ItemStack(ModBlocks.ALLOY_FURNACE));
+                *///?}
     }
 
     @Override
@@ -66,7 +79,7 @@ public class AlloySmeltingCategory implements IRecipeCategory<AlloyRecipe> {
                     .addItemStacks(withCount(ingredients.get(i), count));
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 19)
-                .addItemStack(recipe.getResultItem());
+                .addItemStack(recipe.getResultStack());
     }
 
     private static List<ItemStack> withCount(Ingredient ingredient, int count) {
@@ -79,3 +92,4 @@ public class AlloySmeltingCategory implements IRecipeCategory<AlloyRecipe> {
         return stacks;
     }
 }
+//?}

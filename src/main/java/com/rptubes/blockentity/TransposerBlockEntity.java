@@ -28,7 +28,11 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
     protected int tickCooldown;
 
     public TransposerBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.TRANSPOSER.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.TRANSPOSER, pos, state);
+        *///?}
     }
 
     protected TransposerBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<?> type,
@@ -54,6 +58,9 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
         if (!be.powered && be.active) {
             be.setActive(false);
         }
+        if (!be.powered && !be.hasBuffered() && be.tickCooldown <= 0) {
+            be.tryEnergyAutoExtract();
+        }
     }
 
     /** Whether any internal buffer still holds items (sorter adds channel buffers). */
@@ -62,7 +69,11 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
     }
 
     public void onNeighborChange() {
+        //? if <1.21.11 {
         if (this.level == null || this.level.isClientSide) {
+        //?} else {
+        /*if (this.level == null || this.level.isClientSide()) {
+        *///?}
             return;
         }
         boolean signal = this.level.hasNeighborSignal(this.worldPosition);
@@ -76,12 +87,8 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
                 return;
             }
             this.setActive(true);
-            Direction back = this.getFacing().getOpposite();
-            BlockPos src = this.worldPosition.relative(back);
-            if (this.canSuckAir(src)) {
-                this.doSuck();
-            } else {
-                this.handleExtract(src, this.getFacing());
+            if (this.payForExtract(false)) {
+                this.startExtract();
             }
         } else {
             if (this.active && this.tickCooldown <= 0) {
@@ -99,6 +106,28 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
         }
         BlockEntity te = this.level.getBlockEntity(pos);
         return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.level, pos, this.getFacing()) == null);
+    }
+
+    //? if fabric && >=1.20.6 {
+    /*protected boolean payForExtract(boolean mustHaveEnergy) {
+    *///?} else {
+    /** Filter / Retriever / Sorter override. Transposer itself does not use RF. */
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+    //?}
+        return !mustHaveEnergy;
+    }
+
+    protected void tryEnergyAutoExtract() {
+    }
+
+    protected void startExtract() {
+        Direction back = this.getFacing().getOpposite();
+        BlockPos src = this.worldPosition.relative(back);
+        if (this.canSuckAir(src)) {
+            this.doSuck();
+        } else {
+            this.handleExtract(src, this.getFacing());
+        }
     }
 
     protected boolean handleExtract(BlockPos src, Direction extractSide) {
@@ -243,19 +272,43 @@ public class TransposerBlockEntity extends BlockEntity implements ITubeConnectab
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         this.buffer.writeToNBT(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        this.buffer.writeToNBT(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        this.buffer.writeToNBT(tag, this.level != null ? this.level.registryAccess() : null);
+    *///?}
         tag.putBoolean("Powered", this.powered);
         tag.putBoolean("Active", this.active);
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.buffer.readFromNBT(tag);
         this.powered = tag.getBoolean("Powered");
         this.active = tag.getBoolean("Active");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.buffer.readFromNBT(tag, registries);
+        this.powered = tag.getBoolean("Powered");
+        this.active = tag.getBoolean("Active");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.buffer.readFromNBT(tag);
+        this.powered = tag.getBooleanOr("Powered", false);
+        this.active = tag.getBooleanOr("Active", false);
+    *///?}
     }
 
     @Override

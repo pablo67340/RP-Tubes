@@ -10,6 +10,47 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+//? if fabric && <1.21.11 {
+/*/^*
+ * Public entry point for mods that want to interact with the RP Tubes network.
+ *
+ * <p>Stability: everything in {@code com.rptubes.api}, plus
+ * {@link com.rptubes.tube.ITubeConnectable} and {@link com.rptubes.tube.TubeItem},
+ * is considered public API and will not break within a major version.
+ *
+ * <p>The two integration levels, simplest first:
+ * <ol>
+ *   <li><b>Expose a Fabric Transfer API item storage.</b> Tubes connect to and
+ *       deliver into any block entity that exposes {@code ItemStorage.SIDED}
+ *       on the touching face. Most mods need nothing else.</li>
+ *   <li><b>Implement {@link ITubeConnectable} on your BlockEntity</b> to become part of
+ *       the network itself: control which sides tubes connect to, add routing weight,
+ *       or accept/route traveling {@link TubeItem}s (this is how our own machines work).
+ *       Return {@code 0} from {@code getTubeConClass()} to connect to standard tubes.</li>
+ * </ol>
+ ^/
+public final class RPTubesApi {
+*///?} else if fabric && >=26.1.2 {
+/*/^*
+ * Public entry point for mods that want to interact with the RP Tubes network.
+ *
+ * <p>Stability: everything in {@code com.rptubes.api}, plus
+ * {@link com.rptubes.tube.ITubeConnectable} and {@link com.rptubes.tube.TubeItem},
+ * is considered public API and will not break within a major version.
+ *
+ * <p>The two integration levels, simplest first:
+ * <ol>
+ *   <li><b>Expose Fabric {@code ItemStorage.SIDED}.</b> Tubes connect to and
+ *       deliver into any block entity that exposes sided item storage
+ *       on the touching face. Most mods need nothing else.</li>
+ *   <li><b>Implement {@link ITubeConnectable} on your BlockEntity</b> to become part of
+ *       the network itself: control which sides tubes connect to, add routing weight,
+ *       or accept/route traveling {@link TubeItem}s (this is how our own machines work).
+ *       Return {@code 0} from {@code getTubeConClass()} to connect to standard tubes.</li>
+ * </ol>
+ ^/
+public final class RPTubesApi {
+*///?} else if !neoforge || <1.21.11 {
 /**
  * Public entry point for mods that want to interact with the RP Tubes network.
  *
@@ -29,6 +70,47 @@ import org.jetbrains.annotations.Nullable;
  * </ol>
  */
 public final class RPTubesApi {
+//?} else if >=26.1.2 && <26.2 {
+/*/^*
+ * Public entry point for mods that want to interact with the RP Tubes network.
+ *
+ * <p>Stability: everything in {@code com.rptubes.api}, plus
+ * {@link com.rptubes.tube.ITubeConnectable} and {@link com.rptubes.tube.TubeItem},
+ * is considered public API and will not break within a major version.
+ *
+ * <p>The two integration levels, simplest first:
+ * <ol>
+ *   <li><b>Expose a NeoForge {@code IItemHandler} capability.</b> Tubes connect to and
+ *       deliver into any block entity that exposes {@code Capabilities.ItemHandler.BLOCK}
+ *       on the touching face. Most mods need nothing else.</li>
+ *   <li><b>Implement {@link ITubeConnectable} on your BlockEntity</b> to become part of
+ *       the network itself: control which sides tubes connect to, add routing weight,
+ *       or accept/route traveling {@link TubeItem}s (this is how our own machines work).
+ *       Return {@code 0} from {@code getTubeConClass()} to connect to standard tubes.</li>
+ * </ol>
+ ^/
+public final class RPTubesApi {
+*///?} else {
+/*/^*
+ * Public entry point for mods that want to interact with the RP Tubes network.
+ *
+ * <p>Stability: everything in {@code com.rptubes.api}, plus
+ * {@link com.rptubes.tube.ITubeConnectable} and {@link com.rptubes.tube.TubeItem},
+ * is considered public API and will not break within a major version.
+ *
+ * <p>The two integration levels, simplest first:
+ * <ol>
+ *   <li><b>Expose a NeoForge {@code IItemHandler} capability.</b> Tubes connect to and
+ *       deliver into any block entity that exposes {@code Capabilities.Item.BLOCK}
+ *       on the touching face. Most mods need nothing else.</li>
+ *   <li><b>Implement {@link ITubeConnectable} on your BlockEntity</b> to become part of
+ *       the network itself: control which sides tubes connect to, add routing weight,
+ *       or accept/route traveling {@link TubeItem}s (this is how our own machines work).
+ *       Return {@code 0} from {@code getTubeConClass()} to connect to standard tubes.</li>
+ * </ol>
+ ^/
+public final class RPTubesApi {
+*///?}
     public static final String MOD_ID = "rptubes";
 
     private RPTubesApi() {

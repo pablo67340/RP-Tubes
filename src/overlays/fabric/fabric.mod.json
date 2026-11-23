@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description_json}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "license": "${mod_license}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.rptubes.RPTubes"
+    ],
+    "client": [
+      "com.rptubes.client.RPTubesClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_range}",
+    "minecraft": "${minecraft_range}",
+    "java": ">=${java}",
+    "fabric-api": "*"
+  },
+  "recommends": {
+    "team_reborn_energy": "*"
+  }
+}

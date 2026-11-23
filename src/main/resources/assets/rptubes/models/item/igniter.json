@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/igniter_item" }
+{
+  "parent": "rptubes:block/igniter_item"
+}

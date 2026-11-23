@@ -1,10 +1,20 @@
 package com.rptubes.block;
+//? if fabric && >=26.1.2 {
+
+/*import com.rptubes.util.MenuHelper;
+*///?}
 
 import com.rptubes.blockentity.AlloyFurnaceBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
+//? if fabric && >=1.21.1 && <1.21.11 {
+/*import com.rptubes.util.MenuHelper;
+*///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+//? if (fabric && >=1.20.6 && <1.21.1) || (fabric && >=1.21.11 && <26.1.2) {
+/*import com.rptubes.util.MenuHelper;
+*///?}
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,12 +32,28 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+//? if >=1.21.11 {
+/*import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
+*///?} else if >=1.20.6 {
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+//?} else if forge {
+/*import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
+*///?} else {
+/*import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import com.rptubes.util.MenuHelper;
+*///?}
 
 public class AlloyFurnaceBlock extends BaseEntityBlock {
+    //? if <1.21.11 {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    //?} else {
+    /*public static final EnumProperty<net.minecraft.core.Direction> FACING = HorizontalDirectionalBlock.FACING;
+    *///?}
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public AlloyFurnaceBlock(Properties properties) {
@@ -53,15 +79,35 @@ public class AlloyFurnaceBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
+    //? if <1.20.6 {
+    /*public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
                                  InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) {
+    *///?} else if <1.21.11 {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!level.isClientSide) {
+    //?} else {
+    /*protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!level.isClientSide()) {
+    *///?}
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof AlloyFurnaceBlockEntity furnace && player instanceof ServerPlayer serverPlayer) {
-                NetworkHooks.openScreen(serverPlayer, furnace, pos);
+                //? if forge && <1.20.6 {
+                /*NetworkHooks.openScreen(serverPlayer, furnace, pos);
+                *///?} else if forgelike {
+                serverPlayer.openMenu(furnace, pos);
+                //?} else if >=1.21.11 && <26.1.2 {
+                /*com.rptubes.util.MenuHelper.open(serverPlayer, furnace, pos);
+                *///?} else {
+                /*MenuHelper.open(serverPlayer, furnace, pos);
+                *///?}
             }
         }
+        //? if <1.21.11 {
         return InteractionResult.sidedSuccess(level.isClientSide);
+        //?} else {
+        /*return InteractionResult.SUCCESS;
+        *///?}
     }
 
         @Override
@@ -72,10 +118,33 @@ public class AlloyFurnaceBlock extends BaseEntityBlock {
         @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
                                                                   BlockEntityType<T> type) {
+        //? if forgelike && <1.21.11 {
         return level.isClientSide ? null :
                 createTickerHelper(type, ModBlockEntities.ALLOY_FURNACE.get(), AlloyFurnaceBlockEntity::serverTick);
+        //?} else if <1.21.11 {
+        /*return level.isClientSide ? null :
+                createTickerHelper(type, ModBlockEntities.ALLOY_FURNACE, AlloyFurnaceBlockEntity::serverTick);
+        *///?} else if fabric {
+        /*return level.isClientSide() ? null :
+                createTickerHelper(type, ModBlockEntities.ALLOY_FURNACE, AlloyFurnaceBlockEntity::serverTick);
+        *///?} else {
+        /*return level.isClientSide() ? null :
+                createTickerHelper(type, ModBlockEntities.ALLOY_FURNACE.get(), AlloyFurnaceBlockEntity::serverTick);
+        *///?}
     }
 
+    //? if <1.20.6 {
+    /*@Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof AlloyFurnaceBlockEntity furnace) {
+                Containers.dropContents(level, pos, furnace);
+            }
+            super.onRemove(state, level, pos, newState, isMoving);
+        }
+    }
+    *///?} else if <1.21.11 {
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
@@ -86,4 +155,18 @@ public class AlloyFurnaceBlock extends BaseEntityBlock {
             super.onRemove(state, level, pos, newState, isMoving);
         }
     }
+
+
+    @Override
+    protected com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.block.BaseEntityBlock> codec() {
+        return net.minecraft.world.level.block.BaseEntityBlock.simpleCodec(AlloyFurnaceBlock::new);
+    }
+    //?} else {
+    /*// Content drops on removal are handled by BlockEntity.preRemoveSideEffects (1.21.5+)
+
+    @Override
+    protected com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.block.BaseEntityBlock> codec() {
+        return net.minecraft.world.level.block.BaseEntityBlock.simpleCodec(AlloyFurnaceBlock::new);
+    }
+    *///?}
 }

@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "rptubes:block/tin_ore" }
+    "": {
+      "model": "rptubes:block/tin_ore"
+    }
   }
 }

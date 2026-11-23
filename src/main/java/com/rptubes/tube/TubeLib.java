@@ -5,8 +5,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+//? if forge {
+/*import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
+*///?} else if fabric {
+/*import com.rptubes.inventory.IItemHandler;
+*///?} else if >=26.1.2 && <26.2 {
+/*import com.rptubes.registry.ModCapabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+*///?} else {
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+//?}
 
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -74,9 +84,26 @@ public final class TubeLib {
         if (be == null) {
             return false;
         }
-        return be.getCapability(ForgeCapabilities.ITEM_HANDLER, side)
+        //? if forge {
+        /*return be.getCapability(ForgeCapabilities.ITEM_HANDLER, side)
                 .map(handler -> handler.getSlots() > 0)
                 .orElse(false);
+        *///?} else if fabric && <26.1.2 {
+        /*IItemHandler handler = MachineLib.getHandler(level, pos, side);
+        return handler != null && handler.getSlots() > 0;
+        *///?} else if <1.21.11 {
+        IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, side);
+        return handler != null && handler.getSlots() > 0;
+        //?} else if fabric {
+        /*IItemHandler handler = com.rptubes.tube.MachineLib.getHandler(level, pos, side);
+        return handler != null && handler.getSlots() > 0;
+        *///?} else if >=26.1.2 && <26.2 {
+        /*IItemHandler handler = ModCapabilities.query(level, pos, side);
+        return handler != null && handler.getSlots() > 0;
+        *///?} else {
+        /*var handler = level.getCapability(Capabilities.Item.BLOCK, pos, side);
+        return handler != null && handler.size() > 0;
+        *///?}
     }
 
     public static int getConnections(Level level, BlockPos pos) {

@@ -22,16 +22,39 @@ public class BlockBreakerBlock extends MachineBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
                                                                   BlockEntityType<T> type) {
+        //? if forgelike && <1.21.11 {
         return level.isClientSide ? null :
                 createTickerHelper(type, ModBlockEntities.BLOCK_BREAKER.get(), BlockBreakerBlockEntity::serverTick);
+        //?} else if <1.21.11 {
+        /*return level.isClientSide ? null :
+                createTickerHelper(type, ModBlockEntities.BLOCK_BREAKER, BlockBreakerBlockEntity::serverTick);
+        *///?} else if fabric {
+        /*return level.isClientSide() ? null :
+                createTickerHelper(type, ModBlockEntities.BLOCK_BREAKER, BlockBreakerBlockEntity::serverTick);
+        *///?} else {
+        /*return level.isClientSide() ? null :
+                createTickerHelper(type, ModBlockEntities.BLOCK_BREAKER.get(), BlockBreakerBlockEntity::serverTick);
+        *///?}
     }
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos,
+                                //? if <1.21.11 {
                                 net.minecraft.world.level.block.Block block, BlockPos fromPos, boolean isMoving) {
+                                //?} else {
+                                /*net.minecraft.world.level.block.Block block, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {
+                                *///?}
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof BlockBreakerBlockEntity breaker) {
             breaker.onNeighborChange();
         }
     }
+    //? if >=1.20.6 {
+
+
+    @Override
+    protected com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.block.BaseEntityBlock> codec() {
+        return net.minecraft.world.level.block.BaseEntityBlock.simpleCodec(BlockBreakerBlock::new);
+    }
+    //?}
 }

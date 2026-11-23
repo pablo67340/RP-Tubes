@@ -1,4 +1,11 @@
 package com.rptubes.blockentity;
+//? if fabric && >=1.20.6 && <1.21.1 {
+
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import com.rptubes.inventory.InvWrapper;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?}
 
 import com.rptubes.menu.BufferMenu;
 import com.rptubes.registry.ModBlockEntities;
@@ -16,26 +23,121 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
+//? if forge {
+/*import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+*///?} else if neoforge && <26.2 {
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+//?} else if <1.20.6 || (>=1.21.11 && <26.1.2) {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.InvWrapper;
+*///?} else if neoforge {
+/*import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+*///?} else if >=1.21.1 {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerProvider;
+import com.rptubes.inventory.InvWrapper;
+*///?}
 
 /** Port of TileBufferChest — 20-slot storage accessible from all sides. */
+//? if fabric && >=1.21.1 && <1.21.11 {
+/*public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, ItemHandlerProvider {
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private final IItemHandler handler = new InvWrapper(this);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+    private static final int[] ALL_SLOTS = new int[20];
+*///?} else if fabric && >=1.21.1 && <26.1.2 {
+/*public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, com.rptubes.inventory.ItemHandlerProvider{
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private final IItemHandler handler = new InvWrapper(this);
+    private static final int[] ALL_SLOTS = new int[20];
+*///?} else if neoforge && >=1.21.11 && <26.1.2 {
+/*public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private final IItemHandler handler = new InvWrapper(this);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    private static final int[] ALL_SLOTS = new int[20];
+*///?} else if neoforge && >=26.2 {
+/*public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private static final int[] ALL_SLOTS = new int[20];
+
+    public ResourceHandler<ItemResource> getItemHandler(Direction side) {
+        return VanillaContainerWrapper.of(this);
+    }
+*///?} else if fabric && <1.21.1 {
+/*public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, com.rptubes.inventory.ItemHandlerProvider {
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private final IItemHandler handler = new InvWrapper(this);
+    private static final int[] ALL_SLOTS = new int[20];
+*///?} else if fabric {
+/*public class BufferBlockEntity extends BlockEntity implements ItemHandlerProvider, WorldlyContainer, MenuProvider {
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private static final int[] ALL_SLOTS = new int[20];
+*///?} else if neoforge {
 public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
+    private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
+    private static final int[] ALL_SLOTS = new int[20];
+//?} else {
+/*public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     private NonNullList<ItemStack> items = NonNullList.withSize(20, ItemStack.EMPTY);
     private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> new InvWrapper(this));
     private static final int[] ALL_SLOTS = new int[20];
+*///?}
 
     static {
         for (int i = 0; i < 20; i++) {
             ALL_SLOTS[i] = i;
         }
+    //? if fabric && >=26.1.2 {
+    /*}
+
+    private final IItemHandler handler = new InvWrapper(this);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    *///?}
+    }
+
+    //? if fabric {
+    /*public BufferBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.BUFFER, pos, state);
+    *///?} else if neoforge && <1.21.11 {
+
+    private final IItemHandler handler = new InvWrapper(this);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
     }
 
     public BufferBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BUFFER.get(), pos, state);
+    //?} else if neoforge && >=26.1.2 && <26.2 {
+    /*private final IItemHandler handler = new InvWrapper(this);
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    public BufferBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.BUFFER.get(), pos, state);
+    *///?} else {
+    /*public BufferBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.BUFFER.get(), pos, state);
+    *///?}
     }
 
     @Override
@@ -113,13 +215,96 @@ public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, 
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.items);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.items, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, this.items);
+    *///?}
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if fabric && <1.20.6 {
+    /*public void load(CompoundTag tag) {
+        super.load(tag);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items);
+    }
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
+        }
+        super.setRemoved();
+    }
+    *///?} else if fabric && <1.21.1 {
+    /*protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
+    }
+
+
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
+        }
+        super.setRemoved();
+    }
+    *///?} else if fabric && <1.21.11 {
+    /*protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
+    }
+
+
+
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
+        }
+        super.setRemoved();
+    }
+    *///?} else if fabric && <26.1.2 {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items);
+    }
+
+
+    @Override
+    public void setRemoved() {
+        // Item drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+    }
+
+    @Override
+    public IItemHandler getItemHandler(Direction side) {
+        return this.handler;
+    }
+    *///?} else if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.items = NonNullList.withSize(20, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.items);
@@ -152,4 +337,98 @@ public class BufferBlockEntity extends BlockEntity implements WorldlyContainer, 
         }
         super.setRemoved();
     }
+    *///?} else if forge && <1.21.11 {
+    /*protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
+            return handler.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.handler.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.handler = LazyOptional.of(() -> new InvWrapper(this));
+    }
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
+        }
+        super.setRemoved();
+    }
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
+    }
+
+
+    @Override
+    public void setRemoved() {
+        if (this.level != null) {
+            net.minecraft.world.Containers.dropContents(this.level, this.worldPosition, this);
+        }
+        super.setRemoved();
+    }
+    //?} else if forge {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
+            return handler.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.handler.invalidate();
+    }
+
+    @Override
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.handler = LazyOptional.of(() -> new InvWrapper(this));
+    }
+
+    @Override
+    public void setRemoved() {
+        // Item drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+    }
+    *///?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.items = NonNullList.withSize(20, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items);
+    }
+
+    @Override
+    public void setRemoved() {
+        // Item drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+    }
+    *///?}
 }

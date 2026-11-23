@@ -1,6 +1,13 @@
 package com.rptubes.blockentity;
 
+//? if forge || (neoforge && <1.21.11) || <1.20.6 {
 import com.rptubes.RPTubes;
+//?} else if <1.21.1 {
+/*import com.rptubes.network.ModNetworking;
+*///?} else if <1.21.11 {
+/*import com.rptubes.RPTubes;
+import com.rptubes.network.ModNetworking;
+*///?}
 import com.rptubes.network.TubeItemUpsertPacket;
 import com.rptubes.registry.ModBlockEntities;
 import com.rptubes.tube.ITubeFlow;
@@ -13,17 +20,36 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
+//? if fabric && >=1.21.1 && <1.21.11 {
+/*import net.minecraft.world.level.ChunkPos;
+*///?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.PacketDistributor;
+//? if forge {
+/*import net.minecraftforge.network.PacketDistributor;
+*///?} else if <1.20.6 {
+/*import com.rptubes.network.ModNetworking;
+import net.minecraft.world.level.ChunkPos;
+*///?} else if neoforge {
+import net.neoforged.neoforge.network.PacketDistributor;
+//?} else if >=1.21.11 {
+/*import com.rptubes.network.ModNetworking;
+*///?}
 
 /**
  * Port of eloraam.machine.TileTube — routes items to the nearest valid destination.
  */
 public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     private byte lastDir = 0;
+    //? if fabric && >=1.20.6 {
+    /*/^* OG paintColor: 0 = unpainted, 1-16 = dye. ^/
+    private byte paintColor = 0;
+    *///?} else {
+    /** OG paintColor: 0 = unpainted, 1-16 = dye. Used for sorter color routing. */
+    private byte paintColor = 0;
+    //?}
 
     private final TubeFlow flow = new TubeFlow() {
         @Override
@@ -43,7 +69,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
                 ti.side = (byte) Integer.numberOfTrailingZeros(available);
                 return true;
             }
+            //? if <1.21.11 {
             if (tsc.world.isClientSide) {
+            //?} else {
+            /*if (tsc.world.isClientSide()) {
+            *///?}
                 // Can't route client-side at a junction; freeze the item at the
                 // tube center until the server sync provides the chosen route.
                 ti.side = (byte) -1;
@@ -97,7 +127,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     };
 
     public PneumaticTubeBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         this(ModBlockEntities.PNEUMATIC_TUBE.get(), pos, state);
+        //?} else {
+        /*this(ModBlockEntities.PNEUMATIC_TUBE, pos, state);
+        *///?}
     }
 
     protected PneumaticTubeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -108,7 +142,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         if (be.flow.update()) {
             be.setChanged();
         }
+        //? if <1.21.11 {
         if (!level.isClientSide && !be.flow.pendingSync.isEmpty()) {
+        //?} else {
+        /*if (!level.isClientSide() && !be.flow.pendingSync.isEmpty()) {
+        *///?}
             // Drain queued item events (entries, junction routes, bounces) into
             // one small packet. Items are captured in their end-of-tick state,
             // after routing has run. Sent over our own channel — hybrid servers
@@ -120,13 +158,30 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
                     continue;
                 }
                 CompoundTag itemTag = new CompoundTag();
-                ti.writeToNBT(itemTag);
+                //? if <1.20.6 {
+                /*ti.writeToNBT(itemTag);
+                *///?} else {
+                ti.writeToNBT(itemTag, level.registryAccess());
+                //?}
                 items.add(itemTag);
             }
             be.flow.pendingSync.clear();
-            RPTubes.CHANNEL.send(
+            //? if forge && <1.20.6 {
+            /*RPTubes.CHANNEL.send(
                     PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(pos)),
                     new TubeItemUpsertPacket(pos, items));
+            *///?} else if forge {
+            /*RPTubes.CHANNEL.send(new TubeItemUpsertPacket(pos, items), PacketDistributor.TRACKING_CHUNK.with(level.getChunkAt(pos)));
+            *///?} else if neoforge {
+            PacketDistributor.sendToPlayersTrackingChunk((net.minecraft.server.level.ServerLevel) level,
+                    level.getChunkAt(pos).getPos(), new TubeItemUpsertPacket(pos, items));
+            //?} else if <1.20.6 || (>=1.21.1 && <1.21.11) {
+            /*ModNetworking.sendToTracking(level, new ChunkPos(pos), new TubeItemUpsertPacket(pos, items));
+            *///?} else if <26.1.2 {
+            /*ModNetworking.sendToTracking(level, new net.minecraft.world.level.ChunkPos(pos), new TubeItemUpsertPacket(pos, items));
+            *///?} else {
+            /*ModNetworking.sendToTracking(level, level.getChunkAt(pos).getPos(), new TubeItemUpsertPacket(pos, items));
+            *///?}
         }
     }
 
@@ -137,7 +192,40 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
 
     @Override
     public int getTubeConClass() {
-        return 0;
+        return this.paintColor & 0xFF;
+    }
+
+    public byte getPaintColor() {
+        return this.paintColor;
+    }
+
+    //? if fabric && >=1.20.6 {
+    /*public boolean tryPaint(int color) {
+    *///?} else {
+    /**
+     * Dye or clear this tube. {@code color} is 0 (unpainted) or 1-16.
+     * Returns false if the color did not change.
+     */
+    public boolean tryPaint(int color) {
+    //?}
+        byte next = (byte) (color < 0 ? 0 : color > 16 ? 16 : color);
+        if (this.paintColor == next) {
+            return false;
+        }
+        this.paintColor = next;
+        this.setChanged();
+        if (this.level != null) {
+            //? if forge {
+            /*BlockState state = this.level.getBlockState(this.worldPosition);
+            *///?} else if fabric && >=1.20.6 {
+            /*net.minecraft.world.level.block.state.BlockState state = this.getBlockState();
+            *///?} else {
+            BlockState state = this.getBlockState();
+            //?}
+            this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+            this.level.updateNeighborsAt(this.worldPosition, state.getBlock());
+        }
+        return true;
     }
 
     @Override
@@ -150,10 +238,17 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         if (state != 0) {
             return false;
         }
+        if (!this.colorAllows(item)) {
+            return false;
+        }
         item.side = (byte) side;
         this.flow.add(item);
         this.setChanged();
+        //? if <1.21.11 {
         if (this.level != null && !this.level.isClientSide) {
+        //?} else {
+        /*if (this.level != null && !this.level.isClientSide()) {
+        *///?}
             // Item entered the network from a machine — event the client can't predict
             this.flow.pendingSync.add(item);
         }
@@ -165,7 +260,16 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         // OG TileTube: tubes are pass-through (state 0), never a destination.
         // Answering true for state 1 made route-finding always "succeed",
         // so machines kept re-ejecting items with nowhere to go.
-        return state == 0;
+        return state == 0 && this.colorAllows(item);
+    }
+
+    //? if fabric && >=1.20.6 {
+    /*protected boolean colorAllows(TubeItem item) {
+    *///?} else {
+    /** OG: painted items may only enter a tube that is unpainted or the same color. */
+    protected boolean colorAllows(TubeItem item) {
+    //?}
+        return item.color == 0 || this.paintColor == 0 || item.color == this.paintColor;
     }
 
     @Override
@@ -175,7 +279,11 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
 
     @Override
     public void addTubeItem(TubeItem item) {
+        //? if <1.21.11 {
         if (this.level != null && this.level.isClientSide) {
+        //?} else {
+        /*if (this.level != null && this.level.isClientSide()) {
+        *///?}
             // Guard against double-adds if a server event already placed it here
             for (TubeItem existing : this.flow.contents) {
                 if (existing.id == item.id) {
@@ -198,22 +306,61 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         this.flow.writeToNBT(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        this.flow.writeToNBT(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        this.flow.writeToNBT(tag, this.level != null ? this.level.registryAccess() : null);
+    *///?}
         tag.putByte("lastDir", this.lastDir);
+        tag.putByte("pCol", this.paintColor);
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if >=1.21.11 {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.flow.readFromNBT(tag);
+        this.lastDir = tag.getByteOr("lastDir", (byte) 0);
+        this.paintColor = tag.getByteOr("pCol", (byte) 0);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
+    *///?} else if >=1.20.6 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.flow.readFromNBT(tag, registries);
+        this.lastDir = tag.getByte("lastDir");
+        this.paintColor = tag.getByte("pCol");
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
+    //?} else if forge {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.flow.readFromNBT(tag);
         this.lastDir = tag.getByte("lastDir");
+        this.paintColor = tag.getByte("pCol");
     }
 
     @Override
     public CompoundTag getUpdateTag() {
         return this.saveWithoutMetadata();
+    *///?} else {
+    /*public CompoundTag getUpdateTag() {
+        return this.saveWithoutMetadata();
+    *///?}
     }
 
     @Override
@@ -221,7 +368,62 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
+    //? if fabric && <1.20.6 {
+    /*@Override
+    public void load(CompoundTag tag) {
+        if (this.level != null && this.level.isClientSide && tag.contains("Items") && !this.flow.contents.isEmpty()) {
+            net.minecraft.nbt.ListTag items = tag.getList("Items", net.minecraft.nbt.Tag.TAG_COMPOUND);
+            for (int i = 0; i < items.size(); i++) {
+                this.upsertItem(TubeItem.newFromNBT(items.getCompound(i)));
+            }
+            this.lastDir = tag.getByte("lastDir");
+            this.paintColor = tag.getByte("pCol");
+            return;
+        }
+        super.load(tag);
+        this.flow.readFromNBT(tag);
+        this.lastDir = tag.getByte("lastDir");
+        this.paintColor = tag.getByte("pCol");
+    }
+    *///?} else if fabric && <1.21.1 {
+    /*public void onDataPacket(net.minecraft.network.Connection connection, ClientboundBlockEntityDataPacket pkt, net.minecraft.core.HolderLookup.Provider registries) {
+        CompoundTag tag = pkt.getTag();
+        if (tag == null) {
+            return;
+        }
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = tag.getByte("pCol");
+        net.minecraft.nbt.ListTag items = tag.getList("Items", net.minecraft.nbt.Tag.TAG_COMPOUND);
+        for (int i = 0; i < items.size(); i++) {
+            this.upsertItem(TubeItem.newFromNBT(items.getCompound(i), registries));
+        }
+    }
+    *///?} else if fabric && >=1.21.11 && <26.1.2 {
+    /*public void onDataPacket(net.minecraft.network.Connection connection, net.minecraft.world.level.storage.ValueInput input, net.minecraft.core.HolderLookup.Provider registries) {
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = input.getByteOr("pCol", (byte) 0);
+        for (CompoundTag item : input.listOrEmpty("Items", CompoundTag.CODEC)) {
+            this.upsertItem(TubeItem.newFromNBT(item, input.lookup()));
+        }
+    }
+    *///?} else if neoforge && >=26.1.2 && <26.2 {
+    /*@Override
+    public void onDataPacket(net.minecraft.network.Connection connection,
+                             net.minecraft.world.level.storage.ValueInput input) {
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = input.getByteOr("pCol", (byte) 0);
+        for (CompoundTag item : input.listOrEmpty("Items", CompoundTag.CODEC)) {
+            this.upsertItem(TubeItem.newFromNBT(item, input.lookup()));
+        }
+    }
+    *///?} else if <1.20.6 {
+    /*@Override
     public void onDataPacket(net.minecraft.network.Connection connection, ClientboundBlockEntityDataPacket pkt) {
         CompoundTag tag = pkt.getTag();
         if (tag == null) {
@@ -230,11 +432,61 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         // Non-destructive: vanilla BE packets fire on unrelated block updates
         // (e.g. redstone tube power changes); replacing contents wholesale
         // would delete locally simulated items and cause visual glitches.
+        this.paintColor = tag.getByte("pCol");
         net.minecraft.nbt.ListTag items = tag.getList("Items", net.minecraft.nbt.Tag.TAG_COMPOUND);
         for (int i = 0; i < items.size(); i++) {
             this.upsertItem(TubeItem.newFromNBT(items.getCompound(i)));
         }
     }
+    *///?} else if neoforge && >=1.21.11 {
+    /*@Override
+    public void onDataPacket(net.minecraft.network.Connection connection, net.minecraft.world.level.storage.ValueInput input) {
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = input.getByteOr("pCol", (byte) 0);
+        for (CompoundTag item : input.listOrEmpty("Items", CompoundTag.CODEC)) {
+            this.upsertItem(TubeItem.newFromNBT(item, input.lookup()));
+        }
+    }
+    *///?} else if fabric && >=1.21.11 {
+    /*public void handleUpdateTag(net.minecraft.world.level.storage.ValueInput input) {
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = input.getByteOr("pCol", (byte) 0);
+        for (CompoundTag item : input.listOrEmpty("Items", CompoundTag.CODEC)) {
+            this.upsertItem(TubeItem.newFromNBT(item, input.lookup()));
+        }
+    }
+    *///?} else if >=1.21.11 {
+    /*@Override
+    public void onDataPacket(net.minecraft.network.Connection connection, net.minecraft.world.level.storage.ValueInput input, net.minecraft.core.HolderLookup.Provider registries) {
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = input.getByteOr("pCol", (byte) 0);
+        for (CompoundTag item : input.listOrEmpty("Items", CompoundTag.CODEC)) {
+            this.upsertItem(TubeItem.newFromNBT(item, input.lookup()));
+        }
+    }
+    *///?} else if forgelike {
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection connection, ClientboundBlockEntityDataPacket pkt, net.minecraft.core.HolderLookup.Provider registries) {
+        CompoundTag tag = pkt.getTag();
+        if (tag == null) {
+            return;
+        }
+        // Non-destructive: vanilla BE packets fire on unrelated block updates
+        // (e.g. redstone tube power changes); replacing contents wholesale
+        // would delete locally simulated items and cause visual glitches.
+        this.paintColor = tag.getByte("pCol");
+        net.minecraft.nbt.ListTag items = tag.getList("Items", net.minecraft.nbt.Tag.TAG_COMPOUND);
+        for (int i = 0; i < items.size(); i++) {
+            this.upsertItem(TubeItem.newFromNBT(items.getCompound(i), registries));
+        }
+    }
+    //?}
 
     /**
      * Merge a single server item event into the local simulation.

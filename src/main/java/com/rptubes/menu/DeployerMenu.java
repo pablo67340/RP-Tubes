@@ -4,7 +4,9 @@ import com.rptubes.blockentity.DeployerBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,12 +18,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class DeployerMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public DeployerMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getDeployer(playerInv, pos));
+    *///?} else {
     public DeployerMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getDeployer(playerInv, buf));
+    //?}
     }
 
     public DeployerMenu(int id, Inventory playerInv, DeployerBlockEntity deployer) {
+        //? if forgelike {
         super(ModMenus.DEPLOYER.get(), id);
+        //?} else {
+        /*super(ModMenus.DEPLOYER, id);
+        *///?}
         this.access = ContainerLevelAccess.create(deployer.getLevel(), deployer.getBlockPos());
 
         for (int row = 0; row < 3; row++) {
@@ -43,9 +54,18 @@ public class DeployerMenu extends AbstractContainerMenu {
         }
     }
 
+    //? if <1.20.1 {
+    /*private static DeployerBlockEntity getDeployer(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static DeployerBlockEntity getDeployer(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static DeployerBlockEntity getDeployer(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof DeployerBlockEntity deployer) {
             return deployer;
         }
@@ -54,7 +74,11 @@ public class DeployerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.DEPLOYER.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.DEPLOYER);
+        *///?}
     }
 
     @Override

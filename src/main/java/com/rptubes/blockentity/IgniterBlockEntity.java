@@ -21,7 +21,11 @@ public class IgniterBlockEntity extends BlockEntity {
     private int tickCooldown;
 
     public IgniterBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.IGNITER.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.IGNITER, pos, state);
+        *///?}
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, IgniterBlockEntity be) {
@@ -38,7 +42,11 @@ public class IgniterBlockEntity extends BlockEntity {
     }
 
     public void onNeighborChange() {
+        //? if <1.21.11 {
         if (this.level == null || this.level.isClientSide) {
+        //?} else {
+        /*if (this.level == null || this.level.isClientSide()) {
+        *///?}
             return;
         }
         boolean signal = this.level.hasNeighborSignal(this.worldPosition);
@@ -105,18 +113,40 @@ public class IgniterBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+    *///?}
         tag.putBoolean("Powered", this.powered);
         tag.putBoolean("Active", this.active);
         tag.putBoolean("Delay", this.delay);
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.powered = tag.getBoolean("Powered");
         this.active = tag.getBoolean("Active");
         this.delay = tag.getBoolean("Delay");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.powered = tag.getBoolean("Powered");
+        this.active = tag.getBoolean("Active");
+        this.delay = tag.getBoolean("Delay");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.powered = tag.getBooleanOr("Powered", false);
+        this.active = tag.getBooleanOr("Active", false);
+        this.delay = tag.getBooleanOr("Delay", false);
+    *///?}
     }
 }

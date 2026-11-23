@@ -1,5 +1,8 @@
 package com.rptubes.tube;
 
+//? if >=1.20.6 {
+import net.minecraft.core.HolderLookup;
+//?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
@@ -31,7 +34,8 @@ public class TubeItem {
         this.item = stack;
     }
 
-    public void readFromNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void readFromNBT(CompoundTag tag) {
         this.item = ItemStack.of(tag.getCompound("Item"));
         if (tag.contains("tid")) {
             this.id = tag.getInt("tid");
@@ -40,18 +44,58 @@ public class TubeItem {
         this.progress = tag.getShort("pos");
         this.mode = tag.getByte("mode");
         this.color = tag.getByte("col");
+    *///?} else if <1.21.11 {
+    public void readFromNBT(CompoundTag tag, HolderLookup.Provider registries) {
+        this.item = ItemStack.parseOptional(registries, tag.getCompound("Item"));
+        if (tag.contains("tid")) {
+            this.id = tag.getInt("tid");
+        }
+        this.side = tag.getByte("side");
+        this.progress = tag.getShort("pos");
+        this.mode = tag.getByte("mode");
+        this.color = tag.getByte("col");
+    //?} else {
+    /*private static com.mojang.serialization.DynamicOps<net.minecraft.nbt.Tag> ops(HolderLookup.Provider registries) {
+        return registries != null
+                ? registries.createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE)
+                : net.minecraft.nbt.NbtOps.INSTANCE;
+    }
+
+    public void readFromNBT(CompoundTag tag, HolderLookup.Provider registries) {
+        net.minecraft.nbt.Tag itemTag = tag.get("Item");
+        this.item = itemTag == null ? ItemStack.EMPTY
+                : ItemStack.OPTIONAL_CODEC.parse(ops(registries), itemTag).result().orElse(ItemStack.EMPTY);
+        this.id = tag.getIntOr("tid", this.id);
+        this.side = tag.getByteOr("side", (byte) 0);
+        this.progress = tag.getShortOr("pos", (short) 0);
+        this.mode = tag.getByteOr("mode", (byte) 0);
+        this.color = tag.getByteOr("col", (byte) 0);
+    *///?}
         if (this.progress < 0) {
             this.scheduled = true;
             this.progress = (short) (-this.progress - 1);
         } else {
             this.scheduled = false;
         }
+        //? if <1.21.11 {
         this.power = (short) (tag.getByte("pow") & 0xFF);
+        //?} else {
+        /*this.power = (short) (tag.getByteOr("pow", (byte) 0) & 0xFF);
+        *///?}
         this.lastProgress = (short) (this.progress - 16);
     }
 
-    public void writeToNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void writeToNBT(CompoundTag tag) {
         tag.put("Item", this.item.save(new CompoundTag()));
+    *///?} else if <1.21.11 {
+    public void writeToNBT(CompoundTag tag, HolderLookup.Provider registries) {
+        tag.put("Item", this.item.saveOptional(registries));
+    //?} else {
+    /*public void writeToNBT(CompoundTag tag, HolderLookup.Provider registries) {
+        ItemStack.OPTIONAL_CODEC.encodeStart(ops(registries), this.item)
+                .result().ifPresent(t -> tag.put("Item", t));
+    *///?}
         tag.putInt("tid", this.id);
         tag.putByte("side", this.side);
         tag.putShort("pos", (short) (this.scheduled ? -this.progress - 1 : this.progress));
@@ -60,9 +104,15 @@ public class TubeItem {
         tag.putByte("pow", (byte) this.power);
     }
 
-    public static TubeItem newFromNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public static TubeItem newFromNBT(CompoundTag tag) {
         TubeItem ti = new TubeItem();
         ti.readFromNBT(tag);
+    *///?} else {
+    public static TubeItem newFromNBT(CompoundTag tag, HolderLookup.Provider registries) {
+        TubeItem ti = new TubeItem();
+        ti.readFromNBT(tag, registries);
+    //?}
         return ti;
     }
 }

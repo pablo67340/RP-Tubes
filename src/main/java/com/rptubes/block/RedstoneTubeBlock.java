@@ -25,7 +25,11 @@ public class RedstoneTubeBlock extends PneumaticTubeBlock {
     private static boolean shouldSignal = true;
 
     public RedstoneTubeBlock(Properties properties) {
+        //? if fabric && >=26.1.2 {
+        /*super(properties, RedstoneTubeBlockEntity::new);
+        *///?} else {
         super(properties, RedstoneTubeBlockEntity::new, null);
+        //?}
         this.registerDefaultState(this.defaultBlockState().setValue(POWER, 0));
     }
 
@@ -58,16 +62,27 @@ public class RedstoneTubeBlock extends PneumaticTubeBlock {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
+        //? if <1.21.11 {
         if (!level.isClientSide && !oldState.is(this)) {
+        //?} else {
+        /*if (!level.isClientSide() && !oldState.is(this)) {
+        *///?}
             this.updatePower(level, pos);
         }
     }
 
     @Override
+    //? if <1.21.11 {
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos,
                                 boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
         if (!level.isClientSide) {
+    //?} else {
+    /*public void neighborChanged(BlockState state, Level level, BlockPos pos, net.minecraft.world.level.block.Block block, net.minecraft.world.level.redstone.Orientation orientation,
+                                boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, orientation, isMoving);
+        if (!level.isClientSide()) {
+    *///?}
             this.updatePower(level, pos);
         }
     }

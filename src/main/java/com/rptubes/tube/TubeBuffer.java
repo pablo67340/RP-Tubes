@@ -3,8 +3,14 @@ package com.rptubes.tube;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+//? if <1.21.11 {
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.item.ItemEntity;
+//?} else {
+/*import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+*///?}
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -89,28 +95,81 @@ public class TubeBuffer {
         this.buffer.clear();
     }
 
-    public void readFromNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void readFromNBT(CompoundTag tag) {
         this.buffer = null;
         ListTag items = tag.getList("Buffer", Tag.TAG_COMPOUND);
+    *///?} else if <1.21.11 {
+    public void readFromNBT(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        this.buffer = null;
+        ListTag items = tag.getList("Buffer", Tag.TAG_COMPOUND);
+    //?} else {
+    /*public void readFromNBT(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        this.buffer = null;
+        ListTag items = tag.getListOrEmpty("Buffer");
+    *///?}
         if (!items.isEmpty()) {
             this.buffer = new LinkedList<>();
             for (int i = 0; i < items.size(); i++) {
-                this.buffer.add(TubeItem.newFromNBT(items.getCompound(i)));
+                //? if <1.20.6 {
+                /*this.buffer.add(TubeItem.newFromNBT(items.getCompound(i)));
+                *///?} else if <1.21.11 {
+                this.buffer.add(TubeItem.newFromNBT(items.getCompound(i), registries));
+                //?} else {
+                /*this.buffer.add(TubeItem.newFromNBT(items.getCompoundOrEmpty(i), registries));
+                *///?}
             }
         }
+        //? if <1.21.11 {
         this.plugged = tag.getByte("Plug") > 0;
+        //?} else {
+        /*this.plugged = tag.getByteOr("Plug", (byte) 0) > 0;
+        *///?}
     }
 
-    public void writeToNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void writeToNBT(CompoundTag tag) {
+    *///?} else {
+    public void writeToNBT(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+    //?}
         ListTag items = new ListTag();
         if (this.buffer != null) {
             for (TubeItem ti : this.buffer) {
                 CompoundTag item = new CompoundTag();
-                ti.writeToNBT(item);
+                //? if <1.20.6 {
+                /*ti.writeToNBT(item);
+                *///?} else {
+                ti.writeToNBT(item, registries);
+                //?}
                 items.add(item);
             }
         }
         tag.put("Buffer", items);
         tag.putByte("Plug", (byte) (this.plugged ? 1 : 0));
     }
+    //? if >=1.21.11 {
+
+    /*public void readFromNBT(ValueInput input) {
+        this.buffer = null;
+        for (CompoundTag item : input.listOrEmpty("Buffer", CompoundTag.CODEC)) {
+            if (this.buffer == null) {
+                this.buffer = new LinkedList<>();
+            }
+            this.buffer.add(TubeItem.newFromNBT(item, input.lookup()));
+        }
+        this.plugged = input.getByteOr("Plug", (byte) 0) > 0;
+    }
+
+    public void writeToNBT(ValueOutput output, net.minecraft.core.HolderLookup.Provider registries) {
+        ValueOutput.TypedOutputList<CompoundTag> items = output.list("Buffer", CompoundTag.CODEC);
+        if (this.buffer != null) {
+            for (TubeItem ti : this.buffer) {
+                CompoundTag item = new CompoundTag();
+                ti.writeToNBT(item, registries);
+                items.add(item);
+            }
+        }
+        output.putByte("Plug", (byte) (this.plugged ? 1 : 0));
+    }
+    *///?}
 }

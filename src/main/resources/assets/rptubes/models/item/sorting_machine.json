@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/sorting_machine_item" }
+{
+  "parent": "rptubes:block/sorting_machine_item"
+}

@@ -1,4 +1,11 @@
 package com.rptubes.blockentity;
+//? if fabric && >=1.20.6 && <1.21.1 {
+
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerHelper;
+import com.rptubes.inventory.InvWrapper;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?}
 
 import com.rptubes.menu.FilterMenu;
 import com.rptubes.registry.ModBlockEntities;
@@ -17,24 +24,148 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
+//? if neoforge && >=26.2 {
+/*import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+*///?} else if (fabric && <1.20.6) || (fabric && >=1.21.11 && <26.1.2) {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?} else if neoforge && <1.21.11 {
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+//?} else if neoforge {
+/*import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+*///?} else if fabric && >=1.21.1 {
+/*import com.rptubes.inventory.IItemHandler;
+import com.rptubes.inventory.ItemHandlerProvider;
+import com.rptubes.inventory.SidedInvWrapper;
+*///?} else if forge {
+/*import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+*///?}
 
 /**
  * Port of TileFilter — stack extract + optional filter slots + paint color.
  */
+//? if forgelike {
 public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyContainer, MenuProvider {
+//?} else if <1.21.1 {
+/*public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyContainer, MenuProvider, com.rptubes.inventory.ItemHandlerProvider {
+*///?} else if <1.21.11 {
+/*public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyContainer, MenuProvider, ItemHandlerProvider {
+*///?} else if <26.1.2 {
+/*public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyContainer, MenuProvider, com.rptubes.inventory.ItemHandlerProvider{
+*///?} else {
+/*public class FilterBlockEntity extends TransposerBlockEntity implements ItemHandlerProvider, WorldlyContainer, MenuProvider {
+*///?}
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
     public byte color = 0;
-    private LazyOptional<? extends IItemHandler>[] handlers =
+    //? if neoforge && <1.21.1 {
+    /*protected final MachineEnergy energy = new MachineEnergy();
+
+    public IEnergyStorage getEnergyStorage() {
+        return this.energy;
+    }
+
+
+    private final IItemHandler[] handlers = new IItemHandler[] {
+            new SidedInvWrapper(this, Direction.NORTH),
+            new SidedInvWrapper(this, Direction.SOUTH),
+            new SidedInvWrapper(this, Direction.WEST)
+    };
+
+    public IItemHandler getItemHandler(Direction side) {
+        if (side == null) return this.handlers[0];
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+    *///?} else if neoforge && <1.21.11 {
+    protected final MachineEnergy energy = new MachineEnergy();
+
+    public IEnergyStorage getEnergyStorage() {
+        return this.energy;
+    }
+
+
+    private final IItemHandler[] handlers = new IItemHandler[] {
+            new SidedInvWrapper(this, Direction.NORTH),
+            new SidedInvWrapper(this, Direction.SOUTH),
+            new SidedInvWrapper(this, Direction.WEST)
+    };
+
+    public IItemHandler getItemHandler(Direction side) {
+        if (side == null) {
+            return this.handlers[0];
+        }
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+    //?} else if fabric && >=1.21.11 && <26.1.2 {
+    /*protected final MachineEnergy energy = new MachineEnergy();
+    private IItemHandler[] handlers =
             SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+    *///?} else if neoforge && >=26.2 {
+    /*protected final MachineEnergy energy = new MachineEnergy();
+
+    public MachineEnergy getEnergy() {
+        return this.energy;
+    }
+    public ResourceHandler<ItemResource> getItemHandler(Direction side) {
+        return new WorldlyContainerWrapper(this, side);
+    }
+    *///?} else if fabric && <1.21.1 {
+    /*protected final MachineEnergy energy = new MachineEnergy();
+    private final IItemHandler[] handlers =
+            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+    *///?} else if neoforge {
+    /*protected final MachineEnergy energy = new MachineEnergy();
+
+    public MachineEnergy getEnergy() {
+        return this.energy;
+    }
+    private final IItemHandler[] handlers = new IItemHandler[] {
+            new SidedInvWrapper(this, Direction.NORTH),
+            new SidedInvWrapper(this, Direction.SOUTH),
+            new SidedInvWrapper(this, Direction.WEST)
+    };
+
+    public IItemHandler getItemHandler(Direction side) {
+        if (side == null) {
+            return this.handlers[0];
+        }
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+    *///?} else if fabric {
+    /*protected final MachineEnergy energy = new MachineEnergy();
+    private final IItemHandler[] handlers = new IItemHandler[] {
+            new SidedInvWrapper(this, Direction.NORTH),
+            new SidedInvWrapper(this, Direction.SOUTH),
+            new SidedInvWrapper(this, Direction.WEST)
+    };
+
+    public IItemHandler getItemHandler(Direction side) {
+        if (side == null) {
+            return this.handlers[0];
+        }
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+    *///?} else {
+    /*private LazyOptional<? extends IItemHandler>[] handlers =
+            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+    protected final MachineEnergy energy = new MachineEnergy();
+    *///?}
 
     public FilterBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.FILTER.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.FILTER, pos, state);
+        *///?}
     }
 
     protected FilterBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<?> type,
@@ -100,6 +231,36 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
             }
         }
         return super.tubeItemCanEnter(side, state, ti);
+    }
+
+    //? if fabric && >=1.20.6 {
+
+    /*@Override
+    *///?} else {
+    @Override
+    //?}
+    protected boolean payForExtract(boolean mustHaveEnergy) {
+        return this.energy.pay(mustHaveEnergy);
+    }
+
+    @Override
+    protected void tryEnergyAutoExtract() {
+        if (!this.energy.canAutoExtract()) {
+            return;
+        }
+        if (!this.energy.pay(true)) {
+            return;
+        }
+        this.setActive(true);
+        this.startExtract();
+        this.tickCooldown = 10;
+        this.setChanged();
+    //? if fabric {
+    /*}
+
+    public MachineEnergy getEnergy() {
+        return this.energy;
+    *///?}
     }
 
     public boolean applyColor(int dyeColor) {
@@ -200,25 +361,55 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.filterSlots);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.filterSlots, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, this.filterSlots);
+    *///?}
         tag.putByte("color", this.color);
+        this.energy.write(tag);
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.filterSlots);
         this.color = tag.getByte("color");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.filterSlots, registries);
+        this.color = tag.getByte("color");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.filterSlots);
+        this.color = tag.getByteOr("color", (byte) 0);
+    *///?}
+        this.energy.read(tag);
         this.filterMap = null;
     }
 
-    @Override
+    //? if forge {
+    /*@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER && side != null) {
             return handlers[Math.abs(side.ordinal() % handlers.length)].cast();
+        }
+        if (!this.remove && this.energy.isEnergyCap(cap)) {
+            return this.energy.cast(cap, side);
         }
         return super.getCapability(cap, side);
     }
@@ -229,16 +420,49 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         for (LazyOptional<? extends IItemHandler> h : handlers) {
             h.invalidate();
         }
+        this.energy.invalidate();
     }
 
     @Override
     public void reviveCaps() {
         super.reviveCaps();
         this.handlers = SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+        this.energy.revive();
     }
 
     @Override
+    *///?} else if <1.20.6 {
+    /*public IItemHandler getItemHandler(Direction side) {
+        if (side == null) {
+            return this.handlers[0];
+        }
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+
+    @Override
+    *///?} else if fabric && <1.21.1 {
+
+    /*public IItemHandler getItemHandler(Direction side) {
+        if (side == null) {
+            return this.handlers[0];
+        }
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+
+    @Override
+    *///?} else if fabric && <1.21.11 {
+
+
+
+    /*@Override
+    *///?} else if fabric || <1.21.11 || (>=26.1.2 && <26.2) {
+
+    @Override
+    //?} else {
+    /*@Override
+    *///?}
     public void setRemoved() {
+        //? if <1.21.11 {
         for (ItemStack stack : this.filterSlots) {
             if (!stack.isEmpty() && this.level != null) {
                 net.minecraft.world.Containers.dropItemStack(this.level,
@@ -246,5 +470,19 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
             }
         }
         super.setRemoved();
+        //?} else {
+        /*// Filter slot drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+        *///?}
     }
+    //? if fabric && >=1.21.11 && <26.1.2 {
+
+    /*@Override
+    public IItemHandler getItemHandler(Direction side) {
+        if (side == null) {
+            return this.handlers[0];
+        }
+        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+    }
+    *///?}
 }

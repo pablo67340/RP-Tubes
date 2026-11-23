@@ -39,7 +39,11 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
     private boolean delay;
 
     public ItemDetectorBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.ITEM_DETECTOR.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.ITEM_DETECTOR, pos, state);
+        *///?}
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, ItemDetectorBlockEntity be) {
@@ -308,10 +312,22 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.filterSlots);
         this.buffer.writeToNBT(tag);
+    *///?} else if <1.21.11 {
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.filterSlots, registries);
+        this.buffer.writeToNBT(tag, registries);
+    //?} else {
+    /*protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, this.filterSlots);
+        this.buffer.writeToNBT(tag, this.level != null ? this.level.registryAccess() : null);
+    *///?}
         tag.putBoolean("Active", this.active);
         tag.putBoolean("Emitting", this.emitting);
         tag.putByte("mode", this.mode);
@@ -320,7 +336,8 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
         this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.filterSlots);
@@ -330,12 +347,36 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
         this.mode = tag.getByte("mode");
         this.count = tag.getInt("cnt");
         this.delay = tag.getBoolean("Delay");
+    *///?} else if <1.21.11 {
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.filterSlots, registries);
+        this.buffer.readFromNBT(tag, registries);
+        this.active = tag.getBoolean("Active");
+        this.emitting = tag.getBoolean("Emitting");
+        this.mode = tag.getByte("mode");
+        this.count = tag.getInt("cnt");
+        this.delay = tag.getBoolean("Delay");
+    //?} else {
+    /*protected void loadAdditional(net.minecraft.world.level.storage.ValueInput tag) {
+        super.loadAdditional(tag);
+        this.filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.filterSlots);
+        this.buffer.readFromNBT(tag);
+        this.active = tag.getBooleanOr("Active", false);
+        this.emitting = tag.getBooleanOr("Emitting", false);
+        this.mode = tag.getByteOr("mode", (byte) 0);
+        this.count = tag.getIntOr("cnt", 0);
+        this.delay = tag.getBooleanOr("Delay", false);
+    *///?}
         this.filterMap = null;
     }
 
     @Override
     public void setRemoved() {
         this.buffer.onRemove(this);
+        //? if <1.21.11 {
         for (ItemStack stack : this.filterSlots) {
             if (!stack.isEmpty() && this.level != null) {
                 net.minecraft.world.Containers.dropItemStack(this.level,
@@ -343,5 +384,9 @@ public class ItemDetectorBlockEntity extends BlockEntity implements ITubeConnect
             }
         }
         super.setRemoved();
+        //?} else {
+        /*// Filter slot drops handled by the default preRemoveSideEffects (Container)
+        super.setRemoved();
+        *///?}
     }
 }

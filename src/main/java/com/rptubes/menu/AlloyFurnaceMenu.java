@@ -1,10 +1,21 @@
 package com.rptubes.menu;
+//? if fabric && >=1.20.6 && <1.21.1 {
+
+/*import com.rptubes.util.FuelHelper;
+*///?}
 
 import com.rptubes.blockentity.AlloyFurnaceBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
+//? if forgelike || <1.20.6 {
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+//?} else if >=1.21.1 && <1.21.11 {
+/*import com.rptubes.util.FuelHelper;
+import net.minecraft.core.BlockPos;
+*///?} else {
+/*import net.minecraft.core.BlockPos;
+*///?}
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -14,24 +25,57 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
+//? if forge {
+/*import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeHooks;
+*///?} else if <1.20.6 {
+/*import net.minecraft.world.level.block.entity.BlockEntity;
+import com.rptubes.util.FuelHelper;
+*///?} else if (fabric && <1.21.11) || (fabric && >=26.1.2) || (neoforge && >=1.21.11 && <26.1.2) {
+/*import net.minecraft.world.level.block.entity.BlockEntity;
+*///?} else {
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+//?}
 
 public class AlloyFurnaceMenu extends AbstractContainerMenu {
     private final Container container;
     private final ContainerData data;
     private final ContainerLevelAccess access;
+    //? if fabric && >=1.20.6 && <1.21.11 {
+
+    /*public AlloyFurnaceMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getFurnace(playerInv, pos), new SimpleContainerData(4));
+    *///?} else if <1.21.11 {
 
     public AlloyFurnaceMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getFurnace(playerInv, buf), new SimpleContainerData(4));
+    //?} else if fabric {
+    /*private final net.minecraft.world.level.Level level;
+
+    public AlloyFurnaceMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getFurnace(playerInv, pos), new SimpleContainerData(4));
+    *///?} else {
+    /*private final net.minecraft.world.level.Level level;
+
+    public AlloyFurnaceMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
+        this(id, playerInv, getFurnace(playerInv, buf), new SimpleContainerData(4));
+    *///?}
     }
 
     public AlloyFurnaceMenu(int id, Inventory playerInv, AlloyFurnaceBlockEntity furnace, ContainerData data) {
+        //? if forgelike {
         super(ModMenus.ALLOY_FURNACE.get(), id);
+        //?} else {
+        /*super(ModMenus.ALLOY_FURNACE, id);
+        *///?}
         this.container = furnace;
         this.data = data;
         this.access = ContainerLevelAccess.create(furnace.getLevel(), furnace.getBlockPos());
+        //? if >=1.21.11 {
+        /*this.level = furnace.getLevel();
+        *///?}
         checkContainerSize(furnace, AlloyFurnaceBlockEntity.SIZE);
 
         for (int row = 0; row < 3; row++) {
@@ -42,7 +86,15 @@ public class AlloyFurnaceMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(furnace, AlloyFurnaceBlockEntity.SLOT_FUEL, 17, 42) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+                //? if >=1.21.11 {
+                /*return isFuel(stack);
+                *///?} else if forge {
+                /*return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+                *///?} else if fabric {
+                /*return FuelHelper.getBurnTime(stack) > 0;
+                *///?} else {
+                return stack.getBurnTime(RecipeType.SMELTING) > 0;
+                //?}
             }
         });
         this.addSlot(new Slot(furnace, AlloyFurnaceBlockEntity.SLOT_OUTPUT, 141, 35) {
@@ -64,9 +116,18 @@ public class AlloyFurnaceMenu extends AbstractContainerMenu {
         this.addDataSlots(data);
     }
 
+    //? if <1.20.1 {
+    /*private static AlloyFurnaceBlockEntity getFurnace(Inventory playerInv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = playerInv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static AlloyFurnaceBlockEntity getFurnace(Inventory playerInv, BlockPos pos) {
+        BlockEntity be = playerInv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static AlloyFurnaceBlockEntity getFurnace(Inventory playerInv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = playerInv.player.level.getBlockEntity(pos);
+        BlockEntity be = playerInv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof AlloyFurnaceBlockEntity furnace) {
             return furnace;
         }
@@ -75,7 +136,11 @@ public class AlloyFurnaceMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.ALLOY_FURNACE.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.ALLOY_FURNACE);
+        *///?}
     }
 
     @Override
@@ -90,7 +155,15 @@ public class AlloyFurnaceMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else if (index >= 11) {
-                if (ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0) {
+                //? if >=1.21.11 {
+                /*if (isFuel(stack)) {
+                *///?} else if forge {
+                /*if (ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0) {
+                *///?} else if fabric {
+                /*if (FuelHelper.getBurnTime(stack) > 0) {
+                *///?} else {
+                if (stack.getBurnTime(RecipeType.SMELTING) > 0) {
+                //?}
                     if (!this.moveItemStackTo(stack, AlloyFurnaceBlockEntity.SLOT_FUEL,
                             AlloyFurnaceBlockEntity.SLOT_FUEL + 1, false)) {
                         return ItemStack.EMPTY;
@@ -108,6 +181,17 @@ public class AlloyFurnaceMenu extends AbstractContainerMenu {
             }
         }
         return result;
+    //? if neoforge && >=26.1.2 {
+    /*}
+
+    private boolean isFuel(ItemStack stack) {
+        return this.level != null && stack.getBurnTime(RecipeType.SMELTING, this.level.fuelValues()) > 0;
+    *///?} else if >=1.21.11 {
+    /*}
+
+    private boolean isFuel(ItemStack stack) {
+        return this.level != null && this.level.fuelValues().burnDuration(stack) > 0;
+    *///?}
     }
 
     public int getBurnProgress() {

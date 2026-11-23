@@ -1,3 +1,4 @@
+//? if <1.21.11 {
 package com.rptubes.compat.jei;
 
 import com.rptubes.RPTubes;
@@ -29,7 +30,11 @@ import java.util.List;
 public class RPTubesJeiPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(RPTubes.MOD_ID, "jei");
+        //? if <1.21.1 {
+        /*return new ResourceLocation(RPTubes.MOD_ID, "jei");
+        *///?} else {
+        return ResourceLocation.fromNamespaceAndPath(RPTubes.MOD_ID, "jei");
+        //?}
     }
 
     @Override
@@ -44,13 +49,29 @@ public class RPTubesJeiPlugin implements IModPlugin {
             return;
         }
         RecipeManager recipes = mc.level.getRecipeManager();
-        List<AlloyRecipe> alloy = recipes.getAllRecipesFor(ModRecipes.ALLOY_SMELTING.get());
+        //? if forge && <1.20.6 {
+        /*List<AlloyRecipe> alloy = recipes.getAllRecipesFor(ModRecipes.ALLOY_SMELTING.get());
+        *///?} else if <1.20.6 {
+        /*List<AlloyRecipe> alloy = recipes.getAllRecipesFor(ModRecipes.ALLOY_SMELTING);
+        *///?} else if fabric {
+        /*List<AlloyRecipe> alloy = recipes.getAllRecipesFor(ModRecipes.ALLOY_SMELTING).stream()
+                .map(net.minecraft.world.item.crafting.RecipeHolder::value)
+                .toList();
+        *///?} else {
+        List<AlloyRecipe> alloy = recipes.getAllRecipesFor(ModRecipes.ALLOY_SMELTING.get()).stream()
+                .map(net.minecraft.world.item.crafting.RecipeHolder::value)
+                .toList();
+        //?}
         registration.addRecipes(AlloySmeltingCategory.RECIPE_TYPE, alloy);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        //? if forgelike {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.ALLOY_FURNACE.get()),
+        //?} else {
+        /*registration.addRecipeCatalyst(new ItemStack(ModBlocks.ALLOY_FURNACE),
+        *///?}
                 AlloySmeltingCategory.RECIPE_TYPE);
     }
 
@@ -63,7 +84,12 @@ public class RPTubesJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
         // slots 0-8 = alloy inputs; player inv starts at 11 (after fuel+output)
+        //? if forgelike {
         registration.addRecipeTransferHandler(AlloyFurnaceMenu.class, ModMenus.ALLOY_FURNACE.get(),
+        //?} else {
+        /*registration.addRecipeTransferHandler(AlloyFurnaceMenu.class, ModMenus.ALLOY_FURNACE,
+        *///?}
                 AlloySmeltingCategory.RECIPE_TYPE, 0, 9, 11, 36);
     }
 }
+//?}

@@ -4,7 +4,9 @@ import com.rptubes.blockentity.ItemDetectorBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,12 +20,21 @@ public class ItemDetectorMenu extends AbstractContainerMenu {
     private final ItemDetectorBlockEntity detector;
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public ItemDetectorMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getDetector(playerInv, pos));
+    *///?} else {
     public ItemDetectorMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getDetector(playerInv, buf));
+    //?}
     }
 
     public ItemDetectorMenu(int id, Inventory playerInv, ItemDetectorBlockEntity detector) {
+        //? if forgelike {
         super(ModMenus.ITEM_DETECTOR.get(), id);
+        //?} else {
+        /*super(ModMenus.ITEM_DETECTOR, id);
+        *///?}
         this.detector = detector;
         this.access = ContainerLevelAccess.create(detector.getLevel(), detector.getBlockPos());
 
@@ -74,9 +85,18 @@ public class ItemDetectorMenu extends AbstractContainerMenu {
         return true;
     }
 
+    //? if <1.20.1 {
+    /*private static ItemDetectorBlockEntity getDetector(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static ItemDetectorBlockEntity getDetector(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static ItemDetectorBlockEntity getDetector(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof ItemDetectorBlockEntity detector) {
             return detector;
         }
@@ -85,7 +105,11 @@ public class ItemDetectorMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.ITEM_DETECTOR.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.ITEM_DETECTOR);
+        *///?}
     }
 
     @Override

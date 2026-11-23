@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/regulator_item" }
+{
+  "parent": "rptubes:block/regulator_item"
+}

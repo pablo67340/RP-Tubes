@@ -4,8 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+//? if <1.21.11 {
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.item.ItemEntity;
+//?} else {
+/*import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+*///?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -69,7 +75,11 @@ public abstract class TubeFlow {
             ctx.tir.add(ti);
         }
 
+        //? if <1.21.11 {
         if (ctx.world.isClientSide) {
+        //?} else {
+        /*if (ctx.world.isClientSide()) {
+        *///?}
             // Hand items over to the next tube locally so movement is seamless;
             // the server sync packet corrects any divergence. Items entering
             // non-tube destinations simply vanish until the server confirms.
@@ -147,22 +157,62 @@ public abstract class TubeFlow {
         this.contents.clear();
     }
 
-    public void readFromNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void readFromNBT(CompoundTag tag) {
         this.contents = new LinkedList<>();
         ListTag items = tag.getList("Items", Tag.TAG_COMPOUND);
         for (int i = 0; i < items.size(); ++i) {
             this.contents.add(TubeItem.newFromNBT(items.getCompound(i)));
+    *///?} else if <1.21.11 {
+    public void readFromNBT(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        this.contents = new LinkedList<>();
+        ListTag items = tag.getList("Items", Tag.TAG_COMPOUND);
+        for (int i = 0; i < items.size(); ++i) {
+            this.contents.add(TubeItem.newFromNBT(items.getCompound(i), registries));
+    //?} else {
+    /*public void readFromNBT(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        this.contents = new LinkedList<>();
+        ListTag items = tag.getListOrEmpty("Items");
+        for (int i = 0; i < items.size(); ++i) {
+            this.contents.add(TubeItem.newFromNBT(items.getCompoundOrEmpty(i), registries));
+    *///?}
         }
     }
 
-    public void writeToNBT(CompoundTag tag) {
+    //? if <1.20.6 {
+    /*public void writeToNBT(CompoundTag tag) {
+    *///?} else {
+    public void writeToNBT(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+    //?}
         ListTag items = new ListTag();
         for (TubeItem ti : this.contents) {
             CompoundTag item = new CompoundTag();
-            ti.writeToNBT(item);
+            //? if <1.20.6 {
+            /*ti.writeToNBT(item);
+            *///?} else {
+            ti.writeToNBT(item, registries);
+            //?}
             items.add(item);
         }
         tag.put("Items", items);
+    //? if >=1.21.11 {
+    /*}
+
+    public void readFromNBT(ValueInput input) {
+        this.contents = new LinkedList<>();
+        for (CompoundTag item : input.listOrEmpty("Items", CompoundTag.CODEC)) {
+            this.contents.add(TubeItem.newFromNBT(item, input.lookup()));
+        }
+    }
+
+    public void writeToNBT(ValueOutput output, net.minecraft.core.HolderLookup.Provider registries) {
+        ValueOutput.TypedOutputList<CompoundTag> items = output.list("Items", CompoundTag.CODEC);
+        for (TubeItem ti : this.contents) {
+            CompoundTag item = new CompoundTag();
+            ti.writeToNBT(item, registries);
+            items.add(item);
+        }
+    *///?}
     }
 
     public static class TubeScheduleContext {

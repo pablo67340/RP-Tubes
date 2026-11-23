@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "WPW",
+    "SRS"
+  ],
+  "key": {
+    "S": "minecraft:stone",
+    "W": "#minecraft:planks",
+    "P": "minecraft:piston",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "rptubes:transposer"
+  }
+}

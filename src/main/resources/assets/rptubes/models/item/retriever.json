@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/retriever_item" }
+{
+  "parent": "rptubes:block/retriever_item"
+}

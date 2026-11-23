@@ -9,11 +9,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+//? if <1.21.11 {
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+//?} else {
+/*import net.minecraft.world.level.block.state.properties.EnumProperty;
+*///?}
 
 /** Shared facing + active visuals for tube machines. */
 public abstract class MachineBlock extends BaseEntityBlock {
+    //? if <1.21.11 {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    //?} else {
+    /*public static final EnumProperty<net.minecraft.core.Direction> FACING = BlockStateProperties.FACING;
+    *///?}
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     protected MachineBlock(Properties properties) {

@@ -4,7 +4,9 @@ import com.rptubes.blockentity.EjectorBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,12 +18,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class EjectorMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public EjectorMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getEjector(playerInv, pos));
+    *///?} else {
     public EjectorMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getEjector(playerInv, buf));
+    //?}
     }
 
     public EjectorMenu(int id, Inventory playerInv, EjectorBlockEntity ejector) {
+        //? if forgelike {
         super(ModMenus.EJECTOR.get(), id);
+        //?} else {
+        /*super(ModMenus.EJECTOR, id);
+        *///?}
         this.access = ContainerLevelAccess.create(ejector.getLevel(), ejector.getBlockPos());
 
         for (int row = 0; row < 3; row++) {
@@ -39,9 +50,18 @@ public class EjectorMenu extends AbstractContainerMenu {
         }
     }
 
+    //? if <1.20.1 {
+    /*private static EjectorBlockEntity getEjector(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static EjectorBlockEntity getEjector(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static EjectorBlockEntity getEjector(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof EjectorBlockEntity ejector) {
             return ejector;
         }
@@ -50,7 +70,11 @@ public class EjectorMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.EJECTOR.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.EJECTOR);
+        *///?}
     }
 
     @Override

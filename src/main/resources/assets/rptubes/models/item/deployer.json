@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/deployer_item" }
+{
+  "parent": "rptubes:block/deployer_item"
+}

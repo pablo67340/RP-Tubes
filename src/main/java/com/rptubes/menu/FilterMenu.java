@@ -4,7 +4,9 @@ import com.rptubes.blockentity.FilterBlockEntity;
 import com.rptubes.registry.ModBlocks;
 import com.rptubes.registry.ModMenus;
 import net.minecraft.core.BlockPos;
+//? if forgelike || <1.20.6 || (>=1.21.1 && <1.21.11) {
 import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,12 +20,21 @@ public class FilterMenu extends AbstractContainerMenu {
     private final FilterBlockEntity filter;
     private final ContainerLevelAccess access;
 
+    //? if fabric && >=1.20.6 {
+    /*public FilterMenu(int id, Inventory playerInv, BlockPos pos) {
+        this(id, playerInv, getFilter(playerInv, pos));
+    *///?} else {
     public FilterMenu(int id, Inventory playerInv, FriendlyByteBuf buf) {
         this(id, playerInv, getFilter(playerInv, buf));
+    //?}
     }
 
     public FilterMenu(int id, Inventory playerInv, FilterBlockEntity filter) {
+        //? if forgelike {
         super(ModMenus.FILTER.get(), id);
+        //?} else {
+        /*super(ModMenus.FILTER, id);
+        *///?}
         this.filter = filter;
         this.access = ContainerLevelAccess.create(filter.getLevel(), filter.getBlockPos());
 
@@ -75,9 +86,18 @@ public class FilterMenu extends AbstractContainerMenu {
         return true;
     }
 
+    //? if <1.20.1 {
+    /*private static FilterBlockEntity getFilter(Inventory inv, FriendlyByteBuf buf) {
+        BlockPos pos = buf.readBlockPos();
+        BlockEntity be = inv.player.getLevel().getBlockEntity(pos);
+    *///?} else if fabric && >=1.20.6 {
+    /*private static FilterBlockEntity getFilter(Inventory inv, BlockPos pos) {
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    *///?} else {
     private static FilterBlockEntity getFilter(Inventory inv, FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        BlockEntity be = inv.player.level.getBlockEntity(pos);
+        BlockEntity be = inv.player.level().getBlockEntity(pos);
+    //?}
         if (be instanceof FilterBlockEntity filter) {
             return filter;
         }
@@ -86,7 +106,11 @@ public class FilterMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //? if forgelike {
         return stillValid(this.access, player, ModBlocks.FILTER.get());
+        //?} else {
+        /*return stillValid(this.access, player, ModBlocks.FILTER);
+        *///?}
     }
 
     @Override

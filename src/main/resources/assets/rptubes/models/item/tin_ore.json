@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/tin_ore" }
+{
+  "parent": "rptubes:block/tin_ore"
+}

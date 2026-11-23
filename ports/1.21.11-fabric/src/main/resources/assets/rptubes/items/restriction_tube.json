@@ -1,9 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:model",
-    "model": "rptubes:item/restriction_tube",
-    "tints": [
-      { "type": "rptubes:tube_paint" }
-    ]
-  }
-}

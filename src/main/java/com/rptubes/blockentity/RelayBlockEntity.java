@@ -15,7 +15,11 @@ public class RelayBlockEntity extends EjectorBlockEntity {
     private int autoCooldown;
 
     public RelayBlockEntity(BlockPos pos, BlockState state) {
+        //? if forgelike {
         super(ModBlockEntities.RELAY.get(), pos, state);
+        //?} else {
+        /*super(ModBlockEntities.RELAY, pos, state);
+        *///?}
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, RelayBlockEntity be) {
@@ -49,9 +53,15 @@ public class RelayBlockEntity extends EjectorBlockEntity {
 
     @Override
     protected boolean handleExtract() {
-        // Unlike the Ejector, the Relay never pulls from the inventory behind it —
+        //? if <1.20.6 {
+        /*// Unlike the Ejector, the Relay never pulls from the inventory behind it —
         // auto-extracting every 10 ticks would silently drain any adjacent chest.
         return this.extractInternal();
+        *///?} else {
+        // Unlike the Ejector, the Relay never pulls from the inventory behind it -
+        // auto-extracting every 10 ticks would silently drain any adjacent chest.
+        return this.extractInternal();
+        //?}
     }
 
     @Override

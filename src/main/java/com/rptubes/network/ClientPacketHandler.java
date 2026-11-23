@@ -18,7 +18,13 @@ public class ClientPacketHandler {
             return;
         }
         for (int i = 0; i < msg.getItems().size(); i++) {
-            tube.upsertItem(TubeItem.newFromNBT(msg.getItems().getCompound(i)));
+            //? if <1.20.6 {
+            /*tube.upsertItem(TubeItem.newFromNBT(msg.getItems().getCompound(i)));
+            *///?} else if <1.21.11 {
+            tube.upsertItem(TubeItem.newFromNBT(msg.getItems().getCompound(i), level.registryAccess()));
+            //?} else {
+            /*tube.upsertItem(TubeItem.newFromNBT(msg.getItems().getCompoundOrEmpty(i), level.registryAccess()));
+            *///?}
         }
     }
 }

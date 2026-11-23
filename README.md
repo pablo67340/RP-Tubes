@@ -1,7 +1,7 @@
 # RP Tubes
 
-RedPower 2 pneumatic tubes and related machines, revived for **Forge** on
-**Minecraft 1.7.10, 1.12.2, 1.16.5, 1.19.2, 1.20.1, 1.20.6, 1.21.1, 1.21.11,
+RedPower 2 pneumatic tubes and related machines, revived for **Forge, NeoForge and
+Fabric** on **Minecraft 1.7.10, 1.12.2, 1.16.5, 1.19.2, 1.20.1, 1.20.6, 1.21.1, 1.21.11,
 26.1.2 and 26.2**.
 
 A faithful recreation of the RedPower 2 pr5b2 (Tekkit Classic era) tube transport system:
@@ -73,28 +73,28 @@ original behaviors, textures, GUIs, and routing logic, rebuilt on modern Forge.
 
 ## Build / run
 
-Requires **JDK 17** (`gradle.properties` points at `G:/AstroCore-Labs/Tools/java/17`).
+Minecraft 1.19.2 through 26.2 on Forge, NeoForge and Fabric build from one source tree
+with [Stonecutter](https://stonecutter.kikugie.dev/). Each Minecraft version and loader
+is a node in `versions/{version}-{loader}`; version and loader differences are marked
+in the Java source with `//? if` comments. Gradle runs on JDK 25 and fetches the JDK
+each node compiles with.
 
 ```bat
-gradlew.bat genEclipseRuns
-gradlew.bat runClient
+gradlew.bat build collectJar
+gradlew.bat :1.20.1-fabric:runClient
+gradlew.bat "Set active project to 26.2-neoforge"
 ```
 
-### Changing recipes or tags across ports
+`collectJar` copies every release jar into `build/libs/{mod version}/`. The active
+project is the version the IDE sees; switch back to `1.21.1-neoforge` before committing.
 
-Every port under `ports/` ships the same recipes and tags, but each loader and
-Minecraft version spells them differently (condition format, `forge:` or `c:`
-tags, ingredient syntax, folder names). Edit the file in one port, then let
-`scripts/port_data.py` translate it into the rest:
+Resources live in `src/main/resources` in the 26.2 NeoForge format. The build rewrites
+recipes, tags, conditions, item models and folder names into the format each version
+and loader reads, so a recipe or tag is written once. Loader metadata templates are in
+`src/overlays/{loader}`, and per-version dependencies in `stonecutter.properties.toml`.
 
-```bat
-python scripts\port_data.py copy rptubes/recipe/filter.json --from 1.21.1-neoforge --dry-run
-python scripts\port_data.py copy rptubes/recipe/filter.json --from 1.21.1-neoforge
-python scripts\port_data.py check
-```
-
-`check` lists anything in a format its loader would ignore and exits non-zero;
-`fix` rewrites those files in place. Run `check` before building a release.
+The 1.7.10, 1.12.2 and 1.16.5 ports are separate Gradle projects under `ports/`.
+`scripts/port_data.py` translates data files between those.
 
 ## Reference
 

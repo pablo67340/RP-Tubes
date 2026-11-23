@@ -1,1 +1,3 @@
-{ "parent": "rptubes:block/block_breaker" }
+{
+  "parent": "rptubes:block/block_breaker"
+}
