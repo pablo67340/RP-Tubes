@@ -80,6 +80,8 @@ public final class ModItems {
             () -> new Item(props()));
     public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new com.rptubes.item.ScrewdriverItem(props()));
+    public static final RegistryObject<Item> BATTERY = ITEMS.register("battery",
+            () -> new com.rptubes.item.BatteryItem(props()));
     public static final RegistryObject<Item> TIN_INGOT = ITEMS.register("tin_ingot",
             () -> new Item(props()));
     public static final RegistryObject<Item> TIN_ORE = ITEMS.register("tin_ore",
@@ -110,6 +112,12 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), props()));
     public static final RegistryObject<Item> IGNITER = ITEMS.register("igniter",
             () -> new BlockItem(ModBlocks.IGNITER.get(), props()));
+    public static final RegistryObject<Item> SOLAR_PANEL = ITEMS.register("solar_panel",
+            () -> new BlockItem(ModBlocks.SOLAR_PANEL.get(), props()));
+    public static final RegistryObject<Item> THERMOPILE = ITEMS.register("thermopile",
+            () -> new BlockItem(ModBlocks.THERMOPILE.get(), props()));
+    public static final RegistryObject<Item> BATTERY_BOX = ITEMS.register("battery_box",
+            () -> new BlockItem(ModBlocks.BATTERY_BOX.get(), props()));
     public static final RegistryObject<Item> AUTO_CRAFTING_TABLE = ITEMS.register("auto_crafting_table",
             () -> new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE.get(), props()));
     public static final RegistryObject<Item> ACT_MK2 = ITEMS.register("act_mk2",
@@ -124,6 +132,8 @@ public final class ModItems {
     /*public static final Item BRASS_INGOT = register("brass_ingot", new Item(new Item.Properties()));
     public static final Item SCREWDRIVER = register("screwdriver",
             new com.rptubes.item.ScrewdriverItem(new Item.Properties()));
+    public static final Item BATTERY = register("battery",
+            new com.rptubes.item.BatteryItem(new Item.Properties()));
     public static final Item TIN_INGOT = register("tin_ingot", new Item(new Item.Properties()));
     public static final Item TIN_ORE = register("tin_ore", new BlockItem(ModBlocks.TIN_ORE, new Item.Properties()));
     public static final Item ALLOY_FURNACE = register("alloy_furnace", new BlockItem(ModBlocks.ALLOY_FURNACE, new Item.Properties()));
@@ -139,6 +149,9 @@ public final class ModItems {
     public static final Item REGULATOR = register("regulator", new BlockItem(ModBlocks.REGULATOR, new Item.Properties()));
     public static final Item SORTING_MACHINE = register("sorting_machine", new BlockItem(ModBlocks.SORTING_MACHINE, new Item.Properties()));
     public static final Item IGNITER = register("igniter", new BlockItem(ModBlocks.IGNITER, new Item.Properties()));
+    public static final Item SOLAR_PANEL = register("solar_panel", new BlockItem(ModBlocks.SOLAR_PANEL, new Item.Properties()));
+    public static final Item THERMOPILE = register("thermopile", new BlockItem(ModBlocks.THERMOPILE, new Item.Properties()));
+    public static final Item BATTERY_BOX = register("battery_box", new BlockItem(ModBlocks.BATTERY_BOX, new Item.Properties()));
     public static final Item AUTO_CRAFTING_TABLE = register("auto_crafting_table", new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE, new Item.Properties()));
     public static final Item ACT_MK2 = register("act_mk2", new BlockItem(ModBlocks.ACT_MK2, new Item.Properties()));
     public static final Item PNEUMATIC_TUBE = register("pneumatic_tube", new BlockItem(ModBlocks.PNEUMATIC_TUBE, new Item.Properties()));
@@ -156,6 +169,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT);
                         output.accept(TIN_ORE);
                         output.accept(SCREWDRIVER);
+                        output.accept(BATTERY);
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY));
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
@@ -172,6 +187,9 @@ public final class ModItems {
                         output.accept(REGULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
+                        output.accept(SOLAR_PANEL);
+                        output.accept(THERMOPILE);
+                        output.accept(BATTERY_BOX);
                         output.accept(AUTO_CRAFTING_TABLE);
                         output.accept(ACT_MK2);
                     })
@@ -198,6 +216,8 @@ public final class ModItems {
     public static final Item BRASS_INGOT = register("brass_ingot", new Item(props("brass_ingot")));
     public static final Item SCREWDRIVER = register("screwdriver",
             new com.rptubes.item.ScrewdriverItem(props("screwdriver")));
+    public static final Item BATTERY = register("battery",
+            new com.rptubes.item.BatteryItem(props("battery")));
     public static final Item TIN_INGOT = register("tin_ingot", new Item(props("tin_ingot")));
     public static final Item TIN_ORE = blockItem("tin_ore", ModBlocks.TIN_ORE);
     public static final Item ALLOY_FURNACE = blockItem("alloy_furnace", ModBlocks.ALLOY_FURNACE);
@@ -213,6 +233,9 @@ public final class ModItems {
     public static final Item REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
     public static final Item SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final Item IGNITER = blockItem("igniter", ModBlocks.IGNITER);
+    public static final Item SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
+    public static final Item THERMOPILE = blockItem("thermopile", ModBlocks.THERMOPILE);
+    public static final Item BATTERY_BOX = blockItem("battery_box", ModBlocks.BATTERY_BOX);
     public static final Item AUTO_CRAFTING_TABLE = blockItem("auto_crafting_table", ModBlocks.AUTO_CRAFTING_TABLE);
     public static final Item ACT_MK2 = blockItem("act_mk2", ModBlocks.ACT_MK2);
     public static final Item PNEUMATIC_TUBE = blockItem("pneumatic_tube", ModBlocks.PNEUMATIC_TUBE);
@@ -230,6 +253,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT);
                         output.accept(TIN_ORE);
                         output.accept(SCREWDRIVER);
+                        output.accept(BATTERY);
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY));
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
@@ -246,6 +271,9 @@ public final class ModItems {
                         output.accept(REGULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
+                        output.accept(SOLAR_PANEL);
+                        output.accept(THERMOPILE);
+                        output.accept(BATTERY_BOX);
                         output.accept(AUTO_CRAFTING_TABLE);
                         output.accept(ACT_MK2);
                     })
@@ -261,6 +289,8 @@ public final class ModItems {
     /*public static final Item BRASS_INGOT = register("brass_ingot", new Item(new Item.Properties()));
     public static final Item SCREWDRIVER = register("screwdriver",
             new com.rptubes.item.ScrewdriverItem(new Item.Properties()));
+    public static final Item BATTERY = register("battery",
+            new com.rptubes.item.BatteryItem(new Item.Properties()));
     public static final Item TIN_INGOT = register("tin_ingot", new Item(new Item.Properties()));
     public static final Item TIN_ORE = register("tin_ore", new BlockItem(ModBlocks.TIN_ORE, new Item.Properties()));
     public static final Item ALLOY_FURNACE = register("alloy_furnace", new BlockItem(ModBlocks.ALLOY_FURNACE, new Item.Properties()));
@@ -276,6 +306,9 @@ public final class ModItems {
     public static final Item REGULATOR = register("regulator", new BlockItem(ModBlocks.REGULATOR, new Item.Properties()));
     public static final Item SORTING_MACHINE = register("sorting_machine", new BlockItem(ModBlocks.SORTING_MACHINE, new Item.Properties()));
     public static final Item IGNITER = register("igniter", new BlockItem(ModBlocks.IGNITER, new Item.Properties()));
+    public static final Item SOLAR_PANEL = register("solar_panel", new BlockItem(ModBlocks.SOLAR_PANEL, new Item.Properties()));
+    public static final Item THERMOPILE = register("thermopile", new BlockItem(ModBlocks.THERMOPILE, new Item.Properties()));
+    public static final Item BATTERY_BOX = register("battery_box", new BlockItem(ModBlocks.BATTERY_BOX, new Item.Properties()));
     public static final Item AUTO_CRAFTING_TABLE = register("auto_crafting_table", new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE, new Item.Properties()));
     public static final Item ACT_MK2 = register("act_mk2", new BlockItem(ModBlocks.ACT_MK2, new Item.Properties()));
     public static final Item PNEUMATIC_TUBE = register("pneumatic_tube", new BlockItem(ModBlocks.PNEUMATIC_TUBE, new Item.Properties()));
@@ -293,6 +326,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT);
                         output.accept(TIN_ORE);
                         output.accept(SCREWDRIVER);
+                        output.accept(BATTERY);
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY));
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
@@ -309,6 +344,9 @@ public final class ModItems {
                         output.accept(REGULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
+                        output.accept(SOLAR_PANEL);
+                        output.accept(THERMOPILE);
+                        output.accept(BATTERY_BOX);
                         output.accept(AUTO_CRAFTING_TABLE);
                         output.accept(ACT_MK2);
                     })
@@ -332,6 +370,8 @@ public final class ModItems {
 
     public static final DeferredHolder<Item, Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new com.rptubes.item.ScrewdriverItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> BATTERY = ITEMS.register("battery",
+            () -> new com.rptubes.item.BatteryItem(new Item.Properties()));
 
     public static final DeferredHolder<Item, Item> TIN_INGOT = ITEMS.register("tin_ingot",
             () -> new Item(new Item.Properties()));
@@ -364,6 +404,12 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> IGNITER = ITEMS.register("igniter",
             () -> new BlockItem(ModBlocks.IGNITER.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, Item> SOLAR_PANEL = ITEMS.register("solar_panel",
+            () -> new BlockItem(ModBlocks.SOLAR_PANEL.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, Item> THERMOPILE = ITEMS.register("thermopile",
+            () -> new BlockItem(ModBlocks.THERMOPILE.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, Item> BATTERY_BOX = ITEMS.register("battery_box",
+            () -> new BlockItem(ModBlocks.BATTERY_BOX.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> AUTO_CRAFTING_TABLE = ITEMS.register("auto_crafting_table",
             () -> new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, Item> ACT_MK2 = ITEMS.register("act_mk2",
@@ -385,6 +431,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT.get());
                         output.accept(TIN_ORE.get());
                         output.accept(SCREWDRIVER.get());
+                        output.accept(BATTERY.get());
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY.get()));
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
@@ -401,6 +449,9 @@ public final class ModItems {
                         output.accept(REGULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
+                        output.accept(SOLAR_PANEL.get());
+                        output.accept(THERMOPILE.get());
+                        output.accept(BATTERY_BOX.get());
                         output.accept(AUTO_CRAFTING_TABLE.get());
                         output.accept(ACT_MK2.get());
                     })
@@ -418,6 +469,8 @@ public final class ModItems {
     public static final Item BRASS_INGOT = register("brass_ingot", new Item(props("brass_ingot")));
     public static final Item SCREWDRIVER = register("screwdriver",
             new com.rptubes.item.ScrewdriverItem(props("screwdriver")));
+    public static final Item BATTERY = register("battery",
+            new com.rptubes.item.BatteryItem(props("battery")));
     public static final Item TIN_INGOT = register("tin_ingot", new Item(props("tin_ingot")));
     public static final Item TIN_ORE = blockItem("tin_ore", ModBlocks.TIN_ORE);
     public static final Item ALLOY_FURNACE = blockItem("alloy_furnace", ModBlocks.ALLOY_FURNACE);
@@ -433,6 +486,9 @@ public final class ModItems {
     public static final Item REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
     public static final Item SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final Item IGNITER = blockItem("igniter", ModBlocks.IGNITER);
+    public static final Item SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
+    public static final Item THERMOPILE = blockItem("thermopile", ModBlocks.THERMOPILE);
+    public static final Item BATTERY_BOX = blockItem("battery_box", ModBlocks.BATTERY_BOX);
     public static final Item AUTO_CRAFTING_TABLE = blockItem("auto_crafting_table", ModBlocks.AUTO_CRAFTING_TABLE);
     public static final Item ACT_MK2 = blockItem("act_mk2", ModBlocks.ACT_MK2);
     public static final Item PNEUMATIC_TUBE = blockItem("pneumatic_tube", ModBlocks.PNEUMATIC_TUBE);
@@ -450,6 +506,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT);
                         output.accept(TIN_ORE);
                         output.accept(SCREWDRIVER);
+                        output.accept(BATTERY);
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY));
                         output.accept(PNEUMATIC_TUBE);
                         output.accept(REDSTONE_TUBE);
                         output.accept(RESTRICTION_TUBE);
@@ -466,6 +524,9 @@ public final class ModItems {
                         output.accept(REGULATOR);
                         output.accept(SORTING_MACHINE);
                         output.accept(IGNITER);
+                        output.accept(SOLAR_PANEL);
+                        output.accept(THERMOPILE);
+                        output.accept(BATTERY_BOX);
                         output.accept(AUTO_CRAFTING_TABLE);
                         output.accept(ACT_MK2);
                     })
@@ -489,6 +550,8 @@ public final class ModItems {
 
     public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new com.rptubes.item.ScrewdriverItem(new Item.Properties()));
+    public static final RegistryObject<Item> BATTERY = ITEMS.register("battery",
+            () -> new com.rptubes.item.BatteryItem(new Item.Properties()));
 
     public static final RegistryObject<Item> TIN_INGOT = ITEMS.register("tin_ingot",
             () -> new Item(new Item.Properties()));
@@ -521,6 +584,12 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), new Item.Properties()));
     public static final RegistryObject<Item> IGNITER = ITEMS.register("igniter",
             () -> new BlockItem(ModBlocks.IGNITER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SOLAR_PANEL = ITEMS.register("solar_panel",
+            () -> new BlockItem(ModBlocks.SOLAR_PANEL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> THERMOPILE = ITEMS.register("thermopile",
+            () -> new BlockItem(ModBlocks.THERMOPILE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BATTERY_BOX = ITEMS.register("battery_box",
+            () -> new BlockItem(ModBlocks.BATTERY_BOX.get(), new Item.Properties()));
     public static final RegistryObject<Item> AUTO_CRAFTING_TABLE = ITEMS.register("auto_crafting_table",
             () -> new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE.get(), new Item.Properties()));
     public static final RegistryObject<Item> ACT_MK2 = ITEMS.register("act_mk2",
@@ -542,6 +611,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT.get());
                         output.accept(TIN_ORE.get());
                         output.accept(SCREWDRIVER.get());
+                        output.accept(BATTERY.get());
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY.get()));
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
@@ -558,6 +629,9 @@ public final class ModItems {
                         output.accept(REGULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
+                        output.accept(SOLAR_PANEL.get());
+                        output.accept(THERMOPILE.get());
+                        output.accept(BATTERY_BOX.get());
                         output.accept(AUTO_CRAFTING_TABLE.get());
                         output.accept(ACT_MK2.get());
                     })
@@ -585,6 +659,8 @@ public final class ModItems {
 
     public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new com.rptubes.item.ScrewdriverItem(props("screwdriver")));
+    public static final RegistryObject<Item> BATTERY = ITEMS.register("battery",
+            () -> new com.rptubes.item.BatteryItem(props("battery")));
 
     public static final RegistryObject<Item> TIN_INGOT = ITEMS.register("tin_ingot",
             () -> new Item(props("tin_ingot")));
@@ -603,6 +679,9 @@ public final class ModItems {
     public static final RegistryObject<Item> REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
     public static final RegistryObject<Item> SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final RegistryObject<Item> IGNITER = blockItem("igniter", ModBlocks.IGNITER);
+    public static final RegistryObject<Item> SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
+    public static final RegistryObject<Item> THERMOPILE = blockItem("thermopile", ModBlocks.THERMOPILE);
+    public static final RegistryObject<Item> BATTERY_BOX = blockItem("battery_box", ModBlocks.BATTERY_BOX);
     public static final RegistryObject<Item> AUTO_CRAFTING_TABLE = blockItem("auto_crafting_table", ModBlocks.AUTO_CRAFTING_TABLE);
     public static final RegistryObject<Item> ACT_MK2 = blockItem("act_mk2", ModBlocks.ACT_MK2);
 
@@ -619,6 +698,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT.get());
                         output.accept(TIN_ORE.get());
                         output.accept(SCREWDRIVER.get());
+                        output.accept(BATTERY.get());
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY.get()));
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
@@ -635,6 +716,9 @@ public final class ModItems {
                         output.accept(REGULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
+                        output.accept(SOLAR_PANEL.get());
+                        output.accept(THERMOPILE.get());
+                        output.accept(BATTERY_BOX.get());
                         output.accept(AUTO_CRAFTING_TABLE.get());
                         output.accept(ACT_MK2.get());
                     })
@@ -662,6 +746,8 @@ public final class ModItems {
 
     public static final DeferredHolder<Item, Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new com.rptubes.item.ScrewdriverItem(props("screwdriver")));
+    public static final DeferredHolder<Item, Item> BATTERY = ITEMS.register("battery",
+            () -> new com.rptubes.item.BatteryItem(props("battery")));
 
     public static final DeferredHolder<Item, Item> TIN_INGOT = ITEMS.register("tin_ingot",
             () -> new Item(props("tin_ingot")));
@@ -680,6 +766,9 @@ public final class ModItems {
     public static final DeferredHolder<Item, Item> REGULATOR = blockItem("regulator", ModBlocks.REGULATOR);
     public static final DeferredHolder<Item, Item> SORTING_MACHINE = blockItem("sorting_machine", ModBlocks.SORTING_MACHINE);
     public static final DeferredHolder<Item, Item> IGNITER = blockItem("igniter", ModBlocks.IGNITER);
+    public static final DeferredHolder<Item, Item> SOLAR_PANEL = blockItem("solar_panel", ModBlocks.SOLAR_PANEL);
+    public static final DeferredHolder<Item, Item> THERMOPILE = blockItem("thermopile", ModBlocks.THERMOPILE);
+    public static final DeferredHolder<Item, Item> BATTERY_BOX = blockItem("battery_box", ModBlocks.BATTERY_BOX);
     public static final DeferredHolder<Item, Item> AUTO_CRAFTING_TABLE = blockItem("auto_crafting_table", ModBlocks.AUTO_CRAFTING_TABLE);
     public static final DeferredHolder<Item, Item> ACT_MK2 = blockItem("act_mk2", ModBlocks.ACT_MK2);
 
@@ -696,6 +785,8 @@ public final class ModItems {
                         output.accept(TIN_INGOT.get());
                         output.accept(TIN_ORE.get());
                         output.accept(SCREWDRIVER.get());
+                        output.accept(BATTERY.get());
+                        output.accept(com.rptubes.item.BatteryItem.charged(BATTERY.get()));
                         output.accept(PNEUMATIC_TUBE.get());
                         output.accept(REDSTONE_TUBE.get());
                         output.accept(RESTRICTION_TUBE.get());
@@ -712,6 +803,9 @@ public final class ModItems {
                         output.accept(REGULATOR.get());
                         output.accept(SORTING_MACHINE.get());
                         output.accept(IGNITER.get());
+                        output.accept(SOLAR_PANEL.get());
+                        output.accept(THERMOPILE.get());
+                        output.accept(BATTERY_BOX.get());
                         output.accept(AUTO_CRAFTING_TABLE.get());
                         output.accept(ACT_MK2.get());
                     })

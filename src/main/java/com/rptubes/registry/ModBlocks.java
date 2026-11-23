@@ -13,6 +13,9 @@ import com.rptubes.block.DeployerBlock;
 import com.rptubes.block.EjectorBlock;
 import com.rptubes.block.FilterBlock;
 import com.rptubes.block.IgniterBlock;
+import com.rptubes.block.SolarPanelBlock;
+import com.rptubes.block.ThermopileBlock;
+import com.rptubes.block.BatteryBoxBlock;
 import com.rptubes.block.ItemDetectorBlock;
 import com.rptubes.block.PneumaticTubeBlock;
 import com.rptubes.block.RedstoneTubeBlock;
@@ -241,6 +244,12 @@ public final class ModBlocks {
             () -> new SortingMachineBlock(MACHINE));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
             () -> new IgniterBlock(MACHINE));
+    public static final RegistryObject<Block> SOLAR_PANEL = BLOCKS.register("solar_panel",
+            () -> new SolarPanelBlock(MACHINE));
+    public static final RegistryObject<Block> THERMOPILE = BLOCKS.register("thermopile",
+            () -> new ThermopileBlock(MACHINE));
+    public static final RegistryObject<Block> BATTERY_BOX = BLOCKS.register("battery_box",
+            () -> new BatteryBoxBlock(MACHINE));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final RegistryObject<Block> AUTO_CRAFTING_TABLE = BLOCKS.register("auto_crafting_table",
@@ -258,6 +267,9 @@ public final class ModBlocks {
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(machine("regulator")));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(machine("sorting_machine")));
     public static final Block IGNITER = register("igniter", new IgniterBlock(machine("igniter")));
+    public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(machine("solar_panel")));
+    public static final Block THERMOPILE = register("thermopile", new ThermopileBlock(machine("thermopile")));
+    public static final Block BATTERY_BOX = register("battery_box", new BatteryBoxBlock(machine("battery_box")));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final Block AUTO_CRAFTING_TABLE = register("auto_crafting_table",
@@ -287,6 +299,12 @@ public final class ModBlocks {
             () -> new SortingMachineBlock(MACHINE));
     public static final DeferredHolder<Block, Block> IGNITER = BLOCKS.register("igniter",
             () -> new IgniterBlock(MACHINE));
+    public static final DeferredHolder<Block, Block> SOLAR_PANEL = BLOCKS.register("solar_panel",
+            () -> new SolarPanelBlock(MACHINE));
+    public static final DeferredHolder<Block, Block> THERMOPILE = BLOCKS.register("thermopile",
+            () -> new ThermopileBlock(MACHINE));
+    public static final DeferredHolder<Block, Block> BATTERY_BOX = BLOCKS.register("battery_box",
+            () -> new BatteryBoxBlock(MACHINE));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final DeferredHolder<Block, Block> AUTO_CRAFTING_TABLE = BLOCKS.register("auto_crafting_table",
@@ -304,6 +322,9 @@ public final class ModBlocks {
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(machine("regulator")));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(machine("sorting_machine")));
     public static final Block IGNITER = register("igniter", new IgniterBlock(machine("igniter")));
+    public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(machine("solar_panel")));
+    public static final Block THERMOPILE = register("thermopile", new ThermopileBlock(machine("thermopile")));
+    public static final Block BATTERY_BOX = register("battery_box", new BatteryBoxBlock(machine("battery_box")));
 
     public static final Block AUTO_CRAFTING_TABLE = register("auto_crafting_table",
             new AutoCraftingTableBlock(props("auto_crafting_table").mapColor(MapColor.WOOD).ignitedByLava()
@@ -320,6 +341,9 @@ public final class ModBlocks {
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(MACHINE));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(MACHINE));
     public static final Block IGNITER = register("igniter", new IgniterBlock(MACHINE));
+    public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(MACHINE));
+    public static final Block THERMOPILE = register("thermopile", new ThermopileBlock(MACHINE));
+    public static final Block BATTERY_BOX = register("battery_box", new BatteryBoxBlock(MACHINE));
 
     public static final Block AUTO_CRAFTING_TABLE = register("auto_crafting_table",
             new AutoCraftingTableBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava()
@@ -348,6 +372,12 @@ public final class ModBlocks {
             () -> new SortingMachineBlock(MACHINE));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
             () -> new IgniterBlock(MACHINE));
+    public static final RegistryObject<Block> SOLAR_PANEL = BLOCKS.register("solar_panel",
+            () -> new SolarPanelBlock(MACHINE));
+    public static final RegistryObject<Block> THERMOPILE = BLOCKS.register("thermopile",
+            () -> new ThermopileBlock(MACHINE));
+    public static final RegistryObject<Block> BATTERY_BOX = BLOCKS.register("battery_box",
+            () -> new BatteryBoxBlock(MACHINE));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final RegistryObject<Block> AUTO_CRAFTING_TABLE = BLOCKS.register("auto_crafting_table",
@@ -377,6 +407,12 @@ public final class ModBlocks {
             () -> new SortingMachineBlock(machine("sorting_machine")));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
             () -> new IgniterBlock(machine("igniter")));
+    public static final RegistryObject<Block> SOLAR_PANEL = BLOCKS.register("solar_panel",
+            () -> new SolarPanelBlock(machine("solar_panel")));
+    public static final RegistryObject<Block> THERMOPILE = BLOCKS.register("thermopile",
+            () -> new ThermopileBlock(machine("thermopile")));
+    public static final RegistryObject<Block> BATTERY_BOX = BLOCKS.register("battery_box",
+            () -> new BatteryBoxBlock(machine("battery_box")));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final RegistryObject<Block> AUTO_CRAFTING_TABLE = BLOCKS.register("auto_crafting_table",
@@ -406,6 +442,12 @@ public final class ModBlocks {
             () -> new SortingMachineBlock(machine("sorting_machine")));
     public static final DeferredHolder<Block, Block> IGNITER = BLOCKS.register("igniter",
             () -> new IgniterBlock(machine("igniter")));
+    public static final DeferredHolder<Block, Block> SOLAR_PANEL = BLOCKS.register("solar_panel",
+            () -> new SolarPanelBlock(machine("solar_panel")));
+    public static final DeferredHolder<Block, Block> THERMOPILE = BLOCKS.register("thermopile",
+            () -> new ThermopileBlock(machine("thermopile")));
+    public static final DeferredHolder<Block, Block> BATTERY_BOX = BLOCKS.register("battery_box",
+            () -> new BatteryBoxBlock(machine("battery_box")));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final DeferredHolder<Block, Block> AUTO_CRAFTING_TABLE = BLOCKS.register("auto_crafting_table",

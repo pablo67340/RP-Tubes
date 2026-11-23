@@ -214,6 +214,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BUFFER, BufferScreen::new);
         MenuScreens.register(ModMenus.ITEM_DETECTOR, ItemDetectorScreen::new);
         MenuScreens.register(ModMenus.RELAY, RelayScreen::new);
+        MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
@@ -251,6 +252,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BUFFER, BufferScreen::new);
         MenuScreens.register(ModMenus.ITEM_DETECTOR, ItemDetectorScreen::new);
         MenuScreens.register(ModMenus.RELAY, RelayScreen::new);
+        MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
@@ -289,6 +291,7 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BUFFER.get(), BufferScreen::new);
             MenuScreens.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
             MenuScreens.register(ModMenus.RELAY.get(), RelayScreen::new);
+            MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
@@ -332,6 +335,7 @@ public final class ClientSetup {
         event.register(ModMenus.BUFFER.get(), BufferScreen::new);
         event.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
         event.register(ModMenus.RELAY.get(), RelayScreen::new);
+        event.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
         event.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
         event.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
         event.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
@@ -375,6 +379,7 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BUFFER.get(), BufferScreen::new);
             MenuScreens.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
             MenuScreens.register(ModMenus.RELAY.get(), RelayScreen::new);
+            MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
@@ -425,6 +430,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BUFFER, BufferScreen::new);
         MenuScreens.register(ModMenus.ITEM_DETECTOR, ItemDetectorScreen::new);
         MenuScreens.register(ModMenus.RELAY, RelayScreen::new);
+        MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
@@ -464,6 +470,7 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BUFFER.get(), BufferScreen::new);
             MenuScreens.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
             MenuScreens.register(ModMenus.RELAY.get(), RelayScreen::new);
+            MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
@@ -513,6 +520,7 @@ public final class ClientSetup {
         event.register(ModMenus.BUFFER.get(), BufferScreen::new);
         event.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
         event.register(ModMenus.RELAY.get(), RelayScreen::new);
+        event.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
         event.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
         event.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
         event.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
@@ -569,6 +577,7 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.BUFFER, BufferScreen::new);
         MenuScreens.register(ModMenus.ITEM_DETECTOR, ItemDetectorScreen::new);
         MenuScreens.register(ModMenus.RELAY, RelayScreen::new);
+        MenuScreens.register(ModMenus.BATTERY_BOX, BatteryBoxScreen::new);
         MenuScreens.register(ModMenus.RETRIEVER, RetrieverScreen::new);
         MenuScreens.register(ModMenus.REGULATOR, RegulatorScreen::new);
         MenuScreens.register(ModMenus.SORTING_MACHINE, SortingMachineScreen::new);
@@ -605,6 +614,7 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.BUFFER.get(), BufferScreen::new);
             MenuScreens.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
             MenuScreens.register(ModMenus.RELAY.get(), RelayScreen::new);
+            MenuScreens.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             MenuScreens.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
             MenuScreens.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
             MenuScreens.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
@@ -640,6 +650,7 @@ public final class ClientSetup {
         event.register(ModMenus.BUFFER.get(), BufferScreen::new);
         event.register(ModMenus.ITEM_DETECTOR.get(), ItemDetectorScreen::new);
         event.register(ModMenus.RELAY.get(), RelayScreen::new);
+        event.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
         event.register(ModMenus.RETRIEVER.get(), RetrieverScreen::new);
         event.register(ModMenus.REGULATOR.get(), RegulatorScreen::new);
         event.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);

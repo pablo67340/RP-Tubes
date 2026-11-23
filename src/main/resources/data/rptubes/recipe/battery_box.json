@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "BWB",
+    "BIB",
+    "IAI"
+  ],
+  "key": {
+    "B": "rptubes:battery",
+    "W": "#minecraft:planks",
+    "I": "#c:ingots/iron",
+    "A": "projectred_core:electrotine_ingot"
+  },
+  "result": {
+    "id": "rptubes:battery_box"
+  }
+}

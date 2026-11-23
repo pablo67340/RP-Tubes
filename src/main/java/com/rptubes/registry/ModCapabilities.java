@@ -62,6 +62,12 @@ public final class ModCapabilities {
                 (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
                 (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
+                (be, side) -> be.getEnergyStorage(side));
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.THERMOPILE.get(),
+                (be, side) -> be.getEnergyStorage(side));
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.BATTERY_BOX.get(),
+                (be, side) -> be.getEnergyStorage(side));
         //?} else if <26.1.2 {
         /*event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.ALLOY_FURNACE.get(),
                 (be, side) -> new WorldlyContainerWrapper(be, side));
@@ -89,6 +95,12 @@ public final class ModCapabilities {
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
                 (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
+                (be, side) -> be.getEnergy(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.THERMOPILE.get(),
+                (be, side) -> be.getEnergy(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.BATTERY_BOX.get(),
+                (be, side) -> be.getEnergy(side));
         *///?} else if <26.2 {
         /*event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.ALLOY_FURNACE.get(),
                 (be, side) -> new WorldlyContainerWrapper(be, side));
@@ -116,6 +128,12 @@ public final class ModCapabilities {
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
                 (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
+                (be, side) -> be.getEnergy(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.THERMOPILE.get(),
+                (be, side) -> be.getEnergy(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.BATTERY_BOX.get(),
+                (be, side) -> be.getEnergy(side));
     }
 
     /^*
@@ -198,6 +216,12 @@ public final class ModCapabilities {
                 (be, side) -> be.getEnergy());
         event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SORTING_MACHINE.get(),
                 (be, side) -> be.getEnergy());
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.SOLAR_PANEL.get(),
+                (be, side) -> be.getEnergy(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.THERMOPILE.get(),
+                (be, side) -> be.getEnergy(side));
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, ModBlockEntities.BATTERY_BOX.get(),
+                (be, side) -> be.getEnergy(side));
         *///?}
     }
 }

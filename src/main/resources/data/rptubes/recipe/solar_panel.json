@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "WWW",
+    "WBW",
+    "WWW"
+  ],
+  "key": {
+    "W": "projectred_core:electrotine_silicon",
+    "B": "projectred_core:electrotine_ingot"
+  },
+  "result": {
+    "id": "rptubes:solar_panel"
+  }
+}

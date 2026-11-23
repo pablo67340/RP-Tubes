@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "CIC",
+    "WBW",
+    "CIC"
+  ],
+  "key": {
+    "C": "#c:ingots/copper",
+    "I": "#c:ingots/iron",
+    "W": "projectred_core:electrotine_silicon",
+    "B": "projectred_core:electrotine_ingot"
+  },
+  "result": {
+    "id": "rptubes:thermopile"
+  }
+}

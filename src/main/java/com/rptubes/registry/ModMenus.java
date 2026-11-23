@@ -5,6 +5,7 @@ import com.rptubes.RPTubes;
 import net.minecraft.core.registries.Registries;
 //?}
 import com.rptubes.menu.AlloyFurnaceMenu;
+import com.rptubes.menu.BatteryBoxMenu;
 import com.rptubes.menu.AutoCraftingTableMenu;
 import com.rptubes.menu.AutoCraftingTableMk2Menu;
 import com.rptubes.menu.BufferMenu;
@@ -59,6 +60,8 @@ public final class ModMenus {
     //? if fabric && <1.20.6 {
     /*public static final MenuType<AlloyFurnaceMenu> ALLOY_FURNACE =
             register("alloy_furnace", new ExtendedScreenHandlerType<>(AlloyFurnaceMenu::new));
+    public static final MenuType<BatteryBoxMenu> BATTERY_BOX =
+            register("battery_box", new ExtendedScreenHandlerType<>(BatteryBoxMenu::new));
     public static final MenuType<FilterMenu> FILTER =
             register("filter", new ExtendedScreenHandlerType<>(FilterMenu::new));
     public static final MenuType<EjectorMenu> EJECTOR =
@@ -92,6 +95,8 @@ public final class ModMenus {
     *///?} else if fabric && <1.21.1 {
     /*public static final MenuType<AlloyFurnaceMenu> ALLOY_FURNACE =
             register("alloy_furnace", new ExtendedScreenHandlerType<>(AlloyFurnaceMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<BatteryBoxMenu> BATTERY_BOX =
+            register("battery_box", new ExtendedScreenHandlerType<>(BatteryBoxMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<FilterMenu> FILTER =
             register("filter", new ExtendedScreenHandlerType<>(FilterMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<EjectorMenu> EJECTOR =
@@ -125,6 +130,8 @@ public final class ModMenus {
     *///?} else if fabric && <1.21.11 {
     /*public static final MenuType<AlloyFurnaceMenu> ALLOY_FURNACE =
             register("alloy_furnace", new ExtendedScreenHandlerType<>(AlloyFurnaceMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<BatteryBoxMenu> BATTERY_BOX =
+            register("battery_box", new ExtendedScreenHandlerType<>(BatteryBoxMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<FilterMenu> FILTER =
             register("filter", new ExtendedScreenHandlerType<>(FilterMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<EjectorMenu> EJECTOR =
@@ -159,6 +166,8 @@ public final class ModMenus {
     *///?} else if fabric && <26.1.2 {
     /*public static final MenuType<AlloyFurnaceMenu> ALLOY_FURNACE =
             register("alloy_furnace", new ExtendedScreenHandlerType<>(AlloyFurnaceMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<BatteryBoxMenu> BATTERY_BOX =
+            register("battery_box", new ExtendedScreenHandlerType<>(BatteryBoxMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<FilterMenu> FILTER =
             register("filter", new ExtendedScreenHandlerType<>(FilterMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<EjectorMenu> EJECTOR =
@@ -192,6 +201,8 @@ public final class ModMenus {
     *///?} else if fabric {
     /*public static final MenuType<AlloyFurnaceMenu> ALLOY_FURNACE =
             register("alloy_furnace", new ExtendedMenuType<>(AlloyFurnaceMenu::new, BlockPos.STREAM_CODEC));
+    public static final MenuType<BatteryBoxMenu> BATTERY_BOX =
+            register("battery_box", new ExtendedMenuType<>(BatteryBoxMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<FilterMenu> FILTER =
             register("filter", new ExtendedMenuType<>(FilterMenu::new, BlockPos.STREAM_CODEC));
     public static final MenuType<EjectorMenu> EJECTOR =
@@ -228,6 +239,8 @@ public final class ModMenus {
 
     public static final DeferredHolder<MenuType<?>, MenuType<AlloyFurnaceMenu>> ALLOY_FURNACE =
             MENUS.register("alloy_furnace", () -> IMenuTypeExtension.create(AlloyFurnaceMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<BatteryBoxMenu>> BATTERY_BOX =
+            MENUS.register("battery_box", () -> IMenuTypeExtension.create(BatteryBoxMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<FilterMenu>> FILTER =
             MENUS.register("filter", () -> IMenuTypeExtension.create(FilterMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<EjectorMenu>> EJECTOR =
@@ -256,6 +269,8 @@ public final class ModMenus {
 
     public static final RegistryObject<MenuType<AlloyFurnaceMenu>> ALLOY_FURNACE =
             MENUS.register("alloy_furnace", () -> IForgeMenuType.create(AlloyFurnaceMenu::new));
+    public static final RegistryObject<MenuType<BatteryBoxMenu>> BATTERY_BOX =
+            MENUS.register("battery_box", () -> IForgeMenuType.create(BatteryBoxMenu::new));
     public static final RegistryObject<MenuType<FilterMenu>> FILTER =
             MENUS.register("filter", () -> IForgeMenuType.create(FilterMenu::new));
     public static final RegistryObject<MenuType<EjectorMenu>> EJECTOR =

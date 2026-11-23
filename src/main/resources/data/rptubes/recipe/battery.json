@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "NCN",
+    "NTN",
+    "NCN"
+  ],
+  "key": {
+    "N": "projectred_core:electrotine_dust",
+    "C": "#c:ingots/copper",
+    "T": "#c:ingots/tin"
+  },
+  "result": {
+    "id": "rptubes:battery"
+  }
+}

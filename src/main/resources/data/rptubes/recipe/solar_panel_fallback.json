@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "projectred_core"
+      }
+    }
+  ],
+  "pattern": [
+    "GGG",
+    "LDL",
+    "CCC"
+  ],
+  "key": {
+    "G": "minecraft:glass",
+    "L": "minecraft:lapis_lazuli",
+    "D": "minecraft:daylight_detector",
+    "C": "#c:ingots/copper"
+  },
+  "result": {
+    "id": "rptubes:solar_panel"
+  }
+}

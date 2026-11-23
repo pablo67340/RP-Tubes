@@ -13,6 +13,9 @@ import com.rptubes.blockentity.DeployerBlockEntity;
 import com.rptubes.blockentity.EjectorBlockEntity;
 import com.rptubes.blockentity.FilterBlockEntity;
 import com.rptubes.blockentity.IgniterBlockEntity;
+import com.rptubes.blockentity.SolarPanelBlockEntity;
+import com.rptubes.blockentity.ThermopileBlockEntity;
+import com.rptubes.blockentity.BatteryBoxBlockEntity;
 import com.rptubes.blockentity.ItemDetectorBlockEntity;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.blockentity.RedstoneTubeBlockEntity;
@@ -55,6 +58,12 @@ public final class ModBlockEntities {
             register("sorting_machine", BlockEntityType.Builder.of(SortingMachineBlockEntity::new, ModBlocks.SORTING_MACHINE).build(null));
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
             register("igniter", BlockEntityType.Builder.of(IgniterBlockEntity::new, ModBlocks.IGNITER).build(null));
+    public static final BlockEntityType<SolarPanelBlockEntity> SOLAR_PANEL =
+            register("solar_panel", BlockEntityType.Builder.of(SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL).build(null));
+    public static final BlockEntityType<ThermopileBlockEntity> THERMOPILE =
+            register("thermopile", BlockEntityType.Builder.of(ThermopileBlockEntity::new, ModBlocks.THERMOPILE).build(null));
+    public static final BlockEntityType<BatteryBoxBlockEntity> BATTERY_BOX =
+            register("battery_box", BlockEntityType.Builder.of(BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX).build(null));
     public static final BlockEntityType<AutoCraftingTableBlockEntity> AUTO_CRAFTING_TABLE =
             register("auto_crafting_table", BlockEntityType.Builder.of(AutoCraftingTableBlockEntity::new, ModBlocks.AUTO_CRAFTING_TABLE).build(null));
     public static final BlockEntityType<AutoCraftingTableMk2BlockEntity> ACT_MK2 =
@@ -109,6 +118,12 @@ public final class ModBlockEntities {
             register("sorting_machine", new BlockEntityType<>(SortingMachineBlockEntity::new, Set.of(ModBlocks.SORTING_MACHINE)));
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
             register("igniter", new BlockEntityType<>(IgniterBlockEntity::new, Set.of(ModBlocks.IGNITER)));
+    public static final BlockEntityType<SolarPanelBlockEntity> SOLAR_PANEL =
+            register("solar_panel", new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(ModBlocks.SOLAR_PANEL)));
+    public static final BlockEntityType<ThermopileBlockEntity> THERMOPILE =
+            register("thermopile", new BlockEntityType<>(ThermopileBlockEntity::new, Set.of(ModBlocks.THERMOPILE)));
+    public static final BlockEntityType<BatteryBoxBlockEntity> BATTERY_BOX =
+            register("battery_box", new BlockEntityType<>(BatteryBoxBlockEntity::new, Set.of(ModBlocks.BATTERY_BOX)));
     public static final BlockEntityType<AutoCraftingTableBlockEntity> AUTO_CRAFTING_TABLE =
             register("auto_crafting_table", new BlockEntityType<>(AutoCraftingTableBlockEntity::new, Set.of(ModBlocks.AUTO_CRAFTING_TABLE)));
     public static final BlockEntityType<AutoCraftingTableMk2BlockEntity> ACT_MK2 =
@@ -160,6 +175,12 @@ public final class ModBlockEntities {
             register("sorting_machine", BlockEntityType.Builder.of(SortingMachineBlockEntity::new, ModBlocks.SORTING_MACHINE).build(null));
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
             register("igniter", BlockEntityType.Builder.of(IgniterBlockEntity::new, ModBlocks.IGNITER).build(null));
+    public static final BlockEntityType<SolarPanelBlockEntity> SOLAR_PANEL =
+            register("solar_panel", BlockEntityType.Builder.of(SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL).build(null));
+    public static final BlockEntityType<ThermopileBlockEntity> THERMOPILE =
+            register("thermopile", BlockEntityType.Builder.of(ThermopileBlockEntity::new, ModBlocks.THERMOPILE).build(null));
+    public static final BlockEntityType<BatteryBoxBlockEntity> BATTERY_BOX =
+            register("battery_box", BlockEntityType.Builder.of(BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX).build(null));
     public static final BlockEntityType<AutoCraftingTableBlockEntity> AUTO_CRAFTING_TABLE =
             register("auto_crafting_table", BlockEntityType.Builder.of(AutoCraftingTableBlockEntity::new, ModBlocks.AUTO_CRAFTING_TABLE).build(null));
     public static final BlockEntityType<AutoCraftingTableMk2BlockEntity> ACT_MK2 =
@@ -238,6 +259,15 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IgniterBlockEntity>> IGNITER =
             BLOCK_ENTITIES.register("igniter",
                     () -> BlockEntityType.Builder.of(IgniterBlockEntity::new, ModBlocks.IGNITER.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL =
+            BLOCK_ENTITIES.register("solar_panel",
+                    () -> BlockEntityType.Builder.of(SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ThermopileBlockEntity>> THERMOPILE =
+            BLOCK_ENTITIES.register("thermopile",
+                    () -> BlockEntityType.Builder.of(ThermopileBlockEntity::new, ModBlocks.THERMOPILE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BatteryBoxBlockEntity>> BATTERY_BOX =
+            BLOCK_ENTITIES.register("battery_box",
+                    () -> BlockEntityType.Builder.of(BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AutoCraftingTableBlockEntity>> AUTO_CRAFTING_TABLE =
             BLOCK_ENTITIES.register("auto_crafting_table",
@@ -292,6 +322,12 @@ public final class ModBlockEntities {
             register("sorting_machine", SortingMachineBlockEntity::new, ModBlocks.SORTING_MACHINE);
     public static final BlockEntityType<IgniterBlockEntity> IGNITER =
             register("igniter", IgniterBlockEntity::new, ModBlocks.IGNITER);
+    public static final BlockEntityType<SolarPanelBlockEntity> SOLAR_PANEL =
+            register("solar_panel", SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL);
+    public static final BlockEntityType<ThermopileBlockEntity> THERMOPILE =
+            register("thermopile", ThermopileBlockEntity::new, ModBlocks.THERMOPILE);
+    public static final BlockEntityType<BatteryBoxBlockEntity> BATTERY_BOX =
+            register("battery_box", BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX);
     public static final BlockEntityType<AutoCraftingTableBlockEntity> AUTO_CRAFTING_TABLE =
             register("auto_crafting_table", AutoCraftingTableBlockEntity::new, ModBlocks.AUTO_CRAFTING_TABLE);
     public static final BlockEntityType<AutoCraftingTableMk2BlockEntity> ACT_MK2 =
@@ -374,6 +410,15 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<IgniterBlockEntity>> IGNITER =
             BLOCK_ENTITIES.register("igniter",
                     () -> new BlockEntityType<>(IgniterBlockEntity::new, java.util.Set.of(ModBlocks.IGNITER.get())));
+    public static final RegistryObject<BlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL =
+            BLOCK_ENTITIES.register("solar_panel",
+                    () -> new BlockEntityType<>(SolarPanelBlockEntity::new, java.util.Set.of(ModBlocks.SOLAR_PANEL.get())));
+    public static final RegistryObject<BlockEntityType<ThermopileBlockEntity>> THERMOPILE =
+            BLOCK_ENTITIES.register("thermopile",
+                    () -> new BlockEntityType<>(ThermopileBlockEntity::new, java.util.Set.of(ModBlocks.THERMOPILE.get())));
+    public static final RegistryObject<BlockEntityType<BatteryBoxBlockEntity>> BATTERY_BOX =
+            BLOCK_ENTITIES.register("battery_box",
+                    () -> new BlockEntityType<>(BatteryBoxBlockEntity::new, java.util.Set.of(ModBlocks.BATTERY_BOX.get())));
 
     public static final RegistryObject<BlockEntityType<AutoCraftingTableBlockEntity>> AUTO_CRAFTING_TABLE =
             BLOCK_ENTITIES.register("auto_crafting_table",
@@ -455,6 +500,15 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IgniterBlockEntity>> IGNITER =
             BLOCK_ENTITIES.register("igniter",
                     () -> new BlockEntityType<>(IgniterBlockEntity::new, java.util.Set.of(ModBlocks.IGNITER.get())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL =
+            BLOCK_ENTITIES.register("solar_panel",
+                    () -> new BlockEntityType<>(SolarPanelBlockEntity::new, java.util.Set.of(ModBlocks.SOLAR_PANEL.get())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ThermopileBlockEntity>> THERMOPILE =
+            BLOCK_ENTITIES.register("thermopile",
+                    () -> new BlockEntityType<>(ThermopileBlockEntity::new, java.util.Set.of(ModBlocks.THERMOPILE.get())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BatteryBoxBlockEntity>> BATTERY_BOX =
+            BLOCK_ENTITIES.register("battery_box",
+                    () -> new BlockEntityType<>(BatteryBoxBlockEntity::new, java.util.Set.of(ModBlocks.BATTERY_BOX.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AutoCraftingTableBlockEntity>> AUTO_CRAFTING_TABLE =
             BLOCK_ENTITIES.register("auto_crafting_table",
@@ -536,6 +590,15 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<IgniterBlockEntity>> IGNITER =
             BLOCK_ENTITIES.register("igniter",
                     () -> BlockEntityType.Builder.of(IgniterBlockEntity::new, ModBlocks.IGNITER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL =
+            BLOCK_ENTITIES.register("solar_panel",
+                    () -> BlockEntityType.Builder.of(SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ThermopileBlockEntity>> THERMOPILE =
+            BLOCK_ENTITIES.register("thermopile",
+                    () -> BlockEntityType.Builder.of(ThermopileBlockEntity::new, ModBlocks.THERMOPILE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<BatteryBoxBlockEntity>> BATTERY_BOX =
+            BLOCK_ENTITIES.register("battery_box",
+                    () -> BlockEntityType.Builder.of(BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<AutoCraftingTableBlockEntity>> AUTO_CRAFTING_TABLE =
             BLOCK_ENTITIES.register("auto_crafting_table",
