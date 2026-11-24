@@ -24,7 +24,14 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     private ItemStack[] filterSlots = new ItemStack[9];
     private MachineLib.FilterMap filterMap;
     public byte color = 0;
-    private final IItemHandler handler = new SidedInvWrapper(this, ForgeDirection.NORTH);
+    private final IItemHandler[] handlers = new IItemHandler[6];
+
+    {
+        for (ForgeDirection face : ForgeDirection.VALID_DIRECTIONS) {
+            this.handlers[face.ordinal()] = new SidedInvWrapper(this, face);
+        }
+    }
+    private long jammedUntil;
 
     public FilterBlockEntity() {
         super();
@@ -66,10 +73,27 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         return map.size() == 0 || map.containsKey(stack);
     }
 
+    /**
+     * Refuse passive tube items for the next few ticks. A Retrievulator calls this every
+     * tick while its targets are met, so an emptied filter grid pulls nothing.
+     */
+    public void jam() {
+        if (this.getWorld() != null) {
+            this.jammedUntil = this.getWorld().getTotalWorldTime() + 5;
+        }
+    }
+
+    protected boolean isJammed() {
+        return this.getWorld() != null && this.getWorld().getTotalWorldTime() < this.jammedUntil;
+    }
+
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem ti) {
         ForgeDirection back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -82,6 +106,9 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     public boolean tubeItemCanEnter(int side, int state, TubeItem ti) {
         ForgeDirection back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -199,7 +226,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         this.filterMap = null;
     }
     public com.rptubes.util.inv.IItemHandler getItemHandler(ForgeDirection side) {
-        return this.handler;
+        return this.handlers[side == null || side.ordinal() >= 6 ? 0 : side.ordinal()];
     }
 
     public void dropContents() {

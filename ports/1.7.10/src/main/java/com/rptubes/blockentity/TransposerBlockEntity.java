@@ -25,6 +25,7 @@ public class TransposerBlockEntity extends CompatTileEntity implements DropsCont
     protected boolean powered;
     protected boolean active;
     protected int tickCooldown;
+    private int extractions;
 
     public TransposerBlockEntity() {
         super();
@@ -74,8 +75,8 @@ public class TransposerBlockEntity extends CompatTileEntity implements DropsCont
             BlockPos src = this.getPos().offset(back);
             if (this.canSuckAir(src)) {
                 this.doSuck();
-            } else {
-                this.handleExtract(src, this.getFacing());
+            } else if (this.handleExtract(src, this.getFacing())) {
+                this.extractions++;
             }
         } else {
             if (this.active && this.tickCooldown <= 0) {
@@ -92,6 +93,11 @@ public class TransposerBlockEntity extends CompatTileEntity implements DropsCont
         }
         TileEntity te = this.getWorld().getTileEntity(pos.getX(), pos.getY(), pos.getZ());
         return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.getWorld(), pos, this.getFacing()) == null);
+    }
+
+    /** Successful extractions so far; a Retrievulator reads it to see whether its pulse found anything. */
+    public int getExtractions() {
+        return this.extractions;
     }
 
     protected boolean handleExtract(BlockPos src, ForgeDirection extractSide) {

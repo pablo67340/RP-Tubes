@@ -23,6 +23,11 @@ minecraft {
     username = 'Developer'
 }
 
+// cofh/api/energy holds compile-only RF API stubs; the real API ships with RF mods
+jar {
+    exclude 'cofh/**'
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-Xmaxerrs' << '5000'

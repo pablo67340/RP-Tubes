@@ -1,7 +1,13 @@
 package com.rptubes.registry;
 
 import com.rptubes.RPTubes;
+import com.rptubes.block.AcceleratorBlock;
 import com.rptubes.block.AlloyFurnaceBlock;
+import com.rptubes.block.BatteryBoxBlock;
+import com.rptubes.block.MagTubeBlock;
+import com.rptubes.block.RetrievulatorBlock;
+import com.rptubes.block.SolarPanelBlock;
+import com.rptubes.block.ThermopileBlock;
 import com.rptubes.block.AutoCraftingTableBlock;
 import com.rptubes.block.AutoCraftingTableMk2Block;
 import com.rptubes.block.BlockBreakerBlock;
@@ -48,6 +54,10 @@ public final class ModBlocks {
             named(new Block(Material.rock) { }, "tin_ore")
                     .setHardness(3.0F).setResistance(5.0F).setBlockTextureName("rptubes:tin_ore"));
 
+    public static final Ref<Block> COPPER_ORE = new Ref<Block>(
+            named(new Block(Material.rock) { }, "copper_ore")
+                    .setHardness(3.0F).setResistance(5.0F).setBlockTextureName("rptubes:copper_ore"));
+
     public static final Ref<Block> ALLOY_FURNACE = new Ref<Block>(
             named(new AlloyFurnaceBlock(), "alloy_furnace").setHardness(3.5F));
 
@@ -75,9 +85,16 @@ public final class ModBlocks {
     public static final Ref<Block> PNEUMATIC_TUBE = new Ref<Block>(tube(new PneumaticTubeBlock(), "pneumatic_tube"));
     public static final Ref<Block> REDSTONE_TUBE = new Ref<Block>(tube(new RedstoneTubeBlock(), "redstone_tube"));
     public static final Ref<Block> RESTRICTION_TUBE = new Ref<Block>(tube(new RestrictionTubeBlock(), "restriction_tube"));
+    public static final Ref<Block> MAG_TUBE = new Ref<Block>(tube(new MagTubeBlock(), "mag_tube"));
+    public static final Ref<Block> ACCELERATOR = new Ref<Block>(tube(new AcceleratorBlock(), "accelerator"));
+    public static final Ref<Block> RETRIEVULATOR = new Ref<Block>(machine(new RetrievulatorBlock(), "retrievulator"));
+    public static final Ref<Block> SOLAR_PANEL = new Ref<Block>(machine(new SolarPanelBlock(), "solar_panel"));
+    public static final Ref<Block> THERMOPILE = new Ref<Block>(machine(new ThermopileBlock(), "thermopile"));
+    public static final Ref<Block> BATTERY_BOX = new Ref<Block>(machine(new BatteryBoxBlock(), "battery_box"));
 
     public static void register() {
         GameRegistry.registerBlock(TIN_ORE.get(), "tin_ore");
+        GameRegistry.registerBlock(COPPER_ORE.get(), "copper_ore");
         GameRegistry.registerBlock(ALLOY_FURNACE.get(), "alloy_furnace");
         GameRegistry.registerBlock(TRANSPOSER.get(), "transposer");
         GameRegistry.registerBlock(FILTER.get(), "filter");
@@ -96,6 +113,12 @@ public final class ModBlocks {
         GameRegistry.registerBlock(PNEUMATIC_TUBE.get(), "pneumatic_tube");
         GameRegistry.registerBlock(REDSTONE_TUBE.get(), "redstone_tube");
         GameRegistry.registerBlock(RESTRICTION_TUBE.get(), "restriction_tube");
+        GameRegistry.registerBlock(MAG_TUBE.get(), "mag_tube");
+        GameRegistry.registerBlock(ACCELERATOR.get(), "accelerator");
+        GameRegistry.registerBlock(RETRIEVULATOR.get(), "retrievulator");
+        GameRegistry.registerBlock(SOLAR_PANEL.get(), "solar_panel");
+        GameRegistry.registerBlock(THERMOPILE.get(), "thermopile");
+        GameRegistry.registerBlock(BATTERY_BOX.get(), "battery_box");
     }
 
     private ModBlocks() {

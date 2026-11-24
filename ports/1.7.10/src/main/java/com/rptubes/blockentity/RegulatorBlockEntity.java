@@ -39,7 +39,13 @@ public class RegulatorBlockEntity extends CompatTileEntity implements DropsConte
     private boolean powered;
     private boolean active;
     private int tickCooldown;
-    private final IItemHandler handler = new SidedInvWrapper(this, ForgeDirection.DOWN);
+    private final IItemHandler[] handlers = new IItemHandler[6];
+
+    {
+        for (ForgeDirection face : ForgeDirection.VALID_DIRECTIONS) {
+            this.handlers[face.ordinal()] = new SidedInvWrapper(this, face);
+        }
+    }
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
     public RegulatorBlockEntity() {
@@ -425,7 +431,7 @@ public class RegulatorBlockEntity extends CompatTileEntity implements DropsConte
         this.outputMap = null;
     }
     public com.rptubes.util.inv.IItemHandler getItemHandler(ForgeDirection side) {
-        return this.handler;
+        return this.handlers[side == null || side.ordinal() >= 6 ? 0 : side.ordinal()];
     }
 
     @Override

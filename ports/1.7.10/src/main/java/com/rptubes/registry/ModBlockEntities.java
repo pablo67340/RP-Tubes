@@ -42,6 +42,12 @@ public final class ModBlockEntities {
         reg(PneumaticTubeBlockEntity.class, "pneumatic_tube");
         reg(RedstoneTubeBlockEntity.class, "redstone_tube");
         reg(RestrictionTubeBlockEntity.class, "restriction_tube");
+        reg(com.rptubes.blockentity.MagTubeBlockEntity.class, "mag_tube");
+        reg(com.rptubes.blockentity.AcceleratorBlockEntity.class, "accelerator");
+        reg(com.rptubes.blockentity.RetrievulatorBlockEntity.class, "retrievulator");
+        reg(com.rptubes.blockentity.SolarPanelBlockEntity.class, "solar_panel");
+        reg(com.rptubes.blockentity.ThermopileBlockEntity.class, "thermopile");
+        reg(com.rptubes.blockentity.BatteryBoxBlockEntity.class, "battery_box");
     }
 
     private static void reg(Class<? extends net.minecraft.tileentity.TileEntity> cls, String name) {

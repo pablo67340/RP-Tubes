@@ -25,7 +25,13 @@ public class DeployerBlockEntity extends CompatTileEntity implements DropsConten
     private ItemStack[] items = new ItemStack[9];
     private boolean powered;
     private boolean active;
-    private final IItemHandler handler = new SidedInvWrapper(this, ForgeDirection.DOWN);
+    private final IItemHandler[] handlers = new IItemHandler[6];
+
+    {
+        for (ForgeDirection face : ForgeDirection.VALID_DIRECTIONS) {
+            this.handlers[face.ordinal()] = new SidedInvWrapper(this, face);
+        }
+    }
 
     public DeployerBlockEntity() {
         super();
@@ -205,7 +211,7 @@ public class DeployerBlockEntity extends CompatTileEntity implements DropsConten
         this.active = tag.getBoolean("Active");
     }
     public com.rptubes.util.inv.IItemHandler getItemHandler(ForgeDirection side) {
-        return this.handler;
+        return this.handlers[side == null || side.ordinal() >= 6 ? 0 : side.ordinal()];
     }
 
     @Override

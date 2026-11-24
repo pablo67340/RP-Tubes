@@ -41,3 +41,14 @@ block.rptubes.auto_crafting_table=Automatic Crafting Table
 block.rptubes.act_mk2=Automatic Crafting Table Mk II
 
 jei.rptubes.alloy_smelting=Alloy Smelting
+tile.rptubes.mag_tube.name=MagTube
+tile.rptubes.accelerator.name=Accelerator
+tile.rptubes.retrievulator.name=Retrievulator
+tile.rptubes.solar_panel.name=Solar Panel
+tile.rptubes.thermopile.name=Thermopile
+tile.rptubes.battery_box.name=Battery Box
+block.rptubes.retrievulator=Retrievulator
+block.rptubes.battery_box=Battery Box
+item.rptubes.battery.name=Battery
+tile.rptubes.copper_ore.name=Copper Ore
+item.rptubes.copper_ingot.name=Copper Ingot

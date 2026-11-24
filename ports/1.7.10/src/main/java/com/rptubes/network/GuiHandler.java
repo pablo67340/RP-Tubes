@@ -55,6 +55,8 @@ public class GuiHandler implements IGuiHandler {
     public static final int GUI_SORTING_MACHINE = 9;
     public static final int GUI_AUTO_CRAFTING_TABLE = 10;
     public static final int GUI_ACT_MK2 = 11;
+    public static final int GUI_RETRIEVULATOR = 12;
+    public static final int GUI_BATTERY_BOX = 13;
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
@@ -84,6 +86,12 @@ public class GuiHandler implements IGuiHandler {
                 return new AutoCraftingTableMenu(player.inventory, (AutoCraftingTableBlockEntity) be);
             case GUI_ACT_MK2:
                 return new AutoCraftingTableMk2Menu(player.inventory, (AutoCraftingTableMk2BlockEntity) be);
+            case GUI_RETRIEVULATOR:
+                return be instanceof com.rptubes.blockentity.RetrievulatorBlockEntity
+                        ? new com.rptubes.menu.RetrievulatorMenu(player.inventory, (com.rptubes.blockentity.RetrievulatorBlockEntity) be) : null;
+            case GUI_BATTERY_BOX:
+                return be instanceof com.rptubes.blockentity.BatteryBoxBlockEntity
+                        ? new com.rptubes.menu.BatteryBoxMenu(player.inventory, (com.rptubes.blockentity.BatteryBoxBlockEntity) be) : null;
             default:
                 return null;
         }
@@ -120,6 +128,10 @@ public class GuiHandler implements IGuiHandler {
                 return new AutoCraftingTableScreen((AutoCraftingTableMenu) menu);
             case GUI_ACT_MK2:
                 return new AutoCraftingTableMk2Screen((AutoCraftingTableMk2Menu) menu);
+            case GUI_RETRIEVULATOR:
+                return new com.rptubes.client.RetrievulatorScreen((com.rptubes.menu.RetrievulatorMenu) menu);
+            case GUI_BATTERY_BOX:
+                return new com.rptubes.client.BatteryBoxScreen((com.rptubes.menu.BatteryBoxMenu) menu);
             default:
                 return null;
         }

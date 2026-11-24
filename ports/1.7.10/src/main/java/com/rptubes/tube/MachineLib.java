@@ -40,7 +40,7 @@ public final class MachineLib {
             return false;
         }
         ItemStack leftover = Handlers.insertItem(handler, stack.copy(), true);
-        return leftover.stackSize < stack.stackSize;
+        return com.rptubes.util.Stacks.size(leftover) < stack.stackSize;
     }
 
     public static ItemStack insert(World world, BlockPos pos, ForgeDirection side, ItemStack stack, boolean simulate) {
