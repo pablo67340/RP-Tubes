@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = RPTubes.MOD_ID, name = "RP Tubes", version = "1.5.1",
+@Mod(modid = RPTubes.MOD_ID, name = "RP Tubes", version = "1.5.2",
         acceptedMinecraftVersions = "[1.7.10]", dependencies = "after:ForgeMultipart")
 public class RPTubes {
     public static final String MOD_ID = "rptubes";

@@ -1,3 +1,19 @@
+# RP-Tubes 1.5.2
+
+Replace `rptubes-1.5.1.jar` with `rptubes-1.5.2.jar`. Only Minecraft 1.7.10
+changes; every other version is the same as 1.5.1.
+
+## Fixed (1.7.10)
+
+- **Tubes look like they do on the newer versions.** The rails run along the
+  tube, corners and ends get their brass frames, and Mag Tubes show their
+  coils.
+- **Machine faces line up with their facing.** The Deployer, Transposer,
+  Sorting Machine and the other machines now show the same faces and texture
+  directions as on the newer versions, so the input and output sides match
+  what you see.
+- Both fixes also work with Angelica.
+
 # RP-Tubes 1.5.1
 
 Replace `rptubes-1.5.0.jar` with `rptubes-1.5.1.jar`.
