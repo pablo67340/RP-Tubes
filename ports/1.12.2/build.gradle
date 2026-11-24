@@ -40,8 +40,15 @@ minecraft {
     }
 }
 
+repositories {
+    maven { url = 'https://maven.covers1624.net/' }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    // Optional Forge Multipart support; the compat classes only load when it is installed
+    compileOnly fg.deobf("codechicken:ForgeMultipart:${minecraft_version}-${fmp_version}:universal") { transitive = false }
+    compileOnly fg.deobf("codechicken:CodeChickenLib:${minecraft_version}-${ccl_version}:universal") { transitive = false }
 }
 
 tasks.named('processResources', ProcessResources).configure {

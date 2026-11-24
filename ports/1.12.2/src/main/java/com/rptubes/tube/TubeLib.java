@@ -49,21 +49,19 @@ public final class TubeLib {
     // client hands blocks a ChunkCache rather than the full World.
     public static boolean canConnect(net.minecraft.world.IBlockAccess world, BlockPos pos, EnumFacing dir) {
         BlockPos neighbor = pos.offset(dir);
-        TileEntity self = world.getTileEntity(pos);
+        ITubeConnectable self = TubeAccess.connectable(world, pos);
         int selfClass = 0;
-        if (self instanceof ITubeConnectable) {
-            ITubeConnectable tube = (ITubeConnectable) self;
-            if ((tube.getTubeConnectableSides() & (1 << dir.ordinal())) == 0) {
+        if (self != null) {
+            if ((self.getTubeConnectableSides() & (1 << dir.ordinal())) == 0) {
                 return false;
             }
-            selfClass = tube.getTubeConClass();
+            selfClass = self.getTubeConClass();
         }
 
-        TileEntity other = world.getTileEntity(neighbor);
+        ITubeConnectable tube = TubeAccess.connectable(world, neighbor);
         EnumFacing opposite = dir.getOpposite();
 
-        if (other instanceof ITubeConnectable) {
-            ITubeConnectable tube = (ITubeConnectable) other;
+        if (tube != null) {
             if (!isCompatible(selfClass, tube.getTubeConClass())) {
                 return false;
             }
@@ -83,11 +81,10 @@ public final class TubeLib {
     }
 
     public static int getConnections(World world, BlockPos pos) {
-        TileEntity be = world.getTileEntity(pos);
-        if (!(be instanceof ITubeConnectable)) {
+        ITubeConnectable tube = TubeAccess.connectable(world, pos);
+        if (tube == null) {
             return 0;
         }
-        ITubeConnectable tube = (ITubeConnectable) be;
         int mask = 0;
         int sides = tube.getTubeConnectableSides();
         for (EnumFacing dir : EnumFacing.values()) {
@@ -129,11 +126,10 @@ public final class TubeLib {
                 return node.startSide;
             }
 
-            TileEntity be = world.getTileEntity(node.pos);
-            if (!(be instanceof ITubeConnectable)) {
+            ITubeConnectable tube = TubeAccess.connectable(world, node.pos);
+            if (tube == null) {
                 continue;
             }
-            ITubeConnectable tube = (ITubeConnectable) be;
 
             if (tube.tubeItemCanEnter(node.enterSide, state, item)) {
                 return node.startSide;
@@ -164,11 +160,10 @@ public final class TubeLib {
     }
 
     public static boolean addToTubeRoute(World world, TubeItem ti, BlockPos src, BlockPos tubePos, EnumFacing enterSide) {
-        TileEntity be = world.getTileEntity(tubePos);
-        if (!(be instanceof ITubeConnectable)) {
+        ITubeConnectable tube = TubeAccess.connectable(world, tubePos);
+        if (tube == null) {
             return false;
         }
-        ITubeConnectable tube = (ITubeConnectable) be;
         ti.mode = 1;
         int side = findRoute(world, src, ti, 1 << enterSide.getOpposite().ordinal(), 1, 0);
         if (side < 0) {
@@ -194,8 +189,8 @@ public final class TubeLib {
                 continue;
             }
 
-            TileEntity be = world.getTileEntity(node.pos);
-            boolean routing = be instanceof ITubeConnectable && ((ITubeConnectable) be).canRouteItems();
+            ITubeConnectable tube = TubeAccess.connectable(world, node.pos);
+            boolean routing = tube != null && tube.canRouteItems();
             IItemHandler handler = MachineLib.getHandler(world, node.pos, node.enterSide);
 
             if (handler != null && !routing) {

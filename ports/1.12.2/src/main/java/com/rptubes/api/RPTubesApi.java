@@ -35,7 +35,7 @@ public final class RPTubesApi {
 
     /** True if the block entity at {@code pos} participates in the tube network. */
     public static boolean isTubeConnectable(World world, BlockPos pos) {
-        return world.getTileEntity(pos) instanceof ITubeConnectable;
+        return com.rptubes.tube.TubeAccess.connectable(world, pos) != null;
     }
 
     /**

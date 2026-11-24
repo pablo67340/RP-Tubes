@@ -56,6 +56,10 @@ public class RPTubes {
         CHANNEL.registerMessage(0, TubeItemUpsertPacket.class,
                 TubeItemUpsertPacket::encode, TubeItemUpsertPacket::decode, TubeItemUpsertPacket::handle);
 
+        if (net.minecraftforge.fml.ModList.get().isLoaded("cb_multipart")) {
+            com.rptubes.compat.cbm.TubeParts.init(modBus);
+        }
+
         MinecraftForge.EVENT_BUS.register(this);
         LOGGER.info("RP Tubes loading — RedPower tube logic rides again.");
     }

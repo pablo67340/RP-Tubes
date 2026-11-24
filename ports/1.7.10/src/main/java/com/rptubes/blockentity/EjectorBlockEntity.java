@@ -105,7 +105,7 @@ public class EjectorBlockEntity extends CompatTileEntity implements DropsContent
             return false;
         }
         BlockPos src = this.getPos().offset(this.getFacing().getOpposite());
-        if (this.getWorld().getTileEntity(src.getX(), src.getY(), src.getZ()) instanceof ITubeConnectable) {
+        if (com.rptubes.tube.TubeAccess.connectable(this.getWorld(), src) != null) {
             return false;
         }
         ItemStack extracted = MachineLib.extractOne(this.getWorld(), src, this.getFacing());

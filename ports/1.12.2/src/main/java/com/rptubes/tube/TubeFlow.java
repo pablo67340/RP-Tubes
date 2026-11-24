@@ -82,9 +82,8 @@ public abstract class TubeFlow {
                 if (ti.side < 0 || (ctx.cons & (1 << ti.side)) == 0) {
                     continue;
                 }
-                TileEntity be = ctx.world.getTileEntity(ctx.wc.offset(EnumFacing.byIndex(ti.side)));
-                if (be instanceof ITubeFlow) {
-                    ITubeFlow flow = (ITubeFlow) be;
+                ITubeFlow flow = TubeAccess.flow(ctx.world, ctx.wc.offset(EnumFacing.byIndex(ti.side)));
+                if (flow != null) {
                     flow.addTubeItem(ti);
                 }
             }
@@ -107,14 +106,12 @@ public abstract class TubeFlow {
             }
 
             ctx.dest = ctx.wc.offset(EnumFacing.byIndex(ti.side));
-            TileEntity be = ctx.world.getTileEntity(ctx.dest);
-            if (be instanceof ITubeFlow) {
-                ITubeFlow flow = (ITubeFlow) be;
-                flow.addTubeItem(ti);
+            ITubeConnectable tube = TubeAccess.connectable(ctx.world, ctx.dest);
+            if (tube instanceof ITubeFlow) {
+                ((ITubeFlow) tube).addTubeItem(ti);
                 continue;
             }
-            if (be instanceof ITubeConnectable
-                    && ((ITubeConnectable) be).tubeItemEnter((ti.side ^ 1) & 0x3F, ti.mode, ti)) {
+            if (tube != null && tube.tubeItemEnter((ti.side ^ 1) & 0x3F, ti.mode, ti)) {
                 continue;
             }
             if (this.handleItem(ti, ctx)) {

@@ -12,6 +12,7 @@ import com.rptubes.network.TubeItemUpsertPacket;
 import com.rptubes.registry.ModBlockEntities;
 import com.rptubes.tube.ITubeFlow;
 import com.rptubes.tube.MachineLib;
+import com.rptubes.tube.TubeAccess;
 import com.rptubes.tube.TubeFlow;
 import com.rptubes.tube.TubeItem;
 import com.rptubes.tube.TubeLib;
@@ -43,6 +44,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
  */
 public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
     private byte lastDir = 0;
+    private int blockedSides = 0;
     //? if fabric && >=1.20.6 {
     /*/^* OG paintColor: 0 = unpainted, 1-16 = dye. ^/
     private byte paintColor = 0;
@@ -192,7 +194,12 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
 
     @Override
     public int getTubeConnectableSides() {
-        return 0x3F;
+        return 0x3F & ~this.blockedSides;
+    }
+
+    /** Sides a host block space has covered up, so no connection can pass through them. */
+    public void setBlockedSides(int sides) {
+        this.blockedSides = sides & 0x3F;
     }
 
     @Override
@@ -532,8 +539,7 @@ public class PneumaticTubeBlockEntity extends BlockEntity implements ITubeFlow {
         }
         if (this.level != null) {
             for (Direction d : Direction.values()) {
-                BlockEntity nbe = this.level.getBlockEntity(this.worldPosition.relative(d));
-                if (nbe instanceof PneumaticTubeBlockEntity neighbor) {
+                if (TubeAccess.connectable(this.level, this.worldPosition.relative(d)) instanceof PneumaticTubeBlockEntity neighbor) {
                     neighbor.flow.contents.removeIf(t -> t.id == inc.id);
                 }
             }

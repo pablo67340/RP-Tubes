@@ -100,15 +100,18 @@ public class RedstoneTubeBlock extends PneumaticTubeBlock {
         }
     }
 
-    private static int calculateTargetPower(World world, BlockPos pos) {
+    public static boolean isSignalling() {
+        return shouldSignal;
+    }
+
+    public static int calculateTargetPower(World world, BlockPos pos) {
         // Adjacent redstone tubes: cached power minus dust-like decay
         int wire = 0;
         for (EnumFacing dir : EnumFacing.values()) {
             BlockPos np = pos.offset(dir);
-            if (world.getBlockState(np).getBlock() instanceof RedstoneTubeBlock
-                    && world.getTileEntity(np) instanceof RedstoneTubeBlockEntity) {
-                RedstoneTubeBlockEntity t = (RedstoneTubeBlockEntity) world.getTileEntity(np);
-                wire = Math.max(wire, t.getPower() - 1);
+            Object t = com.rptubes.tube.TubeAccess.connectable(world, np);
+            if (t instanceof RedstoneTubeBlockEntity) {
+                wire = Math.max(wire, ((RedstoneTubeBlockEntity) t).getPower() - 1);
             }
         }
         // External sources, with tubes muted so nothing recurses back into us

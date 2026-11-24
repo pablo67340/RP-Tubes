@@ -121,6 +121,10 @@ public class RPTubes {
         CHANNEL.registerMessage(0, TubeItemUpsertPacket.class,
                 TubeItemUpsertPacket::encode, TubeItemUpsertPacket::decode, TubeItemUpsertPacket::handle);
 
+        if (ModList.get().isLoaded("cb_multipart")) {
+            com.rptubes.compat.cbm.TubeParts.init(modBus);
+        }
+
         MinecraftForge.EVENT_BUS.register(this);
     *///?} else if fabric && <1.20.6 {
 
@@ -190,6 +194,10 @@ public class RPTubes {
 
         CHANNEL.registerMessage(0, TubeItemUpsertPacket.class,
                 TubeItemUpsertPacket::encode, TubeItemUpsertPacket::decode, TubeItemUpsertPacket::handle);
+
+        if (ModList.get().isLoaded("cb_multipart")) {
+            com.rptubes.compat.cbm.TubeParts.init(modBus);
+        }
 
         MinecraftForge.EVENT_BUS.register(this);
     *///?} else if fabric && <1.21.1 {
@@ -502,6 +510,11 @@ public class RPTubes {
         ModRecipes.RECIPE_TYPES.register(modBus);
         ModRecipes.RECIPE_SERIALIZERS.register(modBus);
         container.registerConfig(ModConfig.Type.COMMON, RPTubesConfig.SPEC);
+        //? if cbm {
+        if (net.neoforged.fml.ModList.get().isLoaded("cb_multipart")) {
+            com.rptubes.compat.cbm.TubeParts.init(modBus);
+        }
+        //?}
     //?}
         LOGGER.info("RP Tubes loading — RedPower tube logic rides again.");
     }

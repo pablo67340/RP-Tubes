@@ -13,7 +13,7 @@ public class ClientPacketHandler {
         if (world == null) {
             return;
         }
-        TileEntity be = world.getTileEntity(msg.getPos());
+        Object be = com.rptubes.tube.TubeAccess.connectable(world.getTileEntity(msg.getPos()));
         if (!(be instanceof PneumaticTubeBlockEntity)) {
             return;
         }

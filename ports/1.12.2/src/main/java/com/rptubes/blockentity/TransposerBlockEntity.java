@@ -93,7 +93,7 @@ public class TransposerBlockEntity extends TileEntity implements DropsContents, 
             return false;
         }
         TileEntity te = this.world.getTileEntity(pos);
-        return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.world, pos, this.getFacing()) == null);
+        return te == null || (com.rptubes.tube.TubeAccess.connectable(te) == null && MachineLib.getHandler(this.world, pos, this.getFacing()) == null);
     }
 
     /** Filter / Retriever / Sorter override. Transposer itself does not use RF. */

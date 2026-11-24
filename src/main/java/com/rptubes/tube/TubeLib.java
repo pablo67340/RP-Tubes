@@ -57,19 +57,19 @@ public final class TubeLib {
 
     public static boolean canConnect(Level level, BlockPos pos, Direction dir) {
         BlockPos neighbor = pos.relative(dir);
-        BlockEntity self = level.getBlockEntity(pos);
+        ITubeConnectable self = TubeAccess.connectable(level, pos);
         int selfClass = 0;
-        if (self instanceof ITubeConnectable tube) {
-            if ((tube.getTubeConnectableSides() & (1 << dir.ordinal())) == 0) {
+        if (self != null) {
+            if ((self.getTubeConnectableSides() & (1 << dir.ordinal())) == 0) {
                 return false;
             }
-            selfClass = tube.getTubeConClass();
+            selfClass = self.getTubeConClass();
         }
 
-        BlockEntity other = level.getBlockEntity(neighbor);
+        ITubeConnectable tube = TubeAccess.connectable(level, neighbor);
         Direction opposite = dir.getOpposite();
 
-        if (other instanceof ITubeConnectable tube) {
+        if (tube != null) {
             if (!isCompatible(selfClass, tube.getTubeConClass())) {
                 return false;
             }
@@ -107,8 +107,8 @@ public final class TubeLib {
     }
 
     public static int getConnections(Level level, BlockPos pos) {
-        BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof ITubeConnectable tube)) {
+        ITubeConnectable tube = TubeAccess.connectable(level, pos);
+        if (tube == null) {
             return 0;
         }
         int mask = 0;
@@ -152,8 +152,8 @@ public final class TubeLib {
                 return node.startSide;
             }
 
-            BlockEntity be = level.getBlockEntity(node.pos);
-            if (!(be instanceof ITubeConnectable tube)) {
+            ITubeConnectable tube = TubeAccess.connectable(level, node.pos);
+            if (tube == null) {
                 continue;
             }
 
@@ -186,8 +186,8 @@ public final class TubeLib {
     }
 
     public static boolean addToTubeRoute(Level level, TubeItem ti, BlockPos src, BlockPos tubePos, Direction enterSide) {
-        BlockEntity be = level.getBlockEntity(tubePos);
-        if (!(be instanceof ITubeConnectable tube)) {
+        ITubeConnectable tube = TubeAccess.connectable(level, tubePos);
+        if (tube == null) {
             return false;
         }
         ti.mode = 1;
@@ -215,8 +215,8 @@ public final class TubeLib {
                 continue;
             }
 
-            BlockEntity be = level.getBlockEntity(node.pos);
-            boolean routing = be instanceof ITubeConnectable tube && tube.canRouteItems();
+            ITubeConnectable tube = TubeAccess.connectable(level, node.pos);
+            boolean routing = tube != null && tube.canRouteItems();
             IItemHandler handler = MachineLib.getHandler(level, node.pos, node.enterSide);
 
             if (handler != null && !routing) {

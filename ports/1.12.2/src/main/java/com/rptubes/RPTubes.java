@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = RPTubes.MOD_ID, name = "RP Tubes", version = "1.4.1",
+@Mod(modid = RPTubes.MOD_ID, name = "RP Tubes", version = "1.5.0",
         acceptedMinecraftVersions = "[1.12,1.13)")
 public class RPTubes {
     public static final String MOD_ID = "rptubes";
@@ -42,6 +42,9 @@ public class RPTubes {
         // after all mods have registered ore dictionary entries
         ModRecipes.register();
         com.rptubes.compat.ProjectECompat.init();
+        if (net.minecraftforge.fml.common.Loader.isModLoaded("forgemultipartcbe")) {
+            com.rptubes.compat.cbm.TubeParts.init();
+        }
         LOGGER.info("RP Tubes loading — RedPower tube logic rides again.");
     }
 }

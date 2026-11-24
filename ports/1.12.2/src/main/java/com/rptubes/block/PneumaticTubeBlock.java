@@ -51,6 +51,10 @@ public class PneumaticTubeBlock extends Block {
         PROPERTY_BY_DIRECTION.put(EnumFacing.DOWN, DOWN);
     }
 
+    public static PropertyBool propertyFor(EnumFacing dir) {
+        return PROPERTY_BY_DIRECTION.get(dir);
+    }
+
     // Match OG RenderTube doubleBox bounds: 0.25..0.75 => 4..12
     private static final AxisAlignedBB CORE = box(4, 4, 4, 12, 12, 12);
     private static final AxisAlignedBB ARM_N = box(4, 4, 0, 12, 12, 4);

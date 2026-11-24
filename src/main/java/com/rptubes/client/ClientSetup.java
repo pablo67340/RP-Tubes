@@ -237,7 +237,7 @@ public final class ClientSetup {
                 return 0xFFFFFF;
             }
             BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof PneumaticTubeBlockEntity tube) {
+            if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
@@ -322,7 +322,7 @@ public final class ClientSetup {
                 return 0xFFFFFF;
             }
             BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof PneumaticTubeBlockEntity tube) {
+            if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
@@ -366,7 +366,7 @@ public final class ClientSetup {
                 return 0xFFFFFF;
             }
             BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof PneumaticTubeBlockEntity tube) {
+            if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
@@ -417,7 +417,7 @@ public final class ClientSetup {
                 return 0xFFFFFF;
             }
             BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof PneumaticTubeBlockEntity tube) {
+            if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
@@ -514,7 +514,7 @@ public final class ClientSetup {
                 return 0xFFFFFF;
             }
             BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof PneumaticTubeBlockEntity tube) {
+            if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
@@ -572,7 +572,7 @@ public final class ClientSetup {
                 return 0xFFFFFF;
             }
             BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof PneumaticTubeBlockEntity tube) {
+            if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                 return PaintColors.rgb(tube.getPaintColor());
             }
             return 0xFFFFFF;
@@ -615,7 +615,7 @@ public final class ClientSetup {
             int rgb = 0xFFFFFF;
             if (level != null && pos != null) {
                 BlockEntity te = level.getBlockEntity(pos);
-                if (te instanceof PneumaticTubeBlockEntity tube) {
+                if (com.rptubes.tube.TubeAccess.connectable(te) instanceof PneumaticTubeBlockEntity tube) {
                     rgb = PaintColors.rgb(tube.getPaintColor());
                 }
             }

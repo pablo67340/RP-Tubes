@@ -1,7 +1,7 @@
 mod.id = "rptubes"
 mod.name = "RP Tubes"
 mod.group = "com.rptubes"
-mod.version = "1.4.1"
+mod.version = "1.5.0"
 mod.authors = "Bryce"
 mod.license = "All Rights Reserved"
 mod.description = "RedPower2 pneumatic tubes and related machines revived for {loader}.\nBrass, Alloy Furnace, Filters, Transposers, and authentic tube routing."
@@ -22,6 +22,8 @@ deps.jei_range = "[11.6.0,)"
 mod.mc_compat = "[1.19.2,1.19.3)"
 deps.forge = "43.5.2"
 deps.forge_range = "[43,)"
+deps.cbm = "codechicken:CBMultipart:1.19.2-3.2.0.139:universal"
+deps.ccl = "codechicken:CodeChickenLib:1.19.2-4.3.2.490:universal"
 
 ["1.20.1"]
 pack.format = "15"
@@ -39,6 +41,8 @@ deps.energy = "3.0.0"
 mod.mc_compat = "[1.20.1,1.20.2)"
 deps.forge = "47.4.22"
 deps.forge_range = "[47,)"
+deps.cbm = "io.codechicken:CBMultipart:1.20.1-3.3.0.159:universal"
+deps.ccl = "io.codechicken:CodeChickenLib:1.20.1-4.4.0.528:universal"
 
 ["1.20.6"]
 pack.format = "32"
@@ -85,6 +89,8 @@ mod.mc_compat = "[1.21.1,1.21.2)"
 deps.neoforge = "21.1.200"
 deps.neoforge_range = "[21.1,)"
 deps.fml_range = "[4,)"
+deps.cbm = "io.codechicken:CBMultipart:1.21.1-3.5.0.161"
+deps.ccl = "io.codechicken:CodeChickenLib:1.21.1-4.6.1.529"
 
 ["1.21.11"]
 pack.format = "94"
@@ -105,6 +111,8 @@ mod.mc_compat = "[1.21.11,1.22)"
 deps.neoforge = "21.11.45"
 deps.neoforge_range = "[21.11,)"
 deps.fml_range = "[4,)"
+deps.cbm = "io.codechicken:CBMultipart:1.21.11-3.6.0.172"
+deps.ccl = "io.codechicken:CodeChickenLib:1.21.11-4.7.0.536"
 
 ["26.1.2"]
 pack.format = "101"

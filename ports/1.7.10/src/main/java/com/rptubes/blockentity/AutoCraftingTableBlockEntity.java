@@ -137,7 +137,7 @@ public class AutoCraftingTableBlockEntity extends CompatTileEntity implements Dr
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             BlockPos npos = this.getPos().offset(dir);
             TileEntity nbe = this.getWorld().getTileEntity(npos.getX(), npos.getY(), npos.getZ());
-            if (nbe == null || nbe instanceof ITubeConnectable || nbe instanceof AutoCraftingTableBlockEntity) {
+            if (nbe == null || com.rptubes.tube.TubeAccess.connectable(nbe) != null || nbe instanceof AutoCraftingTableBlockEntity) {
                 continue;
             }
             IItemHandler neighbor =

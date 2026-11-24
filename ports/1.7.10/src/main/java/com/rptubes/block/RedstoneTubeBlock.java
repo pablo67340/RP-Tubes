@@ -126,15 +126,18 @@ public class RedstoneTubeBlock extends PneumaticTubeBlock {
         }
     }
 
-    private static int calculateTargetPower(World world, int x, int y, int z) {
+    public static boolean isSignalling() {
+        return shouldSignal;
+    }
+
+    public static int calculateTargetPower(World world, int x, int y, int z) {
         // Adjacent redstone tubes: cached power minus dust-like decay
         int wire = 0;
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             int nx = x + dir.offsetX, ny = y + dir.offsetY, nz = z + dir.offsetZ;
-            if (world.getBlock(nx, ny, nz) instanceof RedstoneTubeBlock
-                    && world.getTileEntity(nx, ny, nz) instanceof RedstoneTubeBlockEntity) {
-                RedstoneTubeBlockEntity t = (RedstoneTubeBlockEntity) world.getTileEntity(nx, ny, nz);
-                wire = Math.max(wire, t.getPower() - 1);
+            Object t = com.rptubes.tube.TubeAccess.connectable(world, nx, ny, nz);
+            if (t instanceof RedstoneTubeBlockEntity) {
+                wire = Math.max(wire, ((RedstoneTubeBlockEntity) t).getPower() - 1);
             }
         }
         // External sources, with tubes muted so nothing recurses back into us

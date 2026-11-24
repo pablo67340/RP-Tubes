@@ -97,7 +97,7 @@ public class TransposerBlockEntity extends TileEntity implements net.minecraft.t
             return false;
         }
         TileEntity te = this.level.getBlockEntity(pos);
-        return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.level, pos, this.getFacing()) == null);
+        return te == null || (com.rptubes.tube.TubeAccess.connectable(te) == null && MachineLib.getHandler(this.level, pos, this.getFacing()) == null);
     }
 
     /** Filter / Retriever / Sorter override. Transposer itself does not use RF. */

@@ -15,6 +15,7 @@ rpTubes(target, mapOf(
 repositories {
     mavenCentral()
     maven("https://maven.blamejared.com/") { name = "BlameJared" }
+    maven("https://maven.covers1624.net/") { name = "covers1624" }
 }
 
 dependencies {
@@ -23,6 +24,14 @@ dependencies {
         compileOnly("mezz.jei:jei-${sc.current.version}-common-api:$jei")
         compileOnly("mezz.jei:jei-${sc.current.version}-neoforge-api:$jei")
         runtimeOnly("mezz.jei:jei-${sc.current.version}-neoforge:$jei")
+    }
+    if (target.hasCbm) {
+        for (dep in listOf(target.prop("deps.cbm"), target.prop("deps.ccl"))) {
+            compileOnly(dep) { isTransitive = false }
+            if (providers.gradleProperty("rptubes.cbmRuntime").isPresent) {
+                runtimeOnly(dep) { isTransitive = false }
+            }
+        }
     }
 }
 

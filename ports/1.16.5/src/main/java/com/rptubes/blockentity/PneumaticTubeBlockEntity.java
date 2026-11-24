@@ -3,8 +3,10 @@ package com.rptubes.blockentity;
 import com.rptubes.RPTubes;
 import com.rptubes.network.TubeItemUpsertPacket;
 import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.tube.ITubeConnectable;
 import com.rptubes.tube.ITubeFlow;
 import com.rptubes.tube.MachineLib;
+import com.rptubes.tube.TubeAccess;
 import com.rptubes.tube.TubeFlow;
 import com.rptubes.tube.TubeItem;
 import com.rptubes.tube.TubeLib;
@@ -26,6 +28,7 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
     private byte lastDir = 0;
     /** OG paintColor: 0 = unpainted, 1-16 = dye. Used for sorter color routing. */
     private byte paintColor = 0;
+    private int blockedSides = 0;
 
     private final TubeFlow flow = new TubeFlow() {
         @Override
@@ -139,7 +142,12 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
 
     @Override
     public int getTubeConnectableSides() {
-        return 0x3F;
+        return 0x3F & ~this.blockedSides;
+    }
+
+    /** Sides a CB Multipart cover sits on, when this tube lives inside a multipart block space. */
+    public void setBlockedSides(int sides) {
+        this.blockedSides = sides;
     }
 
     @Override
@@ -317,7 +325,7 @@ public class PneumaticTubeBlockEntity extends TileEntity implements net.minecraf
         }
         if (this.level != null) {
             for (Direction d : Direction.values()) {
-                TileEntity nbe = this.level.getBlockEntity(this.worldPosition.relative(d));
+                ITubeConnectable nbe = TubeAccess.connectable(this.level, this.worldPosition.relative(d));
                 if (nbe instanceof PneumaticTubeBlockEntity) {
                     PneumaticTubeBlockEntity neighbor = (PneumaticTubeBlockEntity) nbe;
                     neighbor.flow.contents.removeIf(t -> t.id == inc.id);

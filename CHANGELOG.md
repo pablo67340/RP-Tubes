@@ -1,3 +1,53 @@
+# RP-Tubes 1.5.0
+
+Replace `rptubes-1.4.1.jar` with `rptubes-1.5.0.jar`. The new blocks and
+features are on every supported version and loader unless noted.
+
+## CB Multipart support
+
+- **Tubes share a block space with covers.** Pneumatic, Redstone,
+  Restriction and Mag Tubes work as CB Multipart parts, so they fit in the
+  same block as covers, panels and hollow covers.
+- Add a cover to a placed tube and it turns into a part, keeping any items
+  that were in flight. A tube item can also be placed straight into a space
+  that already holds covers.
+- A solid cover on a tube's face closes that side. Hollow covers leave room
+  for the tube to pass through.
+- Redstone Tubes keep carrying redstone as parts, and breaking a tube part
+  drops the tube and anything inside it while the covers stay.
+- Works with CB Multipart on Forge 1.16.5, 1.19.2 and 1.20.1 and NeoForge
+  1.21.1 and 1.21.11, and with Forge Multipart on Forge 1.7.10 and 1.12.2.
+  It is optional: without it nothing changes.
+
+## New
+
+- **MagTube.** Keeps the speed of the items passing through it. 8 Pneumatic
+  Tubes around a copper ingot make 8.
+- **Accelerator.** Spends power to bring every item passing through up to
+  full speed.
+- **Retrievulator.** Sits on a Retriever's output and keeps the inventory on
+  its own output stocked to the counts you set, pulsing the Retriever for
+  whatever is missing.
+- **Tube speed.** Plain tubes now slow sped up items back down within a few
+  blocks, as in RedPower 2. MagTubes keep the speed.
+
+## Older versions (1.7.10, 1.12.2 and 1.16.5)
+
+- **Solar Panel, Thermopile, Battery Box and Battery** are now on 1.7.10,
+  1.12.2 and 1.16.5 (Forge and Fabric). On 1.7.10 they run on their own and
+  also connect to RF mods when one is installed.
+- Filter jamming, the extraction counter, per side inventory handling and
+  tube speed loss now behave as they do on the newer versions.
+- **1.7.10:** crafting recipes for every block, and Copper Ore and Copper
+  Ingot for the recipes that need copper.
+
+## Fixed
+
+- **Filter, Retriever, Regulator and Deployer** gave pipes and tubes the
+  wrong side's slots.
+- **1.7.10:** fixed a crash when a tube route ended in an inventory with
+  room.
+
 # RP-Tubes 1.4.1
 
 Bug fix release. Replace `rptubes-1.4.0.jar` with `rptubes-1.4.1.jar`.

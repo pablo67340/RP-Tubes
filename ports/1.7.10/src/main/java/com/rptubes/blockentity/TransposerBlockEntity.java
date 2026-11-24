@@ -92,7 +92,7 @@ public class TransposerBlockEntity extends CompatTileEntity implements DropsCont
             return false;
         }
         TileEntity te = this.getWorld().getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-        return te == null || (!(te instanceof ITubeConnectable) && MachineLib.getHandler(this.getWorld(), pos, this.getFacing()) == null);
+        return te == null || (com.rptubes.tube.TubeAccess.connectable(te) == null && MachineLib.getHandler(this.getWorld(), pos, this.getFacing()) == null);
     }
 
     /** Successful extractions so far; a Retrievulator reads it to see whether its pulse found anything. */

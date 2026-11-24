@@ -106,13 +106,17 @@ public class RedstoneTubeBlock extends PneumaticTubeBlock {
         }
     }
 
-    private static int calculateTargetPower(Level level, BlockPos pos) {
+    /** False while any redstone tube is reading its neighbors' signals. */
+    public static boolean isSignalling() {
+        return shouldSignal;
+    }
+
+    public static int calculateTargetPower(Level level, BlockPos pos) {
         // Adjacent redstone tubes: cached power minus dust-like decay
         int wire = 0;
         for (Direction dir : Direction.values()) {
             BlockPos np = pos.relative(dir);
-            if (level.getBlockState(np).getBlock() instanceof RedstoneTubeBlock
-                    && level.getBlockEntity(np) instanceof RedstoneTubeBlockEntity t) {
+            if (com.rptubes.tube.TubeAccess.connectable(level, np) instanceof RedstoneTubeBlockEntity t) {
                 wire = Math.max(wire, t.getPower() - 1);
             }
         }

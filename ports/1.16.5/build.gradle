@@ -48,6 +48,10 @@ repositories {
         name = 'ModMaven (JEI mirror)'
         url = 'https://modmaven.dev'
     }
+    maven {
+        name = 'covers1624'
+        url = 'https://maven.covers1624.net/'
+    }
 }
 
 dependencies {
@@ -56,6 +60,11 @@ dependencies {
     // JEI 7 for 1.16.5 - compile against API, players provide the runtime
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
+
+    // CB Multipart tube parts, only active when players install CB Multipart (a Scorge/Scala mod)
+    compileOnly fg.deobf("codechicken:CBMultipart:${minecraft_version}-${cbm_version}:universal") { transitive = false }
+    compileOnly fg.deobf("codechicken:CodeChickenLib:${minecraft_version}-${ccl_version}:universal") { transitive = false }
+    compileOnly "org.scala-lang:scala-library:2.13.4"
 }
 
 tasks.named('processResources', ProcessResources).configure {

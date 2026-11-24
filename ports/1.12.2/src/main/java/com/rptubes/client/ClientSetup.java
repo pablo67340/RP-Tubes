@@ -72,7 +72,7 @@ public final class ClientSetup {
             if (world == null || pos == null) {
                 return 0xFFFFFF;
             }
-            TileEntity te = world.getTileEntity(pos);
+            Object te = com.rptubes.tube.TubeAccess.connectable(world.getTileEntity(pos));
             if (te instanceof PneumaticTubeBlockEntity) {
                 return PaintColors.rgb(((PneumaticTubeBlockEntity) te).getPaintColor());
             }

@@ -93,8 +93,8 @@ public abstract class TubeFlow {
                 if (ti.side < 0 || (ctx.cons & (1 << ti.side)) == 0) {
                     continue;
                 }
-                BlockEntity be = ctx.world.getBlockEntity(ctx.wc.relative(Direction.from3DDataValue(ti.side)));
-                if (be instanceof ITubeFlow flow) {
+                ITubeFlow flow = TubeAccess.flow(ctx.world, ctx.wc.relative(Direction.from3DDataValue(ti.side)));
+                if (flow != null) {
                     flow.addTubeItem(ti);
                 }
             }
@@ -117,13 +117,12 @@ public abstract class TubeFlow {
             }
 
             ctx.dest = ctx.wc.relative(Direction.from3DDataValue(ti.side));
-            BlockEntity be = ctx.world.getBlockEntity(ctx.dest);
-            if (be instanceof ITubeFlow flow) {
+            ITubeConnectable tube = TubeAccess.connectable(ctx.world, ctx.dest);
+            if (tube instanceof ITubeFlow flow) {
                 flow.addTubeItem(ti);
                 continue;
             }
-            if (be instanceof ITubeConnectable tube
-                    && tube.tubeItemEnter((ti.side ^ 1) & 0x3F, ti.mode, ti)) {
+            if (tube != null && tube.tubeItemEnter((ti.side ^ 1) & 0x3F, ti.mode, ti)) {
                 continue;
             }
             if (this.handleItem(ti, ctx)) {

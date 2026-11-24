@@ -82,10 +82,8 @@ public abstract class TubeFlow {
                 if (ti.side < 0 || (ctx.cons & (1 << ti.side)) == 0) {
                     continue;
                 }
-                BlockPos np = ctx.wc.offset(ForgeDirection.getOrientation(ti.side));
-                TileEntity be = ctx.world.getTileEntity(np.getX(), np.getY(), np.getZ());
-                if (be instanceof ITubeFlow) {
-                    ITubeFlow flow = (ITubeFlow) be;
+                ITubeFlow flow = TubeAccess.flow(ctx.world, ctx.wc.offset(ForgeDirection.getOrientation(ti.side)));
+                if (flow != null) {
                     flow.addTubeItem(ti);
                 }
             }
@@ -108,14 +106,12 @@ public abstract class TubeFlow {
             }
 
             ctx.dest = ctx.wc.offset(ForgeDirection.getOrientation(ti.side));
-            TileEntity be = ctx.world.getTileEntity(ctx.dest.getX(), ctx.dest.getY(), ctx.dest.getZ());
-            if (be instanceof ITubeFlow) {
-                ITubeFlow flow = (ITubeFlow) be;
-                flow.addTubeItem(ti);
+            ITubeConnectable tube = TubeAccess.connectable(ctx.world, ctx.dest);
+            if (tube instanceof ITubeFlow) {
+                ((ITubeFlow) tube).addTubeItem(ti);
                 continue;
             }
-            if (be instanceof ITubeConnectable
-                    && ((ITubeConnectable) be).tubeItemEnter((ti.side ^ 1) & 0x3F, ti.mode, ti)) {
+            if (tube != null && tube.tubeItemEnter((ti.side ^ 1) & 0x3F, ti.mode, ti)) {
                 continue;
             }
             if (this.handleItem(ti, ctx)) {

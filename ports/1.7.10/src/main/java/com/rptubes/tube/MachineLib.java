@@ -247,8 +247,7 @@ public final class MachineLib {
             return false;
         }
 
-        TileEntity be = world.getTileEntity(dest.getX(), dest.getY(), dest.getZ());
-        if (be instanceof ITubeConnectable || getHandler(world, dest, enter) != null) {
+        if (TubeAccess.connectable(world, dest) != null || getHandler(world, dest, enter) != null) {
             return false;
         }
         if (world.isSideSolid(dest.getX(), dest.getY(), dest.getZ(), enter)) {

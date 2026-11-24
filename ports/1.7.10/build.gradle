@@ -3,7 +3,7 @@ plugins {
     id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
 }
 
-version = '1.7.10-1.4.1'
+version = '1.7.10-1.5.0'
 group = 'com.rptubes'
 
 base {
@@ -21,6 +21,15 @@ minecraft {
     mcpMappingChannel = 'stable'
     mcpMappingVersion = '12'
     username = 'Developer'
+}
+
+repositories {
+    maven { url = 'https://maven.covers1624.net/' }
+}
+
+dependencies {
+    compileOnly('codechicken:ForgeMultipart:1.7.10-1.2.0.347:dev') { transitive = false }
+    compileOnly('codechicken:CodeChickenLib:1.7.10-1.1.3.141:dev') { transitive = false }
 }
 
 // cofh/api/energy holds compile-only RF API stubs; the real API ships with RF mods

@@ -463,7 +463,7 @@ public class AutoCraftingTableBlockEntity extends BlockEntity implements Contain
         for (Direction dir : Direction.values()) {
             BlockPos npos = this.worldPosition.relative(dir);
             BlockEntity nbe = this.level.getBlockEntity(npos);
-            if (nbe == null || nbe instanceof ITubeConnectable || nbe instanceof AutoCraftingTableBlockEntity) {
+            if (nbe == null || com.rptubes.tube.TubeAccess.connectable(nbe) != null || nbe instanceof AutoCraftingTableBlockEntity) {
                 continue;
             }
             //? if fabric && >=1.20.6 && <1.21.1 {

@@ -146,7 +146,7 @@ public class AutoCraftingTableBlockEntity extends TileEntity implements IInvento
         for (Direction dir : Direction.values()) {
             BlockPos npos = this.worldPosition.relative(dir);
             TileEntity nbe = this.level.getBlockEntity(npos);
-            if (nbe == null || nbe instanceof ITubeConnectable || nbe instanceof AutoCraftingTableBlockEntity) {
+            if (nbe == null || com.rptubes.tube.TubeAccess.connectable(nbe) != null || nbe instanceof AutoCraftingTableBlockEntity) {
                 continue;
             }
             IItemHandler neighbor =

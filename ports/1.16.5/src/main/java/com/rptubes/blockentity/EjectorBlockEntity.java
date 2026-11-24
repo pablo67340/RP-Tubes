@@ -117,7 +117,7 @@ public class EjectorBlockEntity extends TileEntity implements net.minecraft.tile
             return false;
         }
         BlockPos src = this.worldPosition.relative(this.getFacing().getOpposite());
-        if (this.level.getBlockEntity(src) instanceof ITubeConnectable) {
+        if (com.rptubes.tube.TubeAccess.connectable(this.level, src) != null) {
             return false;
         }
         ItemStack extracted = MachineLib.extractOne(this.level, src, this.getFacing());

@@ -114,7 +114,7 @@ public class EjectorBlockEntity extends TileEntity implements DropsContents, net
             return false;
         }
         BlockPos src = this.pos.offset(this.getFacing().getOpposite());
-        if (this.world.getTileEntity(src) instanceof ITubeConnectable) {
+        if (com.rptubes.tube.TubeAccess.connectable(this.world, src) != null) {
             return false;
         }
         ItemStack extracted = MachineLib.extractOne(this.world, src, this.getFacing());

@@ -69,8 +69,8 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
 
     @Override
     protected boolean handleExtract(BlockPos src, Direction extractSide) {
-        BlockEntity backBe = this.level.getBlockEntity(src);
-        if (!(backBe instanceof ITubeConnectable tube) || !tube.canRouteItems()) {
+        ITubeConnectable tube = com.rptubes.tube.TubeAccess.connectable(this.level, src);
+        if (tube == null || !tube.canRouteItems()) {
             return super.handleExtract(src, extractSide);
         }
 
@@ -102,8 +102,8 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
         }
 
         BlockPos tubePos = found.invPos().relative(found.invSide());
-        BlockEntity tubeBe = this.level.getBlockEntity(tubePos);
-        if (!(tubeBe instanceof ITubeFlow flow)) {
+        ITubeFlow flow = com.rptubes.tube.TubeAccess.flow(this.level, tubePos);
+        if (flow == null) {
             this.addToBuffer(extracted);
             this.drainBuffer();
             if (sequential) {

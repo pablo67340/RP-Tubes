@@ -46,21 +46,19 @@ public final class TubeLib {
 
     public static boolean canConnect(World world, BlockPos pos, ForgeDirection dir) {
         BlockPos neighbor = pos.offset(dir);
-        TileEntity self = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+        ITubeConnectable self = TubeAccess.connectable(world, pos);
         int selfClass = 0;
-        if (self instanceof ITubeConnectable) {
-            ITubeConnectable tube = (ITubeConnectable) self;
-            if ((tube.getTubeConnectableSides() & (1 << dir.ordinal())) == 0) {
+        if (self != null) {
+            if ((self.getTubeConnectableSides() & (1 << dir.ordinal())) == 0) {
                 return false;
             }
-            selfClass = tube.getTubeConClass();
+            selfClass = self.getTubeConClass();
         }
 
-        TileEntity other = world.getTileEntity(neighbor.getX(), neighbor.getY(), neighbor.getZ());
+        ITubeConnectable tube = TubeAccess.connectable(world, neighbor);
         ForgeDirection opposite = dir.getOpposite();
 
-        if (other instanceof ITubeConnectable) {
-            ITubeConnectable tube = (ITubeConnectable) other;
+        if (tube != null) {
             if (!isCompatible(selfClass, tube.getTubeConClass())) {
                 return false;
             }
@@ -80,11 +78,10 @@ public final class TubeLib {
     }
 
     public static int getConnections(World world, BlockPos pos) {
-        TileEntity be = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-        if (!(be instanceof ITubeConnectable)) {
+        ITubeConnectable tube = TubeAccess.connectable(world, pos);
+        if (tube == null) {
             return 0;
         }
-        ITubeConnectable tube = (ITubeConnectable) be;
         int mask = 0;
         int sides = tube.getTubeConnectableSides();
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -126,11 +123,10 @@ public final class TubeLib {
                 return node.startSide;
             }
 
-            TileEntity be = world.getTileEntity(node.pos.getX(), node.pos.getY(), node.pos.getZ());
-            if (!(be instanceof ITubeConnectable)) {
+            ITubeConnectable tube = TubeAccess.connectable(world, node.pos);
+            if (tube == null) {
                 continue;
             }
-            ITubeConnectable tube = (ITubeConnectable) be;
 
             if (tube.tubeItemCanEnter(node.enterSide, state, item)) {
                 return node.startSide;
@@ -161,11 +157,10 @@ public final class TubeLib {
     }
 
     public static boolean addToTubeRoute(World world, TubeItem ti, BlockPos src, BlockPos tubePos, ForgeDirection enterSide) {
-        TileEntity be = world.getTileEntity(tubePos.getX(), tubePos.getY(), tubePos.getZ());
-        if (!(be instanceof ITubeConnectable)) {
+        ITubeConnectable tube = TubeAccess.connectable(world, tubePos);
+        if (tube == null) {
             return false;
         }
-        ITubeConnectable tube = (ITubeConnectable) be;
         ti.mode = 1;
         int side = findRoute(world, src, ti, 1 << enterSide.getOpposite().ordinal(), 1, 0);
         if (side < 0) {
@@ -191,8 +186,8 @@ public final class TubeLib {
                 continue;
             }
 
-            TileEntity be = world.getTileEntity(node.pos.getX(), node.pos.getY(), node.pos.getZ());
-            boolean routing = be instanceof ITubeConnectable && ((ITubeConnectable) be).canRouteItems();
+            ITubeConnectable tube = TubeAccess.connectable(world, node.pos);
+            boolean routing = tube != null && tube.canRouteItems();
             IItemHandler handler = MachineLib.getHandler(world, node.pos, node.enterSide);
 
             if (handler != null && !routing) {

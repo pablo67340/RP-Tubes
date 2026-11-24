@@ -56,8 +56,12 @@ public class TubeRenderer implements ISimpleBlockRenderingHandler {
         }
         World world = renderer.blockAccess instanceof World ? (World) renderer.blockAccess
                 : net.minecraft.client.Minecraft.getMinecraft().theWorld;
-        int cons = PneumaticTubeBlock.getConnectionMask(world, x, y, z);
+        renderTube(renderer, block, x, y, z, PneumaticTubeBlock.getConnectionMask(world, x, y, z));
+        return true;
+    }
 
+    /** Core box plus one arm per set bit of cons (ForgeDirection ordinals). */
+    public static void renderTube(RenderBlocks renderer, Block block, int x, int y, int z, int cons) {
         renderer.setRenderBounds(MIN, MIN, MIN, MAX, MAX, MAX);
         renderer.renderStandardBlock(block, x, y, z);
 
@@ -69,7 +73,6 @@ public class TubeRenderer implements ISimpleBlockRenderingHandler {
         if ((cons & (1 << 5)) != 0) { renderer.setRenderBounds(MAX, MIN, MIN, 1.0, MAX, MAX); renderer.renderStandardBlock(block, x, y, z); }
 
         renderer.setRenderBounds(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
-        return true;
     }
 
     @Override

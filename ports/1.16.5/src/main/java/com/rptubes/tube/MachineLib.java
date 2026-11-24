@@ -247,8 +247,7 @@ public final class MachineLib {
             return false;
         }
 
-        TileEntity be = level.getBlockEntity(dest);
-        if (be instanceof ITubeConnectable || getHandler(level, dest, enter) != null) {
+        if (TubeAccess.connectable(level, dest) != null || getHandler(level, dest, enter) != null) {
             return false;
         }
         BlockState state = level.getBlockState(dest);

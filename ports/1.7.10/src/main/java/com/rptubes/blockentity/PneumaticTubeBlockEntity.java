@@ -22,6 +22,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
  */
 public class PneumaticTubeBlockEntity extends CompatTileEntity implements DropsContents, ITubeFlow {
     private byte lastDir = 0;
+    private int blockedSides = 0;
 
     private final TubeFlow flow = new TubeFlow() {
         @Override
@@ -131,7 +132,12 @@ public class PneumaticTubeBlockEntity extends CompatTileEntity implements DropsC
 
     @Override
     public int getTubeConnectableSides() {
-        return 0x3F;
+        return 0x3F & ~this.blockedSides;
+    }
+
+    /** Sides a Forge Multipart cover sits on, when this tube lives inside a multipart block space. */
+    public void setBlockedSides(int sides) {
+        this.blockedSides = sides;
     }
 
     @Override
@@ -272,7 +278,7 @@ public class PneumaticTubeBlockEntity extends CompatTileEntity implements DropsC
         if (this.getWorld() != null) {
             for (ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
                 BlockPos np = this.getPos().offset(d);
-                TileEntity nbe = this.getWorld().getTileEntity(np.getX(), np.getY(), np.getZ());
+                Object nbe = com.rptubes.tube.TubeAccess.connectable(this.getWorld(), np);
                 if (nbe instanceof PneumaticTubeBlockEntity) {
                     PneumaticTubeBlockEntity neighbor = (PneumaticTubeBlockEntity) nbe;
                     neighbor.flow.contents.removeIf(t -> t.id == inc.id);

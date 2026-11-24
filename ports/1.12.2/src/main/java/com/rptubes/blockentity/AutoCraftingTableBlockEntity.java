@@ -142,7 +142,7 @@ public class AutoCraftingTableBlockEntity extends TileEntity implements DropsCon
         for (EnumFacing dir : EnumFacing.values()) {
             BlockPos npos = this.pos.offset(dir);
             TileEntity nbe = this.world.getTileEntity(npos);
-            if (nbe == null || nbe instanceof ITubeConnectable || nbe instanceof AutoCraftingTableBlockEntity) {
+            if (nbe == null || com.rptubes.tube.TubeAccess.connectable(nbe) != null || nbe instanceof AutoCraftingTableBlockEntity) {
                 continue;
             }
             IItemHandler neighbor =

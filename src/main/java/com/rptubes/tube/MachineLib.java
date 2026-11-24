@@ -305,7 +305,7 @@ public final class MachineLib {
         }
 
         BlockEntity be = level.getBlockEntity(dest);
-        if (be instanceof ITubeConnectable || getHandler(level, dest, enter) != null) {
+        if (TubeAccess.connectable(be) != null || getHandler(level, dest, enter) != null) {
             return false;
         }
         BlockState state = level.getBlockState(dest);

@@ -66,8 +66,8 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
 
     @Override
     protected boolean handleExtract(BlockPos src, ForgeDirection extractSide) {
-        TileEntity backBe = this.getWorld().getTileEntity(src.getX(), src.getY(), src.getZ());
-        if (!(backBe instanceof ITubeConnectable) || !((ITubeConnectable) backBe).canRouteItems()) {
+        ITubeConnectable backBe = com.rptubes.tube.TubeAccess.connectable(this.getWorld(), src);
+        if (backBe == null || !backBe.canRouteItems()) {
             return super.handleExtract(src, extractSide);
         }
 
@@ -99,8 +99,8 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
         }
 
         BlockPos tubePos = found.invPos().offset(found.invSide());
-        TileEntity tubeBe = this.getWorld().getTileEntity(tubePos.getX(), tubePos.getY(), tubePos.getZ());
-        if (!(tubeBe instanceof ITubeFlow)) {
+        ITubeFlow flow = com.rptubes.tube.TubeAccess.flow(this.getWorld(), tubePos);
+        if (flow == null) {
             this.addToBuffer(extracted);
             this.drainBuffer();
             if (sequential) {
@@ -109,7 +109,6 @@ public class RetrieverBlockEntity extends FilterBlockEntity {
             return true;
         }
 
-        ITubeFlow flow = (ITubeFlow) tubeBe;
         TubeItem ti = new TubeItem(found.invSide().ordinal(), extracted);
         ti.mode = 3;
         flow.addTubeItem(ti);

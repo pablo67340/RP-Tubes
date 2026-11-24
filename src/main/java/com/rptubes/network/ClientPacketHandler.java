@@ -14,7 +14,7 @@ public class ClientPacketHandler {
             return;
         }
         BlockEntity be = level.getBlockEntity(msg.getPos());
-        if (!(be instanceof PneumaticTubeBlockEntity tube)) {
+        if (!(com.rptubes.tube.TubeAccess.connectable(be) instanceof PneumaticTubeBlockEntity tube)) {
             return;
         }
         for (int i = 0; i < msg.getItems().size(); i++) {

@@ -45,6 +45,9 @@ class RPTubesTarget(
     /** The JEI plugin only exists for the versions JEI was released on when it was written. */
     val hasJei: Boolean get() = propOrNull("deps.jei") != null
 
+    /** CB Multipart tube parts are built where deps.cbm names a CB Multipart release. */
+    val hasCbm: Boolean get() = propOrNull("deps.cbm") != null
+
     val loaderName: String
         get() = when (loader) {
             "fabric" -> "Fabric"
