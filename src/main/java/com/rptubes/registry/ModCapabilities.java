@@ -10,13 +10,13 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-//? if <1.21.1 {
+//? if <1.21.2 {
 
-/*@EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-*///?} else if <1.21.11 || >=26.2 {
+@EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+//?} else if <1.21.11 || >=26.2 {
 
-@EventBusSubscriber(modid = RPTubes.MOD_ID)
-//?} else if <26.1.2 {
+/*@EventBusSubscriber(modid = RPTubes.MOD_ID)
+*///?} else if <26.1.2 {
 /*import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 
 @EventBusSubscriber(modid = RPTubes.MOD_ID)

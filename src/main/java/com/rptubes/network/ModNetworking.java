@@ -23,8 +23,8 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 
 public final class ModNetworking {
-*///?} else if <1.21.1 {
-/*import com.rptubes.RPTubes;
+*///?} else if <1.21.2 {
+import com.rptubes.RPTubes;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -32,8 +32,8 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ModNetworking {
-*///?} else {
-import com.rptubes.RPTubes;
+//?} else {
+/*import com.rptubes.RPTubes;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -41,7 +41,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = RPTubes.MOD_ID)
 public final class ModNetworking {
-//?}
+*///?}
     private ModNetworking() {
     }
 

@@ -56,7 +56,7 @@ def stonecutterNodes = new File(root, 'versions').listFiles().findAll { it.isDir
 def builds = [
         [loader: 'legacy', file: new File(root, "ports/1.7.10/build/libs/rptubes-1.7.10-${modVersion}.jar"), min: '1.7.10', max: '1.7.11'],
         [loader: 'legacy', file: new File(root, "ports/1.12.2/build/libs/rptubes-1.12.2-${modVersion}.jar"), min: '1.12.2', max: '1.13'],
-        [loader: 'forge', file: new File(root, "ports/1.16.5/build/libs/rptubes-1.16.5-${modVersion}.jar")],
+        [loader: 'forge', mc: '1.16.5', file: new File(root, "ports/1.16.5/build/libs/rptubes-1.16.5-${modVersion}.jar")],
         [loader: 'fabric', mc: '1.16.5', file: new File(root, "ports/1.16.5-fabric/build/libs/rptubes-1.16.5-fabric-${modVersion}.jar")],
 ] + stonecutterNodes.collect { node ->
     def (mc, loader) = node.split('-')
@@ -106,11 +106,10 @@ def copyFabric = { File from, File to, String fabricVersion, String mcRange ->
                             if (replaced == text) {
                                 throw new GradleException("No version in ${from.name}'s fabric.mod.json")
                             }
-                            def ranged = replaced.replaceFirst(/"minecraft"\s*:\s*"[^"]*"/, "\"minecraft\": \"${mcRange}\"")
-                            if (ranged == replaced) {
+                            if (!(replaced =~ /"minecraft"\s*:\s*"[^"]*"/).find()) {
                                 throw new GradleException("No minecraft dependency in ${from.name}'s fabric.mod.json")
                             }
-                            replaced = ranged
+                            replaced = replaced.replaceFirst(/"minecraft"\s*:\s*"[^"]*"/, "\"minecraft\": \"${mcRange}\"")
                             data = replaced.getBytes('UTF-8')
                         }
                         out.write(data)
@@ -132,7 +131,7 @@ def stageBuilds = tasks.register('stageBuilds') {
         project.delete(out)
         def index = new StringBuilder('# loader minInclusive maxExclusive size checksum file\n')
         def fabricJars = []
-        def maxFor = [:]
+        def rangeFor = [:]
         builds.each { b ->
             if (!b.file.isFile()) {
                 throw new GradleException("Missing ${b.file}; build the version jars first")
@@ -143,15 +142,18 @@ def stageBuilds = tasks.register('stageBuilds') {
             target.parentFile.mkdirs()
             target.bytes = b.file.bytes
             def range = b.min ? [b.min, b.max] : tomlRange(b.file)
-            maxFor[range[0]] = range[1]
+            if (b.mc) {
+                rangeFor[b.mc] = range
+            }
             index << "${b.loader} ${range[0]} ${range[1]} ${target.length()} ${sha1(target).take(16)} ${b.file.name}\n"
         }
         builds.findAll { it.loader == 'fabric' }.each { b ->
-            if (!maxFor[b.mc]) {
+            def range = rangeFor[b.mc]
+            if (!range) {
                 throw new GradleException("No Forge or NeoForge build for ${b.mc} to take the Fabric range from")
             }
             def path = "META-INF/jars/${b.file.name}"
-            copyFabric(b.file, new File(out, path), "${modVersion}+mc${b.mc}", ">=${b.mc} <${maxFor[b.mc]}")
+            copyFabric(b.file, new File(out, path), "${modVersion}+mc${b.mc}", ">=${range[0]} <${range[1]}")
             fabricJars << [file: path]
         }
         new File(out, 'META-INF/rptubes/index.txt').setText(index.toString(), 'UTF-8')

@@ -86,7 +86,7 @@ public class BatteryBoxBlock extends BaseEntityBlock {
             /*com.rptubes.util.MenuHelper.open(sp, box, pos);
             *///?}
         }
-        //? if <1.21.11 {
+        //? if <1.21.2 {
         return InteractionResult.sidedSuccess(client);
         //?} else {
         /*return InteractionResult.SUCCESS;

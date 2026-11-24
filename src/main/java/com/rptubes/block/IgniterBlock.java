@@ -51,7 +51,7 @@ public class IgniterBlock extends MachineBlock {
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos,
-                                //? if <1.21.11 {
+                                //? if <1.21.2 {
                                 net.minecraft.world.level.block.Block block, BlockPos fromPos, boolean isMoving) {
                                 //?} else {
                                 /*net.minecraft.world.level.block.Block block, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {

@@ -32,7 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-//? if >=1.21.11 {
+//? if >=1.21.2 {
 /*import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 *///?} else if >=1.20.6 {
@@ -49,7 +49,7 @@ import com.rptubes.util.MenuHelper;
 *///?}
 
 public class AlloyFurnaceBlock extends BaseEntityBlock {
-    //? if <1.21.11 {
+    //? if <1.21.2 {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     //?} else {
     /*public static final EnumProperty<net.minecraft.core.Direction> FACING = HorizontalDirectionalBlock.FACING;
@@ -103,7 +103,7 @@ public class AlloyFurnaceBlock extends BaseEntityBlock {
                 *///?}
             }
         }
-        //? if <1.21.11 {
+        //? if <1.21.2 {
         return InteractionResult.sidedSuccess(level.isClientSide);
         //?} else {
         /*return InteractionResult.SUCCESS;

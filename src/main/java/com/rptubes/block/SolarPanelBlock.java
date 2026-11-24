@@ -44,7 +44,7 @@ public class SolarPanelBlock extends BaseEntityBlock {
     }
 
     @Override
-    //? if <1.21.11 {
+    //? if <1.21.2 {
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
     //?} else {

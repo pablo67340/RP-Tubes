@@ -93,7 +93,7 @@ public class AutoCraftingTableMk2Block extends BaseEntityBlock {
         //? if <1.20.6 {
         /*return InteractionResult.sidedSuccess(level.isClientSide);
     }
-        *///?} else if <1.21.11 {
+        *///?} else if <1.21.2 {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 

@@ -44,28 +44,28 @@ DEFAULT_PROJECT_ID = "1650052"
 
 # Minecraft version + loader + Java the jar targets. Client + server for all.
 # `loader` must match the CurseForge Modloader tag name exactly; `also` lists other
-# loaders the same jar runs on.
+# loaders the same jar runs on, and `also_mc` the other Minecraft versions in its range.
 PORTS = [
     {"mc": "1.7.10",  "loader": "Forge",    "java": "Java 8"},
     {"mc": "1.12.2",  "loader": "Forge",    "java": "Java 8"},
-    {"mc": "1.16.5",  "loader": "Forge",    "java": "Java 8"},
-    {"mc": "1.16.5",  "loader": "Fabric",   "java": "Java 17"},
-    {"mc": "1.19.2",  "loader": "Forge",    "java": "Java 17"},
+    {"mc": "1.16.5",  "loader": "Forge",    "java": "Java 8", "also_mc": ["1.16.4"]},
+    {"mc": "1.16.5",  "loader": "Fabric",   "java": "Java 17", "also_mc": ["1.16.4"]},
+    {"mc": "1.19.2",  "loader": "Forge",    "java": "Java 17", "also_mc": ["1.19.1"]},
     # NeoForge 1.20.1 forked from Forge 47.1 and loads Forge 1.20.1 mods.
-    {"mc": "1.20.1",  "loader": "Forge",    "java": "Java 17", "also": ["NeoForge"]},
-    {"mc": "1.20.1",  "loader": "Fabric",   "java": "Java 17"},
+    {"mc": "1.20.1",  "loader": "Forge",    "java": "Java 17", "also": ["NeoForge"], "also_mc": ["1.20"]},
+    {"mc": "1.20.1",  "loader": "Fabric",   "java": "Java 17", "also_mc": ["1.20"]},
     {"mc": "1.20.6",  "loader": "Forge",    "java": "Java 21"},
     {"mc": "1.20.6",  "loader": "NeoForge", "java": "Java 21"},
-    {"mc": "1.20.6",  "loader": "Fabric",   "java": "Java 21"},
-    {"mc": "1.21.1",  "loader": "Forge",    "java": "Java 21"},
-    {"mc": "1.21.1",  "loader": "NeoForge", "java": "Java 21"},
-    {"mc": "1.21.1",  "loader": "Fabric",   "java": "Java 21"},
+    {"mc": "1.20.6",  "loader": "Fabric",   "java": "Java 21", "also_mc": ["1.20.5"]},
+    {"mc": "1.21.1",  "loader": "Forge",    "java": "Java 21", "also_mc": ["1.21"]},
+    {"mc": "1.21.1",  "loader": "NeoForge", "java": "Java 21", "also_mc": ["1.21"]},
+    {"mc": "1.21.1",  "loader": "Fabric",   "java": "Java 21", "also_mc": ["1.21"]},
     {"mc": "1.21.11", "loader": "Forge",    "java": "Java 21"},
     {"mc": "1.21.11", "loader": "NeoForge", "java": "Java 21"},
     {"mc": "1.21.11", "loader": "Fabric",   "java": "Java 21"},
-    {"mc": "26.1.2",  "loader": "Forge",    "java": "Java 25"},
+    {"mc": "26.1.2",  "loader": "Forge",    "java": "Java 25", "also_mc": ["26.1", "26.1.1"]},
     {"mc": "26.1.2",  "loader": "NeoForge", "java": "Java 25"},
-    {"mc": "26.1.2",  "loader": "Fabric",   "java": "Java 25"},
+    {"mc": "26.1.2",  "loader": "Fabric",   "java": "Java 25", "also_mc": ["26.1", "26.1.1"]},
     {"mc": "26.2",    "loader": "Forge",    "java": "Java 25"},
     {"mc": "26.2",    "loader": "NeoForge", "java": "Java 25"},
     {"mc": "26.2",    "loader": "Fabric",   "java": "Java 25"},
@@ -200,7 +200,7 @@ def upload_universal(args, mod_version: str, changelog: str) -> None:
         sys.exit(f"Missing {jar}\nRun `gradlew -p universal build` first.")
     tags = []
     for port in PORTS:
-        for tag in [("minecraft", port["mc"]), ("java", port["java"])] + \
+        for tag in [("minecraft", v) for v in [port["mc"]] + port.get("also_mc", [])] + [("java", port["java"])] + \
                    [("modloader", l) for l in [port["loader"]] + port.get("also", [])]:
             if tag not in tags:
                 tags.append(tag)
@@ -272,8 +272,8 @@ def main() -> None:
 
     uploaded = []
     for port in ports:
-        tags = [("minecraft", port["mc"]),
-                ("java", port["java"])]
+        tags = [("minecraft", v) for v in [port["mc"]] + port.get("also_mc", [])]
+        tags += [("java", port["java"])]
         tags += [("modloader", l) for l in [port["loader"]] + port.get("also", [])]
         tags += ENV_TAGS
         file_id = upload(args, port["jar"], f"RP-Tubes {mod_version} (MC {port['mc']} {port['loader']})",

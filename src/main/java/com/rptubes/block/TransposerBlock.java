@@ -40,7 +40,7 @@ public class TransposerBlock extends MachineBlock {
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, net.minecraft.world.level.block.Block block,
-                                //? if <1.21.11 {
+                                //? if <1.21.2 {
                                 BlockPos fromPos, boolean isMoving) {
                                 //?} else {
                                 /*net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {

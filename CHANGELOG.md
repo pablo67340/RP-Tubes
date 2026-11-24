@@ -1,3 +1,23 @@
+# RP-Tubes 1.5.1
+
+Replace `rptubes-1.5.0.jar` with `rptubes-1.5.1.jar`.
+
+## More Minecraft versions
+
+The same jar now also runs on the hotfix and earlier releases next to each
+supported version:
+
+- Forge: 1.16.4, 1.19.1, 1.20, 1.21, 26.1, 26.1.1
+- NeoForge: 1.21
+- Fabric: 1.16.4, 1.20, 1.20.5, 1.21, 26.1, 26.1.1
+
+## Fixed
+
+- **Sneaking with an empty hand clears tube paint again on NeoForge 1.21.11
+  and 26.x.** The click was ignored on those versions.
+- **The 1.12.2 build no longer claims to support 1.12 and 1.12.1.** It
+  crashed on startup there, because it needs Forge 14.23.
+
 # RP-Tubes 1.5.0
 
 Replace `rptubes-1.4.1.jar` with `rptubes-1.5.0.jar`. The new blocks and

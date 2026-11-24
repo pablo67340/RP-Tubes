@@ -84,7 +84,7 @@ public class ItemDetectorBlock extends MachineBlock {
                 *///?}
             }
         }
-        //? if <1.21.11 {
+        //? if <1.21.2 {
         return InteractionResult.sidedSuccess(level.isClientSide);
         //?} else {
         /*return InteractionResult.SUCCESS;

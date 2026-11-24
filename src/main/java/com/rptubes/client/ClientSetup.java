@@ -15,29 +15,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-*///?} else if neoforge && <1.21.1 {
-/*import com.rptubes.RPTubes;
-import com.rptubes.blockentity.PneumaticTubeBlockEntity;
-import com.rptubes.registry.ModBlockEntities;
-import com.rptubes.registry.ModBlocks;
-import com.rptubes.registry.ModItems;
-import com.rptubes.registry.ModMenus;
-import com.rptubes.tube.PaintColors;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-
-@EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-*///?} else if neoforge && <1.21.11 {
+*///?} else if neoforge && <1.21.2 {
 import com.rptubes.RPTubes;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
@@ -58,8 +36,30 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
+@EventBusSubscriber(modid = RPTubes.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+//?} else if neoforge && <1.21.11 {
+/*import com.rptubes.RPTubes;
+import com.rptubes.blockentity.PneumaticTubeBlockEntity;
+import com.rptubes.registry.ModBlockEntities;
+import com.rptubes.registry.ModBlocks;
+import com.rptubes.registry.ModItems;
+import com.rptubes.registry.ModMenus;
+import com.rptubes.tube.PaintColors;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+
 @EventBusSubscriber(modid = RPTubes.MOD_ID, value = Dist.CLIENT)
-//?} else if fabric && >=1.21.11 && <26.1.2 {
+*///?} else if fabric && >=1.21.11 && <26.1.2 {
 /*import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.registry.ModBlockEntities;
 import com.rptubes.registry.ModBlocks;

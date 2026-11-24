@@ -168,7 +168,7 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
     }
 
     @Override
-    //? if <1.21.11 {
+    //? if <1.21.2 {
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
     //?} else {
@@ -942,11 +942,11 @@ public class PneumaticTubeBlock extends BaseEntityBlock {
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         BlockEntity be = level.getBlockEntity(pos);
         if (!(be instanceof PneumaticTubeBlockEntity tube)) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         int paint = DyeHelper.paintFrom(held);
         if (paint < 0) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         if (!level.isClientSide() && tube.tryPaint(paint) && !player.getAbilities().instabuild) {
             held.shrink(1);

@@ -75,7 +75,7 @@ public class FilterBlock extends MachineBlock {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof FilterBlockEntity filter && held.getItem() instanceof DyeItem dye) {
             if (!level.isClientSide && filter.applyColor(dye.getDyeColor().getId())) {
-    *///?} else if <1.21.11 {
+    *///?} else if <1.21.2 {
     protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         BlockEntity be = level.getBlockEntity(pos);
@@ -112,7 +112,7 @@ public class FilterBlock extends MachineBlock {
             MenuHelper.open(sp, filter, pos);
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
-            *///?} else if fabric && >=1.21.11 && <26.1.2 {
+            *///?} else if fabric && >=1.21.2 && <26.1.2 {
             /*return InteractionResult.SUCCESS;
         }
         return super.useItemOn(held, state, level, pos, player, hand, hit);
@@ -132,7 +132,7 @@ public class FilterBlock extends MachineBlock {
             NetworkHooks.openScreen(sp, filter, pos);
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
-            *///?} else if fabric && <1.21.11 {
+            *///?} else if fabric && <1.21.2 {
             /*return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useItemOn(held, state, level, pos, player, hand, hit);
@@ -158,7 +158,7 @@ public class FilterBlock extends MachineBlock {
             MenuHelper.open(sp, filter, pos);
         }
         return InteractionResult.SUCCESS;
-            *///?} else if <1.21.11 {
+            *///?} else if <1.21.2 {
             return net.minecraft.world.ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useItemOn(held, state, level, pos, player, hand, hit);
@@ -189,7 +189,7 @@ public class FilterBlock extends MachineBlock {
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos,
-                                //? if <1.21.11 {
+                                //? if <1.21.2 {
                                 net.minecraft.world.level.block.Block block, BlockPos fromPos, boolean isMoving) {
                                 //?} else {
                                 /*net.minecraft.world.level.block.Block block, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {

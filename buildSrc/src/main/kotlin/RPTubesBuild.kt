@@ -71,6 +71,7 @@ fun Project.rpTubes(target: RPTubesTarget, loaderProps: Map<String, String>) {
     tasks.withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
         options.release.set(target.java)
+        options.compilerArgs.addAll(listOf("-Xmaxerrs", "2000"))
     }
 
     val main = extensions.getByType<SourceSetContainer>().getByName("main")

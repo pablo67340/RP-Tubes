@@ -1,90 +1,98 @@
-<h2>RP Tubes &mdash; RedPower 2 Pneumatic Tubes, Revived</h2>
-
+<h2>RP Tubes - RedPower 2 Pneumatic Tubes, Revived</h2>
 <p><strong>The best item transport system Minecraft ever had is back.</strong></p>
-
-<p>RP Tubes is a faithful revival of the pneumatic tube system and item machines from <strong>RedPower 2</strong> (the Tekkit Classic era, pr5b2) for modern <strong>Forge 1.19.2</strong> &mdash; rebuilt from the ground up with the original behaviors, textures, GUIs, and routing logic. If you ever ran a sorting hall off Filters, Transposers, and a wall of Sorting Machines, this is that &mdash; exactly that.</p>
-
-<hr>
-
-<h2>&#10022; Pneumatic Tubes</h2>
-
+<p>RP Tubes is a faithful revival of the pneumatic tube system and item machines from <strong>RedPower 2</strong> (the Tekkit Classic era, pr5b2), rebuilt from the ground up with the original behaviors, textures, GUIs, and routing logic.</p>
+<p><strong>One jar for every version.</strong> A single file runs on <strong>Forge, NeoForge and Fabric</strong>, from <strong>Minecraft 1.7.10 all the way to 26.2</strong>. Drop it in your mods folder and it loads the build that matches your game.</p>
+<h2>Your Requests, Delivered</h2>
+<p>Thank you for all the comments. Every feature you asked for is in as of 1.5.0, on every supported version and loader:</p>
 <ul>
-<li><strong>Pneumatic Tube</strong> &mdash; the classic brass-railed glass tube. Items visibly travel through the network with smooth animation, and always route to the <strong>nearest valid destination</strong>.</li>
-<li><strong>Redstone Tube</strong> &mdash; carries items <em>and</em> a redstone signal. The red stripes glow brighter with signal strength, just like the original.</li>
-<li><strong>Restriction Tube</strong> &mdash; massively increases path weight so items only take this route when there is no other option.</li>
+<li><strong>Retrievulator:</strong>&nbsp;the Tubestuff classic that makes the Retriever truly useful. Set the counts you want and it keeps an inventory stocked by pulling from your whole tube network.</li>
+<li><strong>MagTubes:</strong>&nbsp;keep items at full speed over long runs, with the new <strong>Accelerator</strong> to get them up to speed in the first place.</li>
+<li><strong>Solar Panels and RedPower generators:</strong>&nbsp;Solar Panel, Thermopile, Battery Box and Battery, so the power slot on the Sorting Machine finally has something to plug into. Now on 1.7.10, 1.12.2 and 1.16.5 too.</li>
+<li><strong>CB Multipart support:</strong>&nbsp;run tubes through blocks covered with covers, panels and hollow covers.</li>
+<li><strong>Alloy Furnace takes full stacks:</strong>&nbsp;toss in a stack of copper and a stack of tin and let it run. It no longer needs the exact amounts.</li>
+<li><strong>ProjectE EMC</strong>&nbsp;for tin, brass and every RP Tubes machine.</li>
+<li><strong>Tin from other mods, including IC2:</strong>&nbsp;recipes accept every common tin, copper and brass tag, so any mod's tin works in RP Tubes recipes.</li>
 </ul>
-
-<p>Items that can't be delivered anywhere <strong>bounce back</strong> to their source machine and wait in its internal buffer until a path opens up &mdash; no items ever spill on the floor from a full chest.</p>
-
-<h2>&#10022; The Machines</h2>
-
+<h2>Pneumatic Tubes</h2>
+<ul>
+<li><strong>Pneumatic Tube:</strong>&nbsp;the classic brass-railed glass tube. Items visibly travel through the network with smooth animation, and always route to the <strong>nearest valid destination</strong>.</li>
+<li><strong>Redstone Tube:</strong>&nbsp;carries items <em>and</em> a redstone signal. The red stripes glow brighter with signal strength, just like the original.</li>
+<li><strong>Restriction Tube:</strong>&nbsp;massively increases path weight so items only take this route when there is no other option.</li>
+<li><strong>MagTube:</strong>&nbsp;keeps the speed of the items passing through it. Plain tubes slow sped up items back down within a few blocks, just like RedPower 2.</li>
+</ul>
+<p>Items that can't be delivered anywhere <strong>bounce back</strong> to their source machine and wait in its internal buffer until a path opens up, so no items ever spill on the floor from a full chest.</p>
+<h2>CB Multipart Support</h2>
+<p>Tubes can share a block space with <strong>CB Multipart</strong> covers, panels and hollow covers.</p>
+<ul>
+<li>Put a cover on a placed tube and it turns into a part, keeping any items in flight. A tube can also be placed straight into a space that already holds covers.</li>
+<li>A solid cover on a tube's face closes that side. Hollow covers leave room for the tube to pass through.</li>
+<li>Redstone Tubes keep carrying their signal, and breaking a tube part drops the tube and its contents while the covers stay.</li>
+<li>Works with CB Multipart on Forge 1.16.5, 1.19.2 and 1.20.1 and NeoForge 1.21.1 and 1.21.11, and with Forge Multipart on Forge 1.7.10 and 1.12.2. Completely optional.</li>
+</ul>
+<h2>The Machines</h2>
 <p>All the RedPower 2 item machinery, with authentic textures, facings, and dedicated GUIs:</p>
-
 <ul>
-<li><strong>Transposer</strong> &mdash; pulls one item per redstone pulse (or vacuums dropped items) into the tube network.</li>
-<li><strong>Filter</strong> &mdash; like the Transposer, but with a 3&times;3 whitelist and a paint color for routed items.</li>
-<li><strong>Sorting Machine</strong> &mdash; the legend itself. 8 color-coded filter columns &times; 5 rows, all <strong>five original sorting modes</strong> (anystack/allstacks sequential, random allstacks, anystack, any-item with default color), per-column channel buffers drained round-robin.</li>
-<li><strong>Ejector</strong> &mdash; pushes buffered items out into the tube network.</li>
-<li><strong>Relay</strong> &mdash; accepts painted/unpainted items and forwards them; doubles as a tube-accessible chest.</li>
-<li><strong>Retriever</strong> &mdash; the reverse Filter: <em>pulls</em> matching items from across the tube network to itself, with sequential or any-match modes.</li>
-<li><strong>Regulator</strong> &mdash; keeps a destination inventory stocked to an exact template, with dump and regulate modes.</li>
-<li><strong>Item Detector</strong> &mdash; emits redstone pulses as items pass through: per item, per stack, or latched while plugged.</li>
-<li><strong>Buffer</strong> &mdash; a 20-slot chest that tubes and machines can freely push into and pull from on every side.</li>
-<li><strong>Block Breaker</strong> &mdash; breaks the block in front of it and sends it into the network.</li>
-<li><strong>Deployer</strong> &mdash; places blocks and uses items, exactly like a robotic player hand.</li>
-<li><strong>Igniter</strong> &mdash; lights fires (and TNT, and nether portals) on redstone signal, clears them when it turns off.</li>
+<li><strong>Transposer:</strong>&nbsp;pulls one item per redstone pulse (or vacuums dropped items) into the tube network.</li>
+<li><strong>Filter:</strong>&nbsp;like the Transposer, but with a 3&times;3 whitelist and a paint color for routed items.</li>
+<li><strong>Sorting Machine:</strong>&nbsp;the legend itself. 8 color-coded filter columns &times; 5 rows, all <strong>five original sorting modes</strong> (anystack/allstacks sequential, random allstacks, anystack, any-item with default color), per-column channel buffers drained round-robin.</li>
+<li><strong>Ejector:</strong>&nbsp;pushes buffered items out into the tube network.</li>
+<li><strong>Relay:</strong>&nbsp;accepts painted/unpainted items and forwards them; doubles as a tube-accessible chest.</li>
+<li><strong>Retriever:</strong>&nbsp;the reverse Filter: <em>pulls</em> matching items from across the tube network to itself, with sequential or any-match modes.</li>
+<li><strong>Retrievulator:</strong>&nbsp;sits on a Retriever's output and keeps an inventory stocked to the counts you set, pulsing the Retriever for whatever is missing.</li>
+<li><strong>Accelerator:</strong>&nbsp;spends power to bring every item passing through it up to full speed. Pair it with MagTubes for long, fast lines.</li>
+<li><strong>Regulator:</strong>&nbsp;keeps a destination inventory stocked to an exact template, with dump and regulate modes.</li>
+<li><strong>Item Detector:</strong>&nbsp;emits redstone pulses as items pass through: per item, per stack, or latched while plugged.</li>
+<li><strong>Buffer:</strong>&nbsp;a 20-slot chest that tubes and machines can freely push into and pull from on every side.</li>
+<li><strong>Block Breaker:</strong>&nbsp;breaks the block in front of it and sends it into the network.</li>
+<li><strong>Deployer:</strong>&nbsp;places blocks and uses items, exactly like a robotic player hand.</li>
+<li><strong>Igniter:</strong>&nbsp;lights fires (and TNT, and nether portals) on redstone signal, clears them when it turns off.</li>
 </ul>
-
-<h2>&#10022; Materials &amp; Crafting</h2>
-
+<h2>Power</h2>
 <ul>
-<li><strong>Alloy Furnace</strong> &mdash; the classic 3&times;3 alloying furnace with its original GUI. Smelts <strong>Brass</strong> (3 copper + 1 tin) and more.</li>
-<li><strong>Automatic Crafting Table</strong> &mdash; the beloved BuildCraft AutoWorkbench, with its original textures and behavior: real items in the grid, one item always left behind to hold the recipe, pulls missing ingredients from adjacent chests, and one tube pull = one full craft (4 planks per log, just like the wooden-pipe days).</li>
-<li><strong>Automatic Crafting Table Mk II</strong> &mdash; immibis's Tubestuff upgrade, faithfully recreated: a ghost recipe template, 45 slots of internal ingredient storage, and continuous hands-free crafting. Improved over the original with a translucent result preview so you can see the recipe resolved before feeding it materials.</li>
-<li><strong>Tin Ore</strong> &mdash; generates in the overworld with the original RedPower distribution (10 veins per chunk below y48). Fully tag-based: if another mod already adds tin (ProjectRed, Thermal, Mekanism&hellip;), all of it just works together.</li>
-<li><strong>Screwdriver</strong> &mdash; right-click any RP Tubes machine to rotate it through all six facings. 128 uses.</li>
+<li><strong>Solar Panel:</strong>&nbsp;makes 20 FE/t in daylight while it can see the sky.</li>
+<li><strong>Thermopile:</strong>&nbsp;makes power from the temperature difference between the blocks around it, such as lava on one side and water or ice on the other. Like the original, a hot side can melt nearby ice and snow.</li>
+<li><strong>Battery Box:</strong>&nbsp;stores 600,000 FE and moves up to 1,000 FE/t. Put a Battery in the top slot to charge it or in the bottom slot to empty it into the box.</li>
+<li><strong>Battery:</strong>&nbsp;a portable 150,000 FE cell for the Battery Box.</li>
 </ul>
-
-<h2>&#10022; Compatibility &amp; Soft Dependencies</h2>
-
-<p>RP Tubes has <strong>no required dependencies</strong>. Everything below is detected automatically when present:</p>
-
+<p>These feed the Sorting Machine, Filter, Retriever and Accelerator, and any other mod that uses Forge Energy (Team Reborn Energy on Fabric). On 1.7.10 they run on their own and also connect to RF mods when one is installed.</p>
+<h2>Materials &amp; Crafting</h2>
 <ul>
-<li><strong>JEI</strong> &mdash; full recipe support, including a dedicated Alloy Smelting category with recipe transfer.</li>
-<li><strong>ProjectRed</strong> &mdash; recipes prefer ProjectRed's red alloy and tin when installed, with vanilla fallbacks otherwise; the Alloy Furnace gains the classic Red Alloy recipe.</li>
-<li><strong>ProjectE</strong> &mdash; EMC values for everything, tuned to Tekkit-era ratios.</li>
-<li><strong>BuildCraft Community Edition</strong> &mdash; its Wooden Pipe is accepted alongside our Pneumatic Tube in the ACT Mk II recipe.</li>
-<li><strong>Any tin mod</strong> (Thermal, Mekanism, ProjectRed&hellip;) &mdash; all tin usage is tag-based (<code>forge:ingots/tin</code>), so every mod's tin interoperates with ours.</li>
-<li>Works with <strong>any inventory from any mod</strong> &mdash; all item I/O uses Forge capabilities.</li>
+<li><strong>Alloy Furnace:</strong>&nbsp;the classic 3&times;3 alloying furnace with its original GUI. Smelts <strong>Brass</strong> (3 copper + 1 tin) and more.</li>
+<li><strong>Automatic Crafting Table:</strong>&nbsp;the beloved BuildCraft AutoWorkbench, with its original textures and behavior: real items in the grid, one item always left behind to hold the recipe, pulls missing ingredients from adjacent chests, and one tube pull = one full craft (4 planks per log, just like the wooden-pipe days).</li>
+<li><strong>Automatic Crafting Table Mk II:</strong>&nbsp;immibis's Tubestuff upgrade, faithfully recreated: a ghost recipe template, 45 slots of internal ingredient storage, and continuous hands-free crafting. Improved over the original with a translucent result preview so you can see the recipe resolved before feeding it materials.</li>
+<li><strong>Tin Ore:</strong>&nbsp;generates in the overworld with the original RedPower distribution (10 veins per chunk below y48). Fully tag-based: if another mod already adds tin (ProjectRed, Thermal, Mekanism&hellip;), all of it just works together. On 1.7.10 and 1.12.2, which have no vanilla copper, RP Tubes adds Copper Ore and Copper Ingot too.</li>
+<li><strong>Screwdriver:</strong>&nbsp;right-click any RP Tubes machine to rotate it through all six facings. 128 uses.</li>
 </ul>
-
-<h2>&#10022; For Modders &amp; Pack Makers</h2>
-
+<p><strong>Worldgen config on 1.12.2:</strong>&nbsp;<code>config/rptubes.cfg</code> has <code>generateTinOre</code> and <code>generateCopperOre</code> toggles. If your pack already has tin or copper from another mod, turn ours off. All recipes accept any Ore Dictionary tin and copper (<code>ingotTin</code>, <code>oreTin</code>, <code>ingotCopper</code>), including entries added with CraftTweaker.</p>
+<h2>Compatibility &amp; Soft Dependencies</h2>
+<p>RP Tubes has <strong>no required dependencies</strong> on Forge and NeoForge. Everything below is detected automatically when present:</p>
+<ul>
+<li><strong>CB Multipart / Forge Multipart:</strong>&nbsp;tubes share block spaces with covers (see above).</li>
+<li><strong>JEI:</strong>&nbsp;full recipe support, including a dedicated Alloy Smelting category with recipe transfer.</li>
+<li><strong>ProjectRed:</strong>&nbsp;recipes prefer ProjectRed's red alloy and tin when installed, with vanilla fallbacks otherwise; the Alloy Furnace gains the classic Red Alloy recipe.</li>
+<li><strong>ProjectE:</strong>&nbsp;EMC values for everything, tuned to Tekkit-era ratios.</li>
+<li><strong>BuildCraft Community Edition:</strong>&nbsp;its Wooden Pipe is accepted alongside our Pneumatic Tube in the ACT Mk II recipe.</li>
+<li><strong>Any tin mod</strong> (Thermal, Mekanism, ProjectRed&hellip;): all tin usage is tag-based (<code>forge:ingots/tin</code>, or the Ore Dictionary on older versions), so every mod's tin interoperates with ours.</li>
+<li>Works with <strong>any inventory from any mod:</strong>&nbsp;all item I/O goes through the loader's standard inventory system.</li>
+</ul>
+<h2>For Modders &amp; Pack Makers</h2>
 <p>RP Tubes ships a small stable Java API (<code>com.rptubes.api.RPTubesApi</code>): inject items into the tube network like an Ejector, or implement <code>ITubeConnectable</code> to make your own blocks part of the network. Pack makers get data-driven hooks too: the <code>rptubes:alloy_smelting</code> recipe JSON type, the <code>rptubes:act_pipes</code> tag, and datapack-overridable tin worldgen. Full documentation is on the wiki.</p>
-
-<h2>&#10022; Requirements</h2>
-
+<h2>Requirements</h2>
 <ul>
-<li>Minecraft <strong>1.19.2</strong></li>
-<li>Forge <strong>43+</strong></li>
-<li>No required dependencies. JEI strongly recommended.</li>
+<li><strong>Forge:</strong>&nbsp;1.7.10, 1.12.2, 1.16.4, 1.16.5, 1.19.1, 1.19.2, 1.20, 1.20.1, 1.20.6, 1.21, 1.21.1, 1.21.11, 26.1, 26.1.1, 26.1.2, 26.2</li>
+<li><strong>NeoForge:</strong>&nbsp;1.20.1, 1.20.6, 1.21, 1.21.1, 1.21.11, 26.1.2, 26.2</li>
+<li><strong>Fabric:</strong>&nbsp;1.16.4, 1.16.5, 1.20, 1.20.1, 1.20.5, 1.20.6, 1.21, 1.21.1, 1.21.11, 26.1, 26.1.1, 26.1.2, 26.2 (needs Fabric API; 1.16.4 and 1.16.5 need Java 17)</li>
+<li>More versions (1.18.2, 1.19.4, 1.20.4, 1.21.4 and 26.3) are coming in 1.6.0.</li>
+<li>Install the same RP Tubes version on the client and the server. JEI strongly recommended.</li>
 </ul>
-
-<h2>&#10022; Running a Large Modpack Server? Read This</h2>
-
-<p>Minecraft 1.19.2 itself has a vanilla bug (<a href="https://bugs.mojang.com/browse/MC-258163">MC-258163</a>): in packs with a very large number of total blockstates (~90+ mods), blocks whose IDs fall above 524,288 get <strong>visually corrupted on multiplayer</strong> &mdash; they render as entirely different blocks after batched updates, while singleplayer works fine. Any late-registered mod can be affected; it is not specific to RP Tubes.</p>
-
-<p><strong>The fix:</strong> install <a href="https://modrinth.com/mod/block_limit_fix">Block Limit Fix</a> on the <strong>server only</strong> (no config, no client install). It backports Mojang's official 1.19.4 patch. If tubes or machines ever look like the wrong block on your server, this is why.</p>
-
-<hr>
-
-<h2>&#10022; Credits</h2>
-
+<h2>Running a Large Modpack Server on 1.19.2? Read This</h2>
+<p>Minecraft 1.19.2 itself has a vanilla bug (<a href="https://bugs.mojang.com/browse/MC-258163" rel="nofollow">MC-258163</a>): in packs with a very large number of total blockstates (~90+ mods), blocks whose IDs fall above 524,288 get <strong>visually corrupted on multiplayer</strong>. They render as entirely different blocks after batched updates, while singleplayer works fine. Any late-registered mod can be affected; it is not specific to RP Tubes.</p>
+<p><strong>The fix:</strong> install <a href="https://modrinth.com/mod/block_limit_fix" rel="nofollow">Block Limit Fix</a> on the <strong>server only</strong> (no config, no client install). It backports Mojang's official 1.19.4 patch. If tubes or machines ever look like the wrong block on your server, this is why.</p>
+<h2>Credits</h2>
 <ul>
-<li><strong>Eloraam</strong> &mdash; creator of <strong>RedPower 2</strong>. The tube system, machines, textures, GUIs, and every design idea in this mod are her original work. RP Tubes is a tribute: a recreation of the pr5b2 transport system for players who never stopped missing it. All original art and design credit belongs to her.</li>
-<li><strong>SpaceToad &amp; the BuildCraft team</strong> &mdash; creators of <strong>BuildCraft</strong> and the original <strong>Automatic Crafting Table</strong> (AutoWorkbench). Its behavior and textures here are recreated from BuildCraft 2.2.14, the version every Tekkit Classic player remembers. BuildCraft is open source under the MMPL.</li>
-<li><strong>immibis</strong> &mdash; creator of <strong>Tubestuff</strong> and the <strong>Automatic Crafting Table Mk II</strong>, recreated here from Tubestuff 49.1.2.</li>
-<li><strong>MrTJP &amp; the ProjectRed team</strong> &mdash; for faithfully carrying RedPower's wiring, logic gates, and world content forward on modern Minecraft for over a decade. RP Tubes is designed to sit alongside ProjectRed and complete the picture with the transport system it no longer includes &mdash; when ProjectRed is installed, recipes automatically use its red alloy and tin.</li>
+<li><strong>Eloraam:</strong>&nbsp;creator of <strong>RedPower 2</strong>. The tube system, machines, textures, GUIs, and every design idea in this mod are her original work. RP Tubes is a tribute: a recreation of the pr5b2 transport system for players who never stopped missing it. All original art and design credit belongs to her.</li>
+<li><strong>SpaceToad &amp; the BuildCraft team:</strong>&nbsp;creators of <strong>BuildCraft</strong> and the original <strong>Automatic Crafting Table</strong> (AutoWorkbench). Its behavior and textures here are recreated from BuildCraft 2.2.14, the version every Tekkit Classic player remembers. BuildCraft is open source under the MMPL.</li>
+<li><strong>immibis:</strong>&nbsp;creator of <strong>Tubestuff</strong>, the <strong>Automatic Crafting Table Mk II</strong> and the <strong>Retrievulator</strong>, recreated here from Tubestuff 49.1.2.</li>
+<li><strong>MrTJP &amp; the ProjectRed team:</strong>&nbsp;for faithfully carrying RedPower's wiring, logic gates, and world content forward on modern Minecraft for over a decade. RP Tubes is designed to sit alongside ProjectRed and complete the picture with the transport system it no longer includes. When ProjectRed is installed, recipes automatically use its red alloy and tin.</li>
+<li><strong>ChickenBones &amp; covers1624:</strong>&nbsp;creators of <strong>CB Multipart</strong> and <strong>Forge Multipart</strong>, which let tubes share a block with covers.</li>
 </ul>
-
-<p><em>The best transportation system Minecraft ever had, back where it belongs.</em></p>

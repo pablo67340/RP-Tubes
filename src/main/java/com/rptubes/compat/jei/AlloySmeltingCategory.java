@@ -1,4 +1,4 @@
-//? if <1.21.11 {
+//? if jei {
 package com.rptubes.compat.jei;
 
 import com.rptubes.RPTubes;
