@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "rptubes:retrievulator"
+    },
+    "active=false,facing=south": {
+      "model": "rptubes:retrievulator",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "rptubes:retrievulator",
+      "y": 270
+    },
+    "active=false,facing=east": {
+      "model": "rptubes:retrievulator",
+      "y": 90
+    },
+    "active=false,facing=up": {
+      "model": "rptubes:retrievulator",
+      "x": 270
+    },
+    "active=false,facing=down": {
+      "model": "rptubes:retrievulator",
+      "x": 90
+    },
+    "active=true,facing=north": {
+      "model": "rptubes:retrievulator_active"
+    },
+    "active=true,facing=south": {
+      "model": "rptubes:retrievulator_active",
+      "y": 180
+    },
+    "active=true,facing=west": {
+      "model": "rptubes:retrievulator_active",
+      "y": 270
+    },
+    "active=true,facing=east": {
+      "model": "rptubes:retrievulator_active",
+      "y": 90
+    },
+    "active=true,facing=up": {
+      "model": "rptubes:retrievulator_active",
+      "x": 270
+    },
+    "active=true,facing=down": {
+      "model": "rptubes:retrievulator_active",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "charge=0": {
+      "model": "rptubes:battery_box_0"
+    },
+    "charge=1": {
+      "model": "rptubes:battery_box_1"
+    },
+    "charge=2": {
+      "model": "rptubes:battery_box_2"
+    },
+    "charge=3": {
+      "model": "rptubes:battery_box_3"
+    },
+    "charge=4": {
+      "model": "rptubes:battery_box_4"
+    },
+    "charge=5": {
+      "model": "rptubes:battery_box_5"
+    },
+    "charge=6": {
+      "model": "rptubes:battery_box_6"
+    },
+    "charge=7": {
+      "model": "rptubes:battery_box_7"
+    },
+    "charge=8": {
+      "model": "rptubes:battery_box_8"
+    }
+  }
+}

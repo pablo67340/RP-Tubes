@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "MRM",
+    "BCB"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:ingots/brass"
+    },
+    "C": {
+      "tag": "forge:ingots/copper"
+    },
+    "M": {
+      "item": "rptubes:mag_tube"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "rptubes:accelerator"
+  }
+}

@@ -44,7 +44,13 @@ public class RegulatorBlockEntity extends TileEntity implements DropsContents, n
     private boolean powered;
     private boolean active;
     private int tickCooldown;
-    private final IItemHandler handler = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private final IItemHandler[] handlers = new IItemHandler[6];
+
+    {
+        for (EnumFacing face : EnumFacing.VALUES) {
+            this.handlers[face.ordinal()] = new SidedInvWrapper(this, face);
+        }
+    }
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
     public RegulatorBlockEntity() {
@@ -446,7 +452,7 @@ public class RegulatorBlockEntity extends TileEntity implements DropsContents, n
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> cap, EnumFacing side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) this.handler;
+            return (T) this.handlers[side == null ? 0 : side.ordinal()];
         }
         return super.getCapability(cap, side);
     }

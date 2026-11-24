@@ -31,10 +31,11 @@ import net.minecraft.world.level.block.state.BlockState;
 public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyContainer, MenuProvider, ItemHandlerProvider {
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
+    private long jammedUntil;
     public byte color = 0;
     protected final MachineEnergy energy = new MachineEnergy();
     private final IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+            SidedInvWrapper.create(this, Direction.values());
 
     public FilterBlockEntity() {
         super(ModBlockEntities.FILTER);
@@ -80,10 +81,27 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         return map.size() == 0 || map.containsKey(stack);
     }
 
+    /**
+     * Refuse passive tube items and RF auto-extraction for the next few ticks. A Retrievulator
+     * calls this every tick while its targets are met, so an emptied filter grid pulls nothing.
+     */
+    public void jam() {
+        if (this.level != null) {
+            this.jammedUntil = this.level.getGameTime() + 5;
+        }
+    }
+
+    protected boolean isJammed() {
+        return this.level != null && this.level.getGameTime() < this.jammedUntil;
+    }
+
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem ti) {
         Direction back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -96,6 +114,9 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
     public boolean tubeItemCanEnter(int side, int state, TubeItem ti) {
         Direction back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -112,7 +133,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
 
     @Override
     protected void tryEnergyAutoExtract() {
-        if (!this.energy.canAutoExtract()) {
+        if (this.isJammed() || !this.energy.canAutoExtract()) {
             return;
         }
         if (!this.energy.pay(true)) {
@@ -251,7 +272,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements WorldlyC
         if (side == null) {
             return this.handlers[0];
         }
-        return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
+        return this.handlers[side.ordinal()];
     }
 
     @Override

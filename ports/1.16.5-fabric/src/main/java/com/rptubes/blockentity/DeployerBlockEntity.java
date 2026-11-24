@@ -40,7 +40,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
     private boolean powered;
     private boolean active;
     private final IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
 
     public DeployerBlockEntity() {
         super(ModBlockEntities.DEPLOYER);
@@ -221,7 +221,7 @@ public class DeployerBlockEntity extends BlockEntity implements WorldlyContainer
 
     public IItemHandler getItemHandler(Direction side) {
         if (side == null) {
-            return this.handlers[0];
+            return this.handlers[side == null ? 0 : side.ordinal()];
         }
         return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
     }

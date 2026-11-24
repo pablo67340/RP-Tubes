@@ -47,6 +47,10 @@ public final class ModMenus {
             MENUS.register("auto_crafting_table", () -> IForgeContainerType.create(AutoCraftingTableMenu::new));
     public static final RegistryObject<ContainerType<AutoCraftingTableMk2Menu>> ACT_MK2 =
             MENUS.register("act_mk2", () -> IForgeContainerType.create(AutoCraftingTableMk2Menu::new));
+    public static final RegistryObject<ContainerType<com.rptubes.menu.RetrievulatorMenu>> RETRIEVULATOR =
+            MENUS.register("retrievulator", () -> IForgeContainerType.create(com.rptubes.menu.RetrievulatorMenu::new));
+    public static final RegistryObject<ContainerType<com.rptubes.menu.BatteryBoxMenu>> BATTERY_BOX =
+            MENUS.register("battery_box", () -> IForgeContainerType.create(com.rptubes.menu.BatteryBoxMenu::new));
 
     private ModMenus() {
     }

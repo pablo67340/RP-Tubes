@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "projectred-core"
+      }
+    }
+  ],
+  "pattern": [
+    "GGG",
+    "LDL",
+    "CCC"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "L": {
+      "item": "minecraft:dye",
+      "data": 4
+    },
+    "D": {
+      "item": "minecraft:daylight_detector"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    }
+  },
+  "result": {
+    "item": "rptubes:solar_panel"
+  }
+}

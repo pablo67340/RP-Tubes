@@ -42,6 +42,10 @@ public final class ModMenus {
             ScreenHandlerRegistry.registerExtended(new ResourceLocation(RPTubes.MOD_ID, "auto_crafting_table"), AutoCraftingTableMenu::new);
     public static final MenuType<AutoCraftingTableMk2Menu> ACT_MK2 =
             ScreenHandlerRegistry.registerExtended(new ResourceLocation(RPTubes.MOD_ID, "act_mk2"), AutoCraftingTableMk2Menu::new);
+    public static final MenuType<com.rptubes.menu.RetrievulatorMenu> RETRIEVULATOR =
+            ScreenHandlerRegistry.registerExtended(new ResourceLocation(RPTubes.MOD_ID, "retrievulator"), com.rptubes.menu.RetrievulatorMenu::new);
+    public static final MenuType<com.rptubes.menu.BatteryBoxMenu> BATTERY_BOX =
+            ScreenHandlerRegistry.registerExtended(new ResourceLocation(RPTubes.MOD_ID, "battery_box"), com.rptubes.menu.BatteryBoxMenu::new);
 
     public static void init() {
     }

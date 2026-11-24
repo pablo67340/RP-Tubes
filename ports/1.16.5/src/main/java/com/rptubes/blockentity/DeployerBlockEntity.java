@@ -39,7 +39,7 @@ public class DeployerBlockEntity extends TileEntity implements ISidedInventory, 
     private boolean powered;
     private boolean active;
     private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
 
     public DeployerBlockEntity() {
         super(ModBlockEntities.DEPLOYER.get());
@@ -218,7 +218,7 @@ public class DeployerBlockEntity extends TileEntity implements ISidedInventory, 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -234,7 +234,7 @@ public class DeployerBlockEntity extends TileEntity implements ISidedInventory, 
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     @Override

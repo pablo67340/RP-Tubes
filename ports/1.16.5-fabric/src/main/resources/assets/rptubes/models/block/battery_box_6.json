@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "rptubes:block/battery_box_side_6",
+    "down": "rptubes:block/battery_box_bottom",
+    "up": "rptubes:block/battery_box_top",
+    "north": "rptubes:block/battery_box_side_6",
+    "south": "rptubes:block/battery_box_side_6",
+    "west": "rptubes:block/battery_box_side_6",
+    "east": "rptubes:block/battery_box_side_6"
+  }
+}

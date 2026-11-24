@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred-core"
+    }
+  ],
+  "pattern": [
+    "CIC",
+    "WBW",
+    "CIC"
+  ],
+  "key": {
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    },
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "W": {
+      "item": "projectred-core:resource_item",
+      "data": 342
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotElectrotineAlloy"
+    }
+  },
+  "result": {
+    "item": "rptubes:thermopile"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "MRM",
+    "BCB"
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBrass"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    },
+    "M": {
+      "item": "rptubes:mag_tube"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "rptubes:accelerator"
+  }
+}

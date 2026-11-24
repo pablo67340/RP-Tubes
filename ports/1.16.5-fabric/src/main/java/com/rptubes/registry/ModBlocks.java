@@ -19,6 +19,12 @@ import com.rptubes.block.RestrictionTubeBlock;
 import com.rptubes.block.RetrieverBlock;
 import com.rptubes.block.SortingMachineBlock;
 import com.rptubes.block.TransposerBlock;
+import com.rptubes.block.AcceleratorBlock;
+import com.rptubes.block.BatteryBoxBlock;
+import com.rptubes.block.MagTubeBlock;
+import com.rptubes.block.RetrievulatorBlock;
+import com.rptubes.block.SolarPanelBlock;
+import com.rptubes.block.ThermopileBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -51,6 +57,10 @@ public final class ModBlocks {
     public static final Block RELAY = register("relay", new RelayBlock(MACHINE));
     public static final Block RETRIEVER = register("retriever", new RetrieverBlock(MACHINE));
     public static final Block REGULATOR = register("regulator", new RegulatorBlock(MACHINE));
+    public static final Block RETRIEVULATOR = register("retrievulator", new RetrievulatorBlock(MACHINE));
+    public static final Block SOLAR_PANEL = register("solar_panel", new SolarPanelBlock(MACHINE));
+    public static final Block THERMOPILE = register("thermopile", new ThermopileBlock(MACHINE));
+    public static final Block BATTERY_BOX = register("battery_box", new BatteryBoxBlock(MACHINE));
     public static final Block SORTING_MACHINE = register("sorting_machine", new SortingMachineBlock(MACHINE));
     public static final Block IGNITER = register("igniter", new IgniterBlock(MACHINE));
 
@@ -65,6 +75,8 @@ public final class ModBlocks {
     public static final Block PNEUMATIC_TUBE = register("pneumatic_tube", new PneumaticTubeBlock(TUBE));
     public static final Block REDSTONE_TUBE = register("redstone_tube", new RedstoneTubeBlock(TUBE));
     public static final Block RESTRICTION_TUBE = register("restriction_tube", new RestrictionTubeBlock(TUBE));
+    public static final Block MAG_TUBE = register("mag_tube", new MagTubeBlock(TUBE));
+    public static final Block ACCELERATOR = register("accelerator", new AcceleratorBlock(TUBE));
 
     private static Block register(String name, Block block) {
         return Registry.register(Registry.BLOCK, new ResourceLocation(RPTubes.MOD_ID, name), block);

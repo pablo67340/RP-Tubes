@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "CIC",
+    "WBW",
+    "CIC"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:ingots/copper"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "W": {
+      "item": "projectred_core:electrotine_silicon"
+    },
+    "B": {
+      "item": "projectred_core:electrotine_ingot"
+    }
+  },
+  "result": {
+    "item": "rptubes:thermopile"
+  }
+}

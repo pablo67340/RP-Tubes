@@ -1,0 +1,217 @@
+{
+  "render_type": "minecraft:cutout",
+  "parent": "minecraft:block/block",
+  "textures": {
+    "side": "rptubes:block/mag_tube_side",
+    "particle": "rptubes:block/mag_tube_side",
+    "coil": "rptubes:block/mag_tube_coil",
+    "coil_v": "rptubes:block/mag_tube_coil_v",
+    "coil_end": "rptubes:block/mag_tube_coil_end"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        12,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        },
+        "down": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        4,
+        0
+      ],
+      "to": [
+        12,
+        4,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        4,
+        0
+      ],
+      "to": [
+        4,
+        12,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0,
+          "rotation": 90
+        },
+        "east": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0,
+          "rotation": 90
+        }
+      }
+    },
+    {
+      "from": [
+        12,
+        4,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0,
+          "rotation": 90
+        },
+        "west": {
+          "uv": [
+            4,
+            0,
+            12,
+            16
+          ],
+          "texture": "#side",
+          "tintindex": 0,
+          "rotation": 90
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        2,
+        2
+      ],
+      "to": [
+        14,
+        14,
+        6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#coil_end"
+        },
+        "south": {
+          "texture": "#coil_end"
+        },
+        "east": {
+          "texture": "#coil_v"
+        },
+        "west": {
+          "texture": "#coil_v"
+        },
+        "up": {
+          "texture": "#coil"
+        },
+        "down": {
+          "texture": "#coil"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        2,
+        10
+      ],
+      "to": [
+        14,
+        14,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#coil_end"
+        },
+        "south": {
+          "texture": "#coil_end"
+        },
+        "east": {
+          "texture": "#coil_v"
+        },
+        "west": {
+          "texture": "#coil_v"
+        },
+        "up": {
+          "texture": "#coil"
+        },
+        "down": {
+          "texture": "#coil"
+        }
+      }
+    }
+  ]
+}

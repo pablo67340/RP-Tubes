@@ -45,3 +45,16 @@ block.rptubes.act_mk2=Automatic Crafting Table Mk II
 jei.rptubes.alloy_smelting=Alloy Smelting
 
 tooltip.rptubes.tube_paint=Right-click with dye to color. Sneak-empty-hand to clear.
+tile.rptubes.retrievulator.name=Retrievulator
+block.rptubes.retrievulator=Retrievulator
+tile.rptubes.solar_panel.name=Solar Panel
+block.rptubes.solar_panel=Solar Panel
+tile.rptubes.thermopile.name=Thermopile
+block.rptubes.thermopile=Thermopile
+tile.rptubes.battery_box.name=Battery Box
+block.rptubes.battery_box=Battery Box
+tile.rptubes.mag_tube.name=MagTube
+block.rptubes.mag_tube=MagTube
+tile.rptubes.accelerator.name=Accelerator
+block.rptubes.accelerator=Accelerator
+item.rptubes.battery.name=Battery

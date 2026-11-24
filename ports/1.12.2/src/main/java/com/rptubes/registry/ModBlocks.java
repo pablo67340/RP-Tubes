@@ -1,9 +1,11 @@
 package com.rptubes.registry;
 
 import com.rptubes.RPTubes;
+import com.rptubes.block.AcceleratorBlock;
 import com.rptubes.block.AlloyFurnaceBlock;
 import com.rptubes.block.AutoCraftingTableBlock;
 import com.rptubes.block.AutoCraftingTableMk2Block;
+import com.rptubes.block.BatteryBoxBlock;
 import com.rptubes.block.BlockBreakerBlock;
 import com.rptubes.block.BufferBlock;
 import com.rptubes.block.DeployerBlock;
@@ -11,13 +13,17 @@ import com.rptubes.block.EjectorBlock;
 import com.rptubes.block.FilterBlock;
 import com.rptubes.block.IgniterBlock;
 import com.rptubes.block.ItemDetectorBlock;
+import com.rptubes.block.MagTubeBlock;
 import com.rptubes.block.PneumaticTubeBlock;
 import com.rptubes.block.RedstoneTubeBlock;
 import com.rptubes.block.RegulatorBlock;
 import com.rptubes.block.RelayBlock;
 import com.rptubes.block.RestrictionTubeBlock;
 import com.rptubes.block.RetrieverBlock;
+import com.rptubes.block.RetrievulatorBlock;
+import com.rptubes.block.SolarPanelBlock;
 import com.rptubes.block.SortingMachineBlock;
+import com.rptubes.block.ThermopileBlock;
 import com.rptubes.block.TransposerBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -70,6 +76,10 @@ public final class ModBlocks {
     public static final Ref<Block> REGULATOR = new Ref<Block>(machine(new RegulatorBlock(), "regulator"));
     public static final Ref<Block> SORTING_MACHINE = new Ref<Block>(machine(new SortingMachineBlock(), "sorting_machine"));
     public static final Ref<Block> IGNITER = new Ref<Block>(machine(new IgniterBlock(), "igniter"));
+    public static final Ref<Block> RETRIEVULATOR = new Ref<Block>(machine(new RetrievulatorBlock(), "retrievulator"));
+    public static final Ref<Block> SOLAR_PANEL = new Ref<Block>(machine(new SolarPanelBlock(), "solar_panel"));
+    public static final Ref<Block> THERMOPILE = new Ref<Block>(machine(new ThermopileBlock(), "thermopile"));
+    public static final Ref<Block> BATTERY_BOX = new Ref<Block>(machine(new BatteryBoxBlock(), "battery_box"));
 
     // OG BlockAutoWorkbench: wood material, hardness 1.0, no tool requirement
     public static final Ref<Block> AUTO_CRAFTING_TABLE = new Ref<Block>(
@@ -82,6 +92,8 @@ public final class ModBlocks {
     public static final Ref<Block> PNEUMATIC_TUBE = new Ref<Block>(tube(new PneumaticTubeBlock(), "pneumatic_tube"));
     public static final Ref<Block> REDSTONE_TUBE = new Ref<Block>(tube(new RedstoneTubeBlock(), "redstone_tube"));
     public static final Ref<Block> RESTRICTION_TUBE = new Ref<Block>(tube(new RestrictionTubeBlock(), "restriction_tube"));
+    public static final Ref<Block> MAG_TUBE = new Ref<Block>(tube(new MagTubeBlock(), "mag_tube"));
+    public static final Ref<Block> ACCELERATOR = new Ref<Block>(tube(new AcceleratorBlock(), "accelerator"));
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -90,7 +102,9 @@ public final class ModBlocks {
                 BLOCK_BREAKER.get(), DEPLOYER.get(), BUFFER.get(), ITEM_DETECTOR.get(), RELAY.get(),
                 RETRIEVER.get(), REGULATOR.get(), SORTING_MACHINE.get(), IGNITER.get(),
                 AUTO_CRAFTING_TABLE.get(), ACT_MK2.get(),
-                PNEUMATIC_TUBE.get(), REDSTONE_TUBE.get(), RESTRICTION_TUBE.get());
+                PNEUMATIC_TUBE.get(), REDSTONE_TUBE.get(), RESTRICTION_TUBE.get(),
+                MAG_TUBE.get(), ACCELERATOR.get(), RETRIEVULATOR.get(),
+                SOLAR_PANEL.get(), THERMOPILE.get(), BATTERY_BOX.get());
     }
 
     private ModBlocks() {

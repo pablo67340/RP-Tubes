@@ -47,7 +47,7 @@ public class RegulatorBlockEntity extends TileEntity implements net.minecraft.ti
     private boolean active;
     private int tickCooldown;
     private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
     public RegulatorBlockEntity() {
@@ -444,7 +444,7 @@ public class RegulatorBlockEntity extends TileEntity implements net.minecraft.ti
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && side != null) {
-            return handlers[0].cast();
+            return handlers[side.ordinal()].cast();
         }
         return super.getCapability(cap, side);
     }
@@ -460,7 +460,7 @@ public class RegulatorBlockEntity extends TileEntity implements net.minecraft.ti
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
     }
 
     @Override

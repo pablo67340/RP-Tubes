@@ -26,6 +26,7 @@ public class TransposerBlockEntity extends BlockEntity implements net.minecraft.
     protected boolean powered;
     protected boolean active;
     protected int tickCooldown;
+    private int extractions;
 
     public TransposerBlockEntity() {
         super(ModBlockEntities.TRANSPOSER);
@@ -111,9 +112,14 @@ public class TransposerBlockEntity extends BlockEntity implements net.minecraft.
         BlockPos src = this.worldPosition.relative(back);
         if (this.canSuckAir(src)) {
             this.doSuck();
-        } else {
-            this.handleExtract(src, this.getFacing());
+        } else if (this.handleExtract(src, this.getFacing())) {
+            this.extractions++;
         }
+    }
+
+    /** Successful extractions so far; a Retrievulator reads it to see whether its pulse found anything. */
+    public int getExtractions() {
+        return this.extractions;
     }
 
     protected boolean handleExtract(BlockPos src, Direction extractSide) {

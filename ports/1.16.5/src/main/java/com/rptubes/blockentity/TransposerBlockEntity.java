@@ -26,6 +26,7 @@ public class TransposerBlockEntity extends TileEntity implements net.minecraft.t
     protected boolean powered;
     protected boolean active;
     protected int tickCooldown;
+    private int extractions;
 
     public TransposerBlockEntity() {
         super(ModBlockEntities.TRANSPOSER.get());
@@ -112,9 +113,14 @@ public class TransposerBlockEntity extends TileEntity implements net.minecraft.t
         BlockPos src = this.worldPosition.relative(back);
         if (this.canSuckAir(src)) {
             this.doSuck();
-        } else {
-            this.handleExtract(src, this.getFacing());
+        } else if (this.handleExtract(src, this.getFacing())) {
+            this.extractions++;
         }
+    }
+
+    /** Successful extractions so far; a Retrievulator reads it to see whether its pulse found anything. */
+    public int getExtractions() {
+        return this.extractions;
     }
 
     protected boolean handleExtract(BlockPos src, Direction extractSide) {

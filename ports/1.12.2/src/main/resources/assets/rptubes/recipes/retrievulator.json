@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "RHR",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBrass"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "result": {
+    "item": "rptubes:retrievulator"
+  }
+}

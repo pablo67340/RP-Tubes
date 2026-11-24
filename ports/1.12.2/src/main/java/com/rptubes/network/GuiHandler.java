@@ -3,6 +3,7 @@ package com.rptubes.network;
 import com.rptubes.blockentity.AlloyFurnaceBlockEntity;
 import com.rptubes.blockentity.AutoCraftingTableBlockEntity;
 import com.rptubes.blockentity.AutoCraftingTableMk2BlockEntity;
+import com.rptubes.blockentity.BatteryBoxBlockEntity;
 import com.rptubes.blockentity.BufferBlockEntity;
 import com.rptubes.blockentity.DeployerBlockEntity;
 import com.rptubes.blockentity.EjectorBlockEntity;
@@ -11,10 +12,12 @@ import com.rptubes.blockentity.ItemDetectorBlockEntity;
 import com.rptubes.blockentity.RegulatorBlockEntity;
 import com.rptubes.blockentity.RelayBlockEntity;
 import com.rptubes.blockentity.RetrieverBlockEntity;
+import com.rptubes.blockentity.RetrievulatorBlockEntity;
 import com.rptubes.blockentity.SortingMachineBlockEntity;
 import com.rptubes.client.AlloyFurnaceScreen;
 import com.rptubes.client.AutoCraftingTableMk2Screen;
 import com.rptubes.client.AutoCraftingTableScreen;
+import com.rptubes.client.BatteryBoxScreen;
 import com.rptubes.client.BufferScreen;
 import com.rptubes.client.DeployerScreen;
 import com.rptubes.client.EjectorScreen;
@@ -23,10 +26,12 @@ import com.rptubes.client.ItemDetectorScreen;
 import com.rptubes.client.RegulatorScreen;
 import com.rptubes.client.RelayScreen;
 import com.rptubes.client.RetrieverScreen;
+import com.rptubes.client.RetrievulatorScreen;
 import com.rptubes.client.SortingMachineScreen;
 import com.rptubes.menu.AlloyFurnaceMenu;
 import com.rptubes.menu.AutoCraftingTableMenu;
 import com.rptubes.menu.AutoCraftingTableMk2Menu;
+import com.rptubes.menu.BatteryBoxMenu;
 import com.rptubes.menu.BufferMenu;
 import com.rptubes.menu.DeployerMenu;
 import com.rptubes.menu.EjectorMenu;
@@ -35,6 +40,7 @@ import com.rptubes.menu.ItemDetectorMenu;
 import com.rptubes.menu.RegulatorMenu;
 import com.rptubes.menu.RelayMenu;
 import com.rptubes.menu.RetrieverMenu;
+import com.rptubes.menu.RetrievulatorMenu;
 import com.rptubes.menu.SortingMachineMenu;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -55,6 +61,8 @@ public class GuiHandler implements IGuiHandler {
     public static final int GUI_SORTING_MACHINE = 9;
     public static final int GUI_AUTO_CRAFTING_TABLE = 10;
     public static final int GUI_ACT_MK2 = 11;
+    public static final int GUI_RETRIEVULATOR = 12;
+    public static final int GUI_BATTERY_BOX = 13;
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
@@ -84,6 +92,12 @@ public class GuiHandler implements IGuiHandler {
                 return new AutoCraftingTableMenu(player.inventory, (AutoCraftingTableBlockEntity) be);
             case GUI_ACT_MK2:
                 return new AutoCraftingTableMk2Menu(player.inventory, (AutoCraftingTableMk2BlockEntity) be);
+            case GUI_RETRIEVULATOR:
+                return be instanceof RetrievulatorBlockEntity
+                        ? new RetrievulatorMenu(player.inventory, (RetrievulatorBlockEntity) be) : null;
+            case GUI_BATTERY_BOX:
+                return be instanceof BatteryBoxBlockEntity
+                        ? new BatteryBoxMenu(player.inventory, (BatteryBoxBlockEntity) be) : null;
             default:
                 return null;
         }
@@ -120,6 +134,10 @@ public class GuiHandler implements IGuiHandler {
                 return new AutoCraftingTableScreen((AutoCraftingTableMenu) menu);
             case GUI_ACT_MK2:
                 return new AutoCraftingTableMk2Screen((AutoCraftingTableMk2Menu) menu);
+            case GUI_RETRIEVULATOR:
+                return new RetrievulatorScreen((RetrievulatorMenu) menu);
+            case GUI_BATTERY_BOX:
+                return new BatteryBoxScreen((BatteryBoxMenu) menu);
             default:
                 return null;
         }

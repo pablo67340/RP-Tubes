@@ -17,6 +17,8 @@ public final class ModItems {
     public static final Item BRASS_INGOT = register("brass_ingot", new Item(new Item.Properties().tab(TAB)));
     public static final Item SCREWDRIVER = register("screwdriver",
             new com.rptubes.item.ScrewdriverItem(new Item.Properties().tab(TAB)));
+    public static final Item BATTERY = register("battery",
+            new com.rptubes.item.BatteryItem(new Item.Properties().tab(TAB)));
     public static final Item TIN_INGOT = register("tin_ingot", new Item(new Item.Properties().tab(TAB)));
     public static final Item TIN_ORE = register("tin_ore", new BlockItem(ModBlocks.TIN_ORE, new Item.Properties().tab(TAB)));
     public static final Item ALLOY_FURNACE = register("alloy_furnace", new BlockItem(ModBlocks.ALLOY_FURNACE, new Item.Properties().tab(TAB)));
@@ -32,11 +34,17 @@ public final class ModItems {
     public static final Item REGULATOR = register("regulator", new BlockItem(ModBlocks.REGULATOR, new Item.Properties().tab(TAB)));
     public static final Item SORTING_MACHINE = register("sorting_machine", new BlockItem(ModBlocks.SORTING_MACHINE, new Item.Properties().tab(TAB)));
     public static final Item IGNITER = register("igniter", new BlockItem(ModBlocks.IGNITER, new Item.Properties().tab(TAB)));
+    public static final Item RETRIEVULATOR = register("retrievulator", new BlockItem(ModBlocks.RETRIEVULATOR, new Item.Properties().tab(TAB)));
+    public static final Item SOLAR_PANEL = register("solar_panel", new BlockItem(ModBlocks.SOLAR_PANEL, new Item.Properties().tab(TAB)));
+    public static final Item THERMOPILE = register("thermopile", new BlockItem(ModBlocks.THERMOPILE, new Item.Properties().tab(TAB)));
+    public static final Item BATTERY_BOX = register("battery_box", new BlockItem(ModBlocks.BATTERY_BOX, new Item.Properties().tab(TAB)));
     public static final Item AUTO_CRAFTING_TABLE = register("auto_crafting_table", new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE, new Item.Properties().tab(TAB)));
     public static final Item ACT_MK2 = register("act_mk2", new BlockItem(ModBlocks.ACT_MK2, new Item.Properties().tab(TAB)));
     public static final Item PNEUMATIC_TUBE = register("pneumatic_tube", new BlockItem(ModBlocks.PNEUMATIC_TUBE, new Item.Properties().tab(TAB)));
     public static final Item REDSTONE_TUBE = register("redstone_tube", new BlockItem(ModBlocks.REDSTONE_TUBE, new Item.Properties().tab(TAB)));
     public static final Item RESTRICTION_TUBE = register("restriction_tube", new BlockItem(ModBlocks.RESTRICTION_TUBE, new Item.Properties().tab(TAB)));
+    public static final Item MAG_TUBE = register("mag_tube", new BlockItem(ModBlocks.MAG_TUBE, new Item.Properties().tab(TAB)));
+    public static final Item ACCELERATOR = register("accelerator", new BlockItem(ModBlocks.ACCELERATOR, new Item.Properties().tab(TAB)));
 
     private static Item register(String name, Item item) {
         return Registry.register(Registry.ITEM, new ResourceLocation(RPTubes.MOD_ID, name), item);

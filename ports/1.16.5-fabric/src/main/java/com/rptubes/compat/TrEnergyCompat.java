@@ -20,6 +20,7 @@ public final class TrEnergyCompat {
     }
 
     public static void register() {
+        TrPowerCompat.register();
         RPTubes.LOGGER.info("Team Reborn Energy 0.1.x present; wrap() is available. 0.1.x has no SIDED lookup, so machines keep an internal buffer unless a cable uses Energy.of on an EnergyStorage BE.");
     }
 

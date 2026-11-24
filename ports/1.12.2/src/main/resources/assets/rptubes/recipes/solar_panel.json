@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred-core"
+    }
+  ],
+  "pattern": [
+    "WWW",
+    "WBW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "projectred-core:resource_item",
+      "data": 342
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotElectrotineAlloy"
+    }
+  },
+  "result": {
+    "item": "rptubes:solar_panel"
+  }
+}

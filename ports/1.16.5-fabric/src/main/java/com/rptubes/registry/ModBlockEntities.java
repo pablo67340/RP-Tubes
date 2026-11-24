@@ -62,6 +62,19 @@ public final class ModBlockEntities {
     public static final BlockEntityType<RestrictionTubeBlockEntity> RESTRICTION_TUBE =
             register("restriction_tube", BlockEntityType.Builder.of(RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE).build(null));
 
+    public static final BlockEntityType<com.rptubes.blockentity.RetrievulatorBlockEntity> RETRIEVULATOR =
+            register("retrievulator", BlockEntityType.Builder.of(com.rptubes.blockentity.RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR).build(null));
+    public static final BlockEntityType<com.rptubes.blockentity.SolarPanelBlockEntity> SOLAR_PANEL =
+            register("solar_panel", BlockEntityType.Builder.of(com.rptubes.blockentity.SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL).build(null));
+    public static final BlockEntityType<com.rptubes.blockentity.ThermopileBlockEntity> THERMOPILE =
+            register("thermopile", BlockEntityType.Builder.of(com.rptubes.blockentity.ThermopileBlockEntity::new, ModBlocks.THERMOPILE).build(null));
+    public static final BlockEntityType<com.rptubes.blockentity.BatteryBoxBlockEntity> BATTERY_BOX =
+            register("battery_box", BlockEntityType.Builder.of(com.rptubes.blockentity.BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX).build(null));
+    public static final BlockEntityType<com.rptubes.blockentity.MagTubeBlockEntity> MAG_TUBE =
+            register("mag_tube", BlockEntityType.Builder.of(com.rptubes.blockentity.MagTubeBlockEntity::new, ModBlocks.MAG_TUBE).build(null));
+    public static final BlockEntityType<com.rptubes.blockentity.AcceleratorBlockEntity> ACCELERATOR =
+            register("accelerator", BlockEntityType.Builder.of(com.rptubes.blockentity.AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR).build(null));
+
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
         return Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(RPTubes.MOD_ID, name), type);
     }

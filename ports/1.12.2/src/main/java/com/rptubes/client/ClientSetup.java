@@ -1,6 +1,8 @@
 package com.rptubes.client;
 
 import com.rptubes.RPTubes;
+import com.rptubes.blockentity.AcceleratorBlockEntity;
+import com.rptubes.blockentity.MagTubeBlockEntity;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
 import com.rptubes.blockentity.RedstoneTubeBlockEntity;
 import com.rptubes.blockentity.RestrictionTubeBlockEntity;
@@ -49,10 +51,19 @@ public final class ClientSetup {
         item(ModItems.PNEUMATIC_TUBE.get());
         item(ModItems.REDSTONE_TUBE.get());
         item(ModItems.RESTRICTION_TUBE.get());
+        item(ModItems.MAG_TUBE.get());
+        item(ModItems.ACCELERATOR.get());
+        item(ModItems.RETRIEVULATOR.get());
+        item(ModItems.SOLAR_PANEL.get());
+        item(ModItems.THERMOPILE.get());
+        item(ModItems.BATTERY_BOX.get());
+        item(ModItems.BATTERY.get());
 
         ClientRegistry.bindTileEntitySpecialRenderer(PneumaticTubeBlockEntity.class, new TubeItemRenderer<>());
         ClientRegistry.bindTileEntitySpecialRenderer(RedstoneTubeBlockEntity.class, new TubeItemRenderer<>());
         ClientRegistry.bindTileEntitySpecialRenderer(RestrictionTubeBlockEntity.class, new TubeItemRenderer<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(MagTubeBlockEntity.class, new TubeItemRenderer<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(AcceleratorBlockEntity.class, new TubeItemRenderer<>());
     }
 
     @SubscribeEvent
@@ -66,7 +77,8 @@ public final class ClientSetup {
                 return PaintColors.rgb(((PneumaticTubeBlockEntity) te).getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(),
+                ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent
@@ -76,7 +88,8 @@ public final class ClientSetup {
                 return PaintColors.rgb(stack.getTagCompound().getByte("pCol"));
             }
             return 0xFFFFFF;
-        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get());
+        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get(),
+                ModItems.MAG_TUBE.get());
     }
 
     private static void item(Item item) {

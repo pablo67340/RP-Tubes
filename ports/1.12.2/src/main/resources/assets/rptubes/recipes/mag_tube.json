@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "TCT",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "item": "rptubes:pneumatic_tube"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    }
+  },
+  "result": {
+    "item": "rptubes:mag_tube",
+    "count": 8
+  }
+}

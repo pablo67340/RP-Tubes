@@ -32,7 +32,13 @@ public class DeployerBlockEntity extends TileEntity implements DropsContents, IS
     private NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
     private boolean powered;
     private boolean active;
-    private final IItemHandler handler = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private final IItemHandler[] handlers = new IItemHandler[6];
+
+    {
+        for (EnumFacing face : EnumFacing.VALUES) {
+            this.handlers[face.ordinal()] = new SidedInvWrapper(this, face);
+        }
+    }
 
     public DeployerBlockEntity() {
         super();
@@ -222,7 +228,7 @@ public class DeployerBlockEntity extends TileEntity implements DropsContents, IS
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> cap, EnumFacing side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) this.handler;
+            return (T) this.handlers[side == null ? 0 : side.ordinal()];
         }
         return super.getCapability(cap, side);
     }

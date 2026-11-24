@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NCN",
+    "NTN",
+    "NCN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "T": {
+      "tag": "c:ingots/tin"
+    }
+  },
+  "result": {
+    "item": "rptubes:battery"
+  }
+}

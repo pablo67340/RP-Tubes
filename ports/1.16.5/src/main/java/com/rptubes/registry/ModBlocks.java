@@ -1,7 +1,13 @@
 package com.rptubes.registry;
 
 import com.rptubes.RPTubes;
+import com.rptubes.block.AcceleratorBlock;
 import com.rptubes.block.AlloyFurnaceBlock;
+import com.rptubes.block.BatteryBoxBlock;
+import com.rptubes.block.MagTubeBlock;
+import com.rptubes.block.RetrievulatorBlock;
+import com.rptubes.block.SolarPanelBlock;
+import com.rptubes.block.ThermopileBlock;
 import com.rptubes.block.AutoCraftingTableBlock;
 import com.rptubes.block.AutoCraftingTableMk2Block;
 import com.rptubes.block.BlockBreakerBlock;
@@ -66,6 +72,14 @@ public final class ModBlocks {
             () -> new RetrieverBlock(MACHINE));
     public static final RegistryObject<Block> REGULATOR = BLOCKS.register("regulator",
             () -> new RegulatorBlock(MACHINE));
+    public static final RegistryObject<Block> RETRIEVULATOR = BLOCKS.register("retrievulator",
+            () -> new RetrievulatorBlock(MACHINE));
+    public static final RegistryObject<Block> SOLAR_PANEL = BLOCKS.register("solar_panel",
+            () -> new SolarPanelBlock(MACHINE));
+    public static final RegistryObject<Block> THERMOPILE = BLOCKS.register("thermopile",
+            () -> new ThermopileBlock(MACHINE));
+    public static final RegistryObject<Block> BATTERY_BOX = BLOCKS.register("battery_box",
+            () -> new BatteryBoxBlock(MACHINE));
     public static final RegistryObject<Block> SORTING_MACHINE = BLOCKS.register("sorting_machine",
             () -> new SortingMachineBlock(MACHINE));
     public static final RegistryObject<Block> IGNITER = BLOCKS.register("igniter",
@@ -87,6 +101,10 @@ public final class ModBlocks {
             () -> new RedstoneTubeBlock(TUBE));
     public static final RegistryObject<Block> RESTRICTION_TUBE = BLOCKS.register("restriction_tube",
             () -> new RestrictionTubeBlock(TUBE));
+    public static final RegistryObject<Block> MAG_TUBE = BLOCKS.register("mag_tube",
+            () -> new MagTubeBlock(TUBE));
+    public static final RegistryObject<Block> ACCELERATOR = BLOCKS.register("accelerator",
+            () -> new AcceleratorBlock(TUBE));
 
     private ModBlocks() {
     }

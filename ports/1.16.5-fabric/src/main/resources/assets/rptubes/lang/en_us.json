@@ -41,5 +41,18 @@
   "item.rptubes.pneumatic_tube": "Pneumatic Tube",
   "item.rptubes.redstone_tube": "Redstone Tube",
   "item.rptubes.restriction_tube": "Restriction Tube",
-  "jei.rptubes.alloy_smelting": "Alloy Smelting"
+  "jei.rptubes.alloy_smelting": "Alloy Smelting",
+  "block.rptubes.retrievulator": "Retrievulator",
+  "block.rptubes.solar_panel": "Solar Panel",
+  "block.rptubes.thermopile": "Thermopile",
+  "block.rptubes.battery_box": "Battery Box",
+  "block.rptubes.mag_tube": "MagTube",
+  "block.rptubes.accelerator": "Accelerator",
+  "item.rptubes.battery": "Battery",
+  "item.rptubes.retrievulator": "Retrievulator",
+  "item.rptubes.solar_panel": "Solar Panel",
+  "item.rptubes.thermopile": "Thermopile",
+  "item.rptubes.battery_box": "Battery Box",
+  "item.rptubes.mag_tube": "MagTube",
+  "item.rptubes.accelerator": "Accelerator"
 }

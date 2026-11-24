@@ -56,6 +56,13 @@ public final class ModItems {
     public static final Ref<Item> PNEUMATIC_TUBE = new Ref<Item>(blockItem(ModBlocks.PNEUMATIC_TUBE.get()));
     public static final Ref<Item> REDSTONE_TUBE = new Ref<Item>(blockItem(ModBlocks.REDSTONE_TUBE.get()));
     public static final Ref<Item> RESTRICTION_TUBE = new Ref<Item>(blockItem(ModBlocks.RESTRICTION_TUBE.get()));
+    public static final Ref<Item> MAG_TUBE = new Ref<Item>(blockItem(ModBlocks.MAG_TUBE.get()));
+    public static final Ref<Item> ACCELERATOR = new Ref<Item>(blockItem(ModBlocks.ACCELERATOR.get()));
+    public static final Ref<Item> RETRIEVULATOR = new Ref<Item>(blockItem(ModBlocks.RETRIEVULATOR.get()));
+    public static final Ref<Item> SOLAR_PANEL = new Ref<Item>(blockItem(ModBlocks.SOLAR_PANEL.get()));
+    public static final Ref<Item> THERMOPILE = new Ref<Item>(blockItem(ModBlocks.THERMOPILE.get()));
+    public static final Ref<Item> BATTERY_BOX = new Ref<Item>(blockItem(ModBlocks.BATTERY_BOX.get()));
+    public static final Ref<Item> BATTERY = new Ref<Item>(named(new com.rptubes.item.BatteryItem(), "battery"));
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -65,7 +72,9 @@ public final class ModItems {
                 BLOCK_BREAKER.get(), DEPLOYER.get(), BUFFER.get(), ITEM_DETECTOR.get(), RELAY.get(),
                 RETRIEVER.get(), REGULATOR.get(), SORTING_MACHINE.get(), IGNITER.get(),
                 AUTO_CRAFTING_TABLE.get(), ACT_MK2.get(),
-                PNEUMATIC_TUBE.get(), REDSTONE_TUBE.get(), RESTRICTION_TUBE.get());
+                PNEUMATIC_TUBE.get(), REDSTONE_TUBE.get(), RESTRICTION_TUBE.get(),
+                MAG_TUBE.get(), ACCELERATOR.get(), RETRIEVULATOR.get(),
+                SOLAR_PANEL.get(), THERMOPILE.get(), BATTERY_BOX.get(), BATTERY.get());
 
         // ore dictionary — replaces the forge item tags used on newer versions
         OreDictionary.registerOre("ingotTin", TIN_INGOT.get());

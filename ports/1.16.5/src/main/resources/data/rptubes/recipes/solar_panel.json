@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred_core"
+    }
+  ],
+  "pattern": [
+    "WWW",
+    "WBW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "projectred_core:electrotine_silicon"
+    },
+    "B": {
+      "item": "projectred_core:electrotine_ingot"
+    }
+  },
+  "result": {
+    "item": "rptubes:solar_panel"
+  }
+}

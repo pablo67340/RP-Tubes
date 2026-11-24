@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "projectred_core"
+      }
+    }
+  ],
+  "pattern": [
+    "NCN",
+    "NTN",
+    "NCN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "C": {
+      "tag": "forge:ingots/copper"
+    },
+    "T": {
+      "tag": "forge:ingots/tin"
+    }
+  },
+  "result": {
+    "item": "rptubes:battery"
+  }
+}

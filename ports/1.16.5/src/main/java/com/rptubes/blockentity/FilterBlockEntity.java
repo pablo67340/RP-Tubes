@@ -30,9 +30,10 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 public class FilterBlockEntity extends TransposerBlockEntity implements ISidedInventory, INamedContainerProvider {
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
+    private long jammedUntil;
     public byte color = 0;
     private LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+            SidedInvWrapper.create(this, Direction.values());
     protected final MachineEnergy energy = new MachineEnergy();
 
     public FilterBlockEntity() {
@@ -79,10 +80,27 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         return map.size() == 0 || map.containsKey(stack);
     }
 
+    /**
+     * Refuse passive tube items and RF auto-extraction for the next few ticks. A Retrievulator
+     * calls this every tick while its targets are met, so an emptied filter grid pulls nothing.
+     */
+    public void jam() {
+        if (this.level != null) {
+            this.jammedUntil = this.level.getGameTime() + 5;
+        }
+    }
+
+    protected boolean isJammed() {
+        return this.level != null && this.level.getGameTime() < this.jammedUntil;
+    }
+
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem ti) {
         Direction back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -95,6 +113,9 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     public boolean tubeItemCanEnter(int side, int state, TubeItem ti) {
         Direction back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -110,7 +131,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
 
     @Override
     protected void tryEnergyAutoExtract() {
-        if (!this.energy.canAutoExtract()) {
+        if (this.isJammed() || !this.energy.canAutoExtract()) {
             return;
         }
         if (!this.energy.pay(true)) {
@@ -241,7 +262,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (!this.remove && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && side != null) {
-            return handlers[Math.abs(side.ordinal() % handlers.length)].cast();
+            return handlers[side.ordinal()].cast();
         }
         if (!this.remove && this.energy.isEnergyCap(cap)) {
             return this.energy.cast(cap, side);
@@ -261,7 +282,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     @Override
     public void reviveCaps() {
         super.reviveCaps();
-        this.handlers = SidedInvWrapper.create(this, Direction.NORTH, Direction.SOUTH, Direction.WEST);
+        this.handlers = SidedInvWrapper.create(this, Direction.values());
         this.energy.revive();
     }
 

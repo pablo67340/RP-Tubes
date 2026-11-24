@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BWB",
+    "BIB",
+    "IAI"
+  ],
+  "key": {
+    "B": {
+      "item": "rptubes:battery"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "A": {
+      "item": "minecraft:lapis_block"
+    }
+  },
+  "result": {
+    "item": "rptubes:battery_box"
+  }
+}

@@ -28,6 +28,11 @@ public class PneumaticTubeBlockEntity extends TileEntity implements DropsContent
 
     private final TubeFlow flow = new TubeFlow() {
         @Override
+        protected int speedLoss() {
+            return PneumaticTubeBlockEntity.this.itemSpeedLoss();
+        }
+
+        @Override
         public TileEntity getParent() {
             return PneumaticTubeBlockEntity.this;
         }
@@ -199,6 +204,11 @@ public class PneumaticTubeBlockEntity extends TileEntity implements DropsContent
     @Override
     public int tubeWeight(int side, int state) {
         return 0;
+    }
+
+    /** Speed lost per block by items passing through; MagTubes override this. */
+    protected int itemSpeedLoss() {
+        return 8;
     }
 
     @Override

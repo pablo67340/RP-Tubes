@@ -25,6 +25,8 @@ public final class ModItems {
 
     public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new com.rptubes.item.ScrewdriverItem(new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> BATTERY = ITEMS.register("battery",
+            () -> new com.rptubes.item.BatteryItem(new Item.Properties().tab(TAB)));
 
     public static final RegistryObject<Item> TIN_INGOT = ITEMS.register("tin_ingot",
             () -> new Item(new Item.Properties().tab(TAB)));
@@ -57,6 +59,14 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.SORTING_MACHINE.get(), new Item.Properties().tab(TAB)));
     public static final RegistryObject<Item> IGNITER = ITEMS.register("igniter",
             () -> new BlockItem(ModBlocks.IGNITER.get(), new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> RETRIEVULATOR = ITEMS.register("retrievulator",
+            () -> new BlockItem(ModBlocks.RETRIEVULATOR.get(), new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> SOLAR_PANEL = ITEMS.register("solar_panel",
+            () -> new BlockItem(ModBlocks.SOLAR_PANEL.get(), new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> THERMOPILE = ITEMS.register("thermopile",
+            () -> new BlockItem(ModBlocks.THERMOPILE.get(), new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> BATTERY_BOX = ITEMS.register("battery_box",
+            () -> new BlockItem(ModBlocks.BATTERY_BOX.get(), new Item.Properties().tab(TAB)));
     public static final RegistryObject<Item> AUTO_CRAFTING_TABLE = ITEMS.register("auto_crafting_table",
             () -> new BlockItem(ModBlocks.AUTO_CRAFTING_TABLE.get(), new Item.Properties().tab(TAB)));
     public static final RegistryObject<Item> ACT_MK2 = ITEMS.register("act_mk2",
@@ -68,6 +78,10 @@ public final class ModItems {
             () -> new BlockItem(ModBlocks.REDSTONE_TUBE.get(), new Item.Properties().tab(TAB)));
     public static final RegistryObject<Item> RESTRICTION_TUBE = ITEMS.register("restriction_tube",
             () -> new BlockItem(ModBlocks.RESTRICTION_TUBE.get(), new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> MAG_TUBE = ITEMS.register("mag_tube",
+            () -> new BlockItem(ModBlocks.MAG_TUBE.get(), new Item.Properties().tab(TAB)));
+    public static final RegistryObject<Item> ACCELERATOR = ITEMS.register("accelerator",
+            () -> new BlockItem(ModBlocks.ACCELERATOR.get(), new Item.Properties().tab(TAB)));
 
     private ModItems() {
     }

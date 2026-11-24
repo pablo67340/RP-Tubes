@@ -38,13 +38,17 @@ public final class ClientSetup {
             ScreenManager.register(ModMenus.SORTING_MACHINE.get(), SortingMachineScreen::new);
             ScreenManager.register(ModMenus.AUTO_CRAFTING_TABLE.get(), AutoCraftingTableScreen::new);
             ScreenManager.register(ModMenus.ACT_MK2.get(), AutoCraftingTableMk2Screen::new);
+            ScreenManager.register(ModMenus.RETRIEVULATOR.get(), RetrievulatorScreen::new);
+            ScreenManager.register(ModMenus.BATTERY_BOX.get(), BatteryBoxScreen::new);
             RenderTypeLookup.setRenderLayer(ModBlocks.PNEUMATIC_TUBE.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(ModBlocks.REDSTONE_TUBE.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(ModBlocks.RESTRICTION_TUBE.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.MAG_TUBE.get(), RenderType.cutout());
 
             ClientRegistry.bindTileEntityRenderer(ModBlockEntities.PNEUMATIC_TUBE.get(), TubeItemRenderer::new);
             ClientRegistry.bindTileEntityRenderer(ModBlockEntities.REDSTONE_TUBE.get(), TubeItemRenderer::new);
             ClientRegistry.bindTileEntityRenderer(ModBlockEntities.RESTRICTION_TUBE.get(), TubeItemRenderer::new);
+            ClientRegistry.bindTileEntityRenderer(ModBlockEntities.MAG_TUBE.get(), TubeItemRenderer::new);
         });
     }
 
@@ -59,7 +63,8 @@ public final class ClientSetup {
                 return PaintColors.rgb(((PneumaticTubeBlockEntity) te).getPaintColor());
             }
             return 0xFFFFFF;
-        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get());
+        }, ModBlocks.PNEUMATIC_TUBE.get(), ModBlocks.REDSTONE_TUBE.get(), ModBlocks.RESTRICTION_TUBE.get(),
+                ModBlocks.MAG_TUBE.get());
     }
 
     @SubscribeEvent
@@ -69,6 +74,7 @@ public final class ClientSetup {
                 return PaintColors.rgb(stack.getTag().getByte("pCol"));
             }
             return 0xFFFFFF;
-        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get());
+        }, ModItems.PNEUMATIC_TUBE.get(), ModItems.REDSTONE_TUBE.get(), ModItems.RESTRICTION_TUBE.get(),
+                ModItems.MAG_TUBE.get());
     }
 }

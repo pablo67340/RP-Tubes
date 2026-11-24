@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "projectred-core"
+    }
+  ],
+  "pattern": [
+    "BWB",
+    "BIB",
+    "IAI"
+  ],
+  "key": {
+    "B": {
+      "item": "rptubes:battery"
+    },
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "A": {
+      "type": "forge:ore_dict",
+      "ore": "ingotElectrotineAlloy"
+    }
+  },
+  "result": {
+    "item": "rptubes:battery_box"
+  }
+}

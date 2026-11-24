@@ -48,7 +48,7 @@ public class RegulatorBlockEntity extends BlockEntity implements net.minecraft.w
     private boolean active;
     private int tickCooldown;
     private final IItemHandler[] handlers =
-            SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH);
+            SidedInvWrapper.create(this, Direction.values());
     private static final int[] BUFFER_SLOTS = {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
     public RegulatorBlockEntity() {
@@ -447,7 +447,7 @@ public class RegulatorBlockEntity extends BlockEntity implements net.minecraft.w
 
     public IItemHandler getItemHandler(Direction side) {
         if (side == null) {
-            return this.handlers[0];
+            return this.handlers[side == null ? 0 : side.ordinal()];
         }
         return this.handlers[Math.abs(side.ordinal() % this.handlers.length)];
     }

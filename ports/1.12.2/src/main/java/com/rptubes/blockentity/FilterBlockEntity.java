@@ -28,8 +28,15 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 public class FilterBlockEntity extends TransposerBlockEntity implements ISidedInventory, InvDefaults {
     private NonNullList<ItemStack> filterSlots = NonNullList.withSize(9, ItemStack.EMPTY);
     private MachineLib.FilterMap filterMap;
+    private long jammedUntil;
     public byte color = 0;
-    private final IItemHandler handler = new SidedInvWrapper(this, EnumFacing.NORTH);
+    private final IItemHandler[] handlers = new IItemHandler[6];
+
+    {
+        for (EnumFacing face : EnumFacing.VALUES) {
+            this.handlers[face.ordinal()] = new SidedInvWrapper(this, face);
+        }
+    }
     protected final MachineEnergy energy = new MachineEnergy();
 
     public FilterBlockEntity() {
@@ -72,10 +79,27 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
         return map.size() == 0 || map.containsKey(stack);
     }
 
+    /**
+     * Refuse passive tube items and RF auto-extraction for the next few ticks. A Retrievulator
+     * calls this every tick while its targets are met, so an emptied filter grid pulls nothing.
+     */
+    public void jam() {
+        if (this.world != null) {
+            this.jammedUntil = this.world.getTotalWorldTime() + 5;
+        }
+    }
+
+    protected boolean isJammed() {
+        return this.world != null && this.world.getTotalWorldTime() < this.jammedUntil;
+    }
+
     @Override
     public boolean tubeItemEnter(int side, int state, TubeItem ti) {
         EnumFacing back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -88,6 +112,9 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     public boolean tubeItemCanEnter(int side, int state, TubeItem ti) {
         EnumFacing back = this.getFacing().getOpposite();
         if (side == back.ordinal() && state == 1) {
+            if (this.isJammed()) {
+                return false;
+            }
             MachineLib.FilterMap map = this.map();
             if (map.size() > 0 && !map.containsKey(ti.item)) {
                 return false;
@@ -103,7 +130,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
 
     @Override
     protected void tryEnergyAutoExtract() {
-        if (!this.energy.canAutoExtract()) {
+        if (this.isJammed() || !this.energy.canAutoExtract()) {
             return;
         }
         if (!this.energy.pay(true)) {
@@ -241,7 +268,7 @@ public class FilterBlockEntity extends TransposerBlockEntity implements ISidedIn
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> cap, EnumFacing side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) this.handler;
+            return (T) this.handlers[side == null ? 0 : side.ordinal()];
         }
         T energy = this.energy.cast(cap, side);
         if (energy != null) {

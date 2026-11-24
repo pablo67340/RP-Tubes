@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "rptubes:blocks/thermopile_front",
+    "down": "rptubes:blocks/thermopile_top",
+    "up": "rptubes:blocks/thermopile_top",
+    "north": "rptubes:blocks/thermopile_front",
+    "south": "rptubes:blocks/thermopile_front",
+    "west": "rptubes:blocks/thermopile_side",
+    "east": "rptubes:blocks/thermopile_side"
+  }
+}

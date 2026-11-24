@@ -8,7 +8,13 @@ import com.rptubes.blockentity.BlockBreakerBlockEntity;
 import com.rptubes.blockentity.BufferBlockEntity;
 import com.rptubes.blockentity.DeployerBlockEntity;
 import com.rptubes.blockentity.EjectorBlockEntity;
+import com.rptubes.blockentity.AcceleratorBlockEntity;
+import com.rptubes.blockentity.BatteryBoxBlockEntity;
 import com.rptubes.blockentity.FilterBlockEntity;
+import com.rptubes.blockentity.MagTubeBlockEntity;
+import com.rptubes.blockentity.RetrievulatorBlockEntity;
+import com.rptubes.blockentity.SolarPanelBlockEntity;
+import com.rptubes.blockentity.ThermopileBlockEntity;
 import com.rptubes.blockentity.IgniterBlockEntity;
 import com.rptubes.blockentity.ItemDetectorBlockEntity;
 import com.rptubes.blockentity.PneumaticTubeBlockEntity;
@@ -99,6 +105,30 @@ public final class ModBlockEntities {
     public static final RegistryObject<TileEntityType<RestrictionTubeBlockEntity>> RESTRICTION_TUBE =
             BLOCK_ENTITIES.register("restriction_tube",
                     () -> TileEntityType.Builder.of(RestrictionTubeBlockEntity::new, ModBlocks.RESTRICTION_TUBE.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<RetrievulatorBlockEntity>> RETRIEVULATOR =
+            BLOCK_ENTITIES.register("retrievulator",
+                    () -> TileEntityType.Builder.of(RetrievulatorBlockEntity::new, ModBlocks.RETRIEVULATOR.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<SolarPanelBlockEntity>> SOLAR_PANEL =
+            BLOCK_ENTITIES.register("solar_panel",
+                    () -> TileEntityType.Builder.of(SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<ThermopileBlockEntity>> THERMOPILE =
+            BLOCK_ENTITIES.register("thermopile",
+                    () -> TileEntityType.Builder.of(ThermopileBlockEntity::new, ModBlocks.THERMOPILE.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<BatteryBoxBlockEntity>> BATTERY_BOX =
+            BLOCK_ENTITIES.register("battery_box",
+                    () -> TileEntityType.Builder.of(BatteryBoxBlockEntity::new, ModBlocks.BATTERY_BOX.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<MagTubeBlockEntity>> MAG_TUBE =
+            BLOCK_ENTITIES.register("mag_tube",
+                    () -> TileEntityType.Builder.of(MagTubeBlockEntity::new, ModBlocks.MAG_TUBE.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<AcceleratorBlockEntity>> ACCELERATOR =
+            BLOCK_ENTITIES.register("accelerator",
+                    () -> TileEntityType.Builder.of(AcceleratorBlockEntity::new, ModBlocks.ACCELERATOR.get()).build(null));
 
     private ModBlockEntities() {
     }
