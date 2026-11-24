@@ -12,6 +12,11 @@ public class IgniterBlock extends MachineBlock {
     }
 
     @Override
+    protected int[] faceRotations() {
+        return new int[]{0, 0, 270, 90};
+    }
+
+    @Override
     public boolean hasTileEntity(int meta) {
         return true;
     }

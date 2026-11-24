@@ -16,6 +16,11 @@ public class RetrievulatorBlock extends MachineBlock {
     }
 
     @Override
+    protected int[] faceRotations() {
+        return new int[]{0, 0, 0, 0};
+    }
+
+    @Override
     public boolean hasTileEntity(int meta) {
         return true;
     }

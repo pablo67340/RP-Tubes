@@ -11,6 +11,16 @@ public class ThermopileBlock extends MachineBlock {
     }
 
     @Override
+    protected int[] faceRotations() {
+        return new int[]{0, 0, 0, 0};
+    }
+
+    @Override
+    protected boolean turnsWithFacing() {
+        return false;
+    }
+
+    @Override
     public boolean hasTileEntity(int meta) {
         return true;
     }

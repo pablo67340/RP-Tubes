@@ -14,6 +14,11 @@ public class SortingMachineBlock extends MachineBlock {
     }
 
     @Override
+    protected int[] faceRotations() {
+        return new int[]{180, 0, 90, 270};
+    }
+
+    @Override
     public boolean hasTileEntity(int meta) {
         return true;
     }

@@ -14,6 +14,11 @@ public class RegulatorBlock extends MachineBlock {
     }
 
     @Override
+    protected int[] faceRotations() {
+        return new int[]{0, 180, 90, 270};
+    }
+
+    @Override
     public boolean hasTileEntity(int meta) {
         return true;
     }

@@ -32,6 +32,8 @@ public abstract class MachineBlock extends Block {
     @SideOnly(Side.CLIENT) protected IIcon frontActiveIcon;
     @SideOnly(Side.CLIENT) protected IIcon udActiveIcon;
     @SideOnly(Side.CLIENT) protected IIcon weActiveIcon;
+    /** Icon per metadata and side, matching the rotated block models of the newer versions. */
+    @SideOnly(Side.CLIENT) private IIcon[][] faceIcons;
 
     protected MachineBlock(String front, String back, String ud, String we,
                            String frontActive, String udActive, String weActive) {
@@ -61,6 +63,19 @@ public abstract class MachineBlock extends Block {
         }
     }
 
+    /**
+     * Texture rotation of the model's up, down, west and east faces, copied from the block
+     * model on the newer versions (front and back are never rotated).
+     */
+    protected int[] faceRotations() {
+        return new int[]{0, 180, 270, 90};
+    }
+
+    /** False for blocks whose model stays the same whichever way they face. */
+    protected boolean turnsWithFacing() {
+        return true;
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister reg) {
@@ -71,23 +86,33 @@ public abstract class MachineBlock extends Block {
         this.frontActiveIcon = this.frontActiveTex == null ? null : reg.registerIcon("rptubes:" + this.frontActiveTex);
         this.udActiveIcon = this.udActiveTex == null ? null : reg.registerIcon("rptubes:" + this.udActiveTex);
         this.weActiveIcon = this.weActiveTex == null ? null : reg.registerIcon("rptubes:" + this.weActiveTex);
+
+        // model faces in ForgeDirection order: down, up, north (front), south (back), west, east
+        String ud = this.udTex;
+        String we = this.weTex;
+        String udOn = this.udActiveTex != null ? this.udActiveTex : ud;
+        String weOn = this.weActiveTex != null ? this.weActiveTex : we;
+        String frontOn = this.frontActiveTex != null ? this.frontActiveTex : this.frontTex;
+        String[][] textures = {
+                {ud, ud, this.frontTex, this.backTex, we, we},
+                {udOn, udOn, frontOn, this.backTex, weOn, weOn}};
+        int[] r = this.faceRotations();
+        int[] rotation = {r[1], r[0], 0, 0, r[2], r[3]};
+        this.faceIcons = new IIcon[16][6];
+        for (int meta = 0; meta < 16; meta++) {
+            int facing = this.turnsWithFacing() && (meta & 7) < 6 ? meta & 7 : 2;
+            for (int side = 0; side < 6; side++) {
+                int[] face = com.rptubes.client.BlockFaces.map(facing, side, rotation);
+                this.faceIcons[meta][side] = com.rptubes.client.TransformedSprite.register(reg,
+                        "rptubes:" + textures[(meta & 8) != 0 ? 1 : 0][face[0]], face[1]);
+            }
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        int facing = meta & 7;
-        boolean active = (meta & 8) != 0;
-        if (side == facing) {
-            return active && this.frontActiveIcon != null ? this.frontActiveIcon : this.frontIcon;
-        }
-        if (side == (facing ^ 1)) {
-            return this.backIcon;
-        }
-        if (side < 2) {
-            return active && this.udActiveIcon != null ? this.udActiveIcon : this.udIcon;
-        }
-        return active && this.weActiveIcon != null ? this.weActiveIcon : this.weIcon;
+        return this.faceIcons[meta & 15][side];
     }
 
     @Override
